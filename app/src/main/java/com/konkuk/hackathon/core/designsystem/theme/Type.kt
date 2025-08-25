@@ -1,4 +1,4 @@
-package com.konkuk.hackathon.ui.theme
+package com.konkuk.hackathon.core.designsystem.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

@@ -1,6 +1,6 @@
-package com.konkuk.hackathon.core.data.di
+package com.konkuk.hackathon.core.network.di
 
-import com.konkuk.hackathon.core.data.network.ApiService
+import com.konkuk.hackathon.core.network.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
