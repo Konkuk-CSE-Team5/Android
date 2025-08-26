@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.google.services)
 }
 
 val properties = Properties().apply {
@@ -90,5 +91,9 @@ dependencies {
     implementation(libs.retrofit.kotlin.serialization.converter)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.collections.immutable)
+
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.google.firebase.analytics)
 
 }
