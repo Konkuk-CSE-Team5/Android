@@ -2,11 +2,12 @@ package com.konkuk.hackathon.core.designsystem.theme
 
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import androidx.core.graphics.toColorInt
 
 
 // Color 객체를 Hex 코드로 쉽게 생성하기 위한 확장 함수
 fun Color(hex: String): Color {
-    return Color(android.graphics.Color.parseColor(hex))
+    return Color(hex.toColorInt())
 }
 
 // JSON 구조를 그대로 따르는 색상 데이터 클래스 정의
