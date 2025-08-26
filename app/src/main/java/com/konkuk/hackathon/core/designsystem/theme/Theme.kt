@@ -11,6 +11,10 @@ object OnItTheme{
         @ReadOnlyComposable
         get() = LocalOnItColorsProvider.current
     // 폰트 추가
+    val typography: OnItTypography
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalOnItTypographyProvider.current
 }
 
 @Composable
