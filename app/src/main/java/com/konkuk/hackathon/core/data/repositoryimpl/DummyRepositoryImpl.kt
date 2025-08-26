@@ -1,8 +1,8 @@
 package com.konkuk.hackathon.core.data.repositoryimpl
 
-import com.konkuk.hackathon.core.network.ApiService
-import com.konkuk.hackathon.core.network.DummyResponse
 import com.konkuk.hackathon.core.data.repository.DummyRepository
+import com.konkuk.hackathon.core.network.response.DummyResponse
+import com.konkuk.hackathon.core.network.service.ApiService
 import javax.inject.Inject
 
 class DummyRepositoryImpl @Inject constructor(
