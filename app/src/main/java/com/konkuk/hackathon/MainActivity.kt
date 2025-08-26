@@ -9,6 +9,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 import com.konkuk.hackathon.core.navigation.MainNavHost
+import com.konkuk.hackathon.core.navigation.MainTab
+import com.konkuk.hackathon.core.navigation.component.MainBottomBar
 import com.konkuk.hackathon.core.navigation.rememberMainNavigator
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,6 +25,16 @@ class MainActivity : ComponentActivity() {
 
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
+                    bottomBar = {
+                        MainBottomBar(
+                            visible = mainNavigator.shouldShowBottomBar(),
+                            tabs = MainTab.entries,
+                            currentTab = mainNavigator.currentTab,
+                            onTabSelected = {
+                                mainNavigator.navigate(it)
+                            },
+                        )
+                    }
                 ) { innerPadding ->
                     MainNavHost(
                         padding = innerPadding,
