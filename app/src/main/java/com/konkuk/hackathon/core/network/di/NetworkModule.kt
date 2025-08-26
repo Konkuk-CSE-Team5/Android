@@ -1,6 +1,7 @@
 package com.konkuk.hackathon.core.network.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.konkuk.hackathon.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
