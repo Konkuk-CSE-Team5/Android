@@ -1,4 +1,4 @@
-package com.konkuk.hackathon.core.feature.home.screen
+package com.konkuk.hackathon.feature.home.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -12,9 +12,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -35,17 +36,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.konkuk.hackathon.R
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
-import com.konkuk.hackathon.core.feature.home.components.ElderCard
+import com.konkuk.hackathon.feature.home.components.ElderCard
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier) {
     var pin by remember { mutableStateOf("") }
 
+    val scrollState = rememberScrollState()
+
     Column(
-        Modifier
+        modifier
             .fillMaxSize()
             .background(OnItTheme.colors.white)
-            .systemBarsPadding()
+
     ) {
         Box {
             Row(
@@ -64,8 +67,8 @@ fun HomeScreen(modifier: Modifier = Modifier) {
         }
         Column(
             Modifier
-                .background(OnItTheme.colors.bg)
-                .padding(horizontal = 16.dp),
+                .background(OnItTheme.colors.white)
+                .padding(horizontal = 16.dp).padding(bottom = 16.dp).verticalScroll(scrollState),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             Box(
@@ -141,7 +144,10 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                     Spacer(Modifier.height(12.dp))
                 }
             }
-            ElderCard()
+            ElderCard("김순자", 65, "010-1234-5678")
+            ElderCard("김순자", 65, "010-1234-5678")
+            ElderCard("김순자", 65, "010-1234-5678")
+            ElderCard("김순자", 65, "010-1234-5678")
         }
     }
 }
