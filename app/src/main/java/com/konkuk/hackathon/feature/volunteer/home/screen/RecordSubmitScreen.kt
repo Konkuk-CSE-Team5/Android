@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -20,22 +21,36 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.konkuk.hackathon.R
+import com.konkuk.hackathon.core.common.extension.noRippleClickable
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 import com.konkuk.hackathon.core.designsystem.theme.gray1
 import com.konkuk.hackathon.core.designsystem.theme.gray2
 import com.konkuk.hackathon.core.designsystem.theme.gray3
 import com.konkuk.hackathon.feature.volunteer.home.components.StatusButton
+import com.konkuk.hackathon.feature.volunteer.home.uistate.HealthState
+import com.konkuk.hackathon.feature.volunteer.home.uistate.PerformanceState
+import com.konkuk.hackathon.feature.volunteer.home.uistate.PsychologicalState
+import com.konkuk.hackathon.feature.volunteer.home.viewmodel.RecordSubmitViewModel
 
 @Composable
-fun RecordSubmitScreen(padding: PaddingValues) {
+fun RecordSubmitScreen(
+    padding: PaddingValues,
+    popBackStack: () -> Unit,
+    recordSubmitViewModel: RecordSubmitViewModel = hiltViewModel()
+) {
     val scrollState = rememberScrollState()
+    val uiState by recordSubmitViewModel.uiState.collectAsState()
+
 
 
     Column(
@@ -43,6 +58,7 @@ fun RecordSubmitScreen(padding: PaddingValues) {
             .fillMaxSize()
             .background(OnItTheme.colors.white)
             .padding(padding)
+
     ) {
         Box {
             Row(
@@ -54,7 +70,8 @@ fun RecordSubmitScreen(padding: PaddingValues) {
                 Icon(
                     painterResource(R.drawable.ic_arrow_back),
                     contentDescription = "뒤 화살표 아이콘",
-                    tint = OnItTheme.colors.gray7
+                    tint = OnItTheme.colors.gray7,
+                    modifier = Modifier.noRippleClickable(onClick = popBackStack)
                 )
                 Box(
                     modifier = Modifier.weight(1f),
@@ -72,8 +89,8 @@ fun RecordSubmitScreen(padding: PaddingValues) {
         }
         Column(
             Modifier
-                .padding(16.dp)
-                .verticalScroll(scrollState),
+                .verticalScroll(scrollState)
+                .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             Box(
@@ -94,27 +111,54 @@ fun RecordSubmitScreen(padding: PaddingValues) {
                 }
             }
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                Text("수행 여부", style = OnItTheme.typography.SB_16)
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    PerformanceState.entries.forEach { status ->
+                        StatusButton(
+                            content = status.displayName,
+                            isSelected = uiState.selectedPerformanceState == status,
+                            onClick = { recordSubmitViewModel.onPerformanceStateSelected(status) },
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+
+                }
+            }
+            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 Text("건강 상태", style = OnItTheme.typography.SB_16)
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    StatusButton(content = "좋음")
-                    StatusButton(content = "보통")
-                    StatusButton(content = "나쁨")
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    HealthState.entries.forEach { status ->
+                        StatusButton(
+                            content = status.displayName,
+                            isSelected = uiState.selectedHealthState == status,
+                            onClick = { recordSubmitViewModel.onHealthStateSelected(status) },
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+
                 }
             }
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 Text("심리 상태", style = OnItTheme.typography.SB_16)
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    StatusButton(content = "좋음", emoji = "\uD83D\uDE04")
-                    StatusButton(content = "보통", emoji = "\uD83D\uDE11")
-                    StatusButton(content = "나쁨", emoji = "\uD83D\uDE41")
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    PsychologicalState.entries.forEach { status ->
+                        StatusButton(
+                            modifier = Modifier.weight(1f),
+                            content = status.displayName,
+                            emoji = status.emoji,
+                            isSelected = uiState.selectedPsychologicalState == status,
+                            onClick = { recordSubmitViewModel.onPsychologicalStateSelected(status) }
+                        )
+                    }
+
                 }
             }
 
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 Text("의견", style = OnItTheme.typography.SB_16)
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = uiState.opinionText,
+                    onValueChange = { recordSubmitViewModel.onOpinionChanged(it) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(200.dp),
@@ -145,17 +189,20 @@ fun RecordSubmitScreen(padding: PaddingValues) {
                     color = OnItTheme.colors.primary,
                     modifier = Modifier.padding(horizontal = 10.dp, vertical = 18.dp)
                 )
-            }
+            } // 이 부분만 제거?
 
             Box(
                 Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(14.dp))
                     .background(OnItTheme.colors.primary)
+                    .noRippleClickable(onClick = popBackStack)
             ) {
                 Text(
                     "저장",
-                    Modifier.align(Alignment.Center).padding(vertical = 16.dp),
+                    Modifier
+                        .align(Alignment.Center)
+                        .padding(vertical = 16.dp),
                     style = OnItTheme.typography.B_17,
                     color = OnItTheme.colors.white
                 )
@@ -169,5 +216,5 @@ fun RecordSubmitScreen(padding: PaddingValues) {
 @Preview
 @Composable
 private fun RSSPrev() {
-    RecordSubmitScreen(padding = PaddingValues())
+    RecordSubmitScreen(padding = PaddingValues(), {})
 }

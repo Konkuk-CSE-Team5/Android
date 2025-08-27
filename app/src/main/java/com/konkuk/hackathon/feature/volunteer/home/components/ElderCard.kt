@@ -17,9 +17,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 
 @Composable
@@ -59,7 +61,7 @@ fun ElderCard(
                     )
                     Spacer(Modifier.height(4.dp))
                     Text(
-                        "만 ${age}세 - $phone",
+                        "만 ${age}세",
                         style = OnItTheme.typography.R_14,
                         color = OnItTheme.colors.gray4
                     )
@@ -71,10 +73,11 @@ fun ElderCard(
                 ) {
                     Text(
                         "다음 봉사: 8/28(목)",
-                        style = OnItTheme.typography.SB_14,
+                        style = OnItTheme.typography.B_17.copy(
+                            fontSize = 12.sp
+                        ),
                         color = OnItTheme.colors.primary,
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.padding(vertical = 7.dp, horizontal = 13.dp)
                     )
                 }

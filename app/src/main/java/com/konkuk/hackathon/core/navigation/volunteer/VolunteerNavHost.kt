@@ -32,7 +32,9 @@ fun VolunteerNavHost(
             startDestination = VolunteerRoute.RecordSubmit
         ) {
             composable<VolunteerRoute.RecordSubmit> {
-                RecordSubmitScreen(padding = padding)
+                RecordSubmitScreen(
+                    padding = padding,
+                    popBackStack = { navController.popBackStack() })
             }
         }
 
