@@ -1,7 +1,6 @@
-package com.konkuk.hackathon.feature.signup.organization
+package com.konkuk.hackathon.feature.signup.center
 
-import android.R.attr.enabled
-import android.util.Log
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -15,6 +14,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.input.InputTransformation
 import androidx.compose.foundation.text.input.OutputTransformation
@@ -28,7 +29,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -42,15 +45,16 @@ import com.konkuk.hackathon.core.designsystem.theme.Gray_2
 import com.konkuk.hackathon.core.designsystem.theme.Gray_7
 import com.konkuk.hackathon.core.designsystem.theme.Main_Primary
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
+import com.konkuk.hackathon.feature.center.CenterActivity
 import com.konkuk.hackathon.feature.signup.component.SignUpTopBar
 import com.konkuk.hackathon.feature.signup.volunteer.SignUpInputField
+import kotlin.jvm.java
 
 @Composable
-fun OrganizationSignUpScreen(
+fun CenterSignUpScreen(
     padding: PaddingValues,
     popBackStack: () -> Unit,
-    navigateToHome: () -> Unit,
-    viewModel: OrganizationSignUpViewModel = hiltViewModel(),
+    viewModel: CenterSignUpViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val buttonEnabled by remember {
@@ -58,12 +62,19 @@ fun OrganizationSignUpScreen(
             uiState.idValid && uiState.passwordValid && uiState.nameValid && uiState.representativeValid && uiState.phoneNumberValid && uiState.isAllTermsAccepted && uiState.isPrivacyTermsAccepted
         }
     }
+    val context = LocalContext.current
 
-    OrganizationSignUpScreen(
+    CenterSignUpScreen(
         padding = padding,
         uiState = uiState,
         enabled = buttonEnabled,
-        navigateToHome = navigateToHome,
+        navigateToCenter = {
+            context.startActivity(
+                Intent(context, CenterActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
+            )
+        },
         popBackStack = popBackStack,
         updateAllTermsAccepted = viewModel::updateAllTermsAccepted,
         updatePrivacyTermsAccepted = viewModel::updatePrivacyTermsAccepted,
@@ -71,13 +82,13 @@ fun OrganizationSignUpScreen(
 }
 
 @Composable
-private fun OrganizationSignUpScreen(
+private fun CenterSignUpScreen(
     padding: PaddingValues,
-    uiState: OrganizationSignUpUiState,
+    uiState: CenterSignUpUiState,
     enabled: Boolean,
     updateAllTermsAccepted: (Boolean) -> Unit = {},
     updatePrivacyTermsAccepted: (Boolean) -> Unit = {},
-    navigateToHome: () -> Unit,
+    navigateToCenter: () -> Unit,
     popBackStack: () -> Unit,
 ) {
     Box(
@@ -85,15 +96,16 @@ private fun OrganizationSignUpScreen(
             .padding(padding)
             .fillMaxSize()
     ) {
-        SignUpTopBar(
-            modifier = Modifier.align(Alignment.TopCenter),
-            title = "봉사자 회원가입",
-            onBackClick = popBackStack
-        )
-        OrganizationSignUpContent(
+
+        CenterSignUpContent(
             uiState = uiState,
             updateAllTermsAccepted = updateAllTermsAccepted,
             updatePrivacyTermsAccepted = updatePrivacyTermsAccepted,
+        )
+        SignUpTopBar(
+            modifier = Modifier.align(Alignment.TopCenter),
+            title = "기관 회원가입",
+            onBackClick = popBackStack
         )
 
         OnItButtonPrimaryContent(
@@ -103,20 +115,21 @@ private fun OrganizationSignUpScreen(
                 .padding(20.dp),
             text = "회원가입",
             enabled = enabled,
-            onClick = navigateToHome
+            onClick = navigateToCenter
         )
     }
 }
 
 @Composable
-fun OrganizationSignUpContent(
-    uiState: OrganizationSignUpUiState,
+fun CenterSignUpContent(
+    uiState: CenterSignUpUiState,
     updateAllTermsAccepted: (Boolean) -> Unit = {},
     updatePrivacyTermsAccepted: (Boolean) -> Unit = {},
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .verticalScroll(rememberScrollState())
             .padding(horizontal = 24.dp)
             .padding(top = 72.dp, bottom = 100.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp)
@@ -130,6 +143,7 @@ fun OrganizationSignUpContent(
             state = uiState.passwordState,
             title = "비밀번호",
             placeholder = "비밀번호",
+            isPassword = true,
         )
         SignUpInputField(
             state = uiState.nameState,
@@ -159,7 +173,8 @@ fun OrganizationSignUpContent(
             outputTransformation = OutputTransformation {
                 if (length > 3) insert(3, "-")
                 if (length > 8) insert(8, "-")
-            }
+            },
+            keyboardType = KeyboardType.Number
         )
 
         Column(
@@ -226,6 +241,8 @@ fun SignUpInputField(
     placeholder: String,
     inputTransformation: InputTransformation? = null,
     outputTransformation: OutputTransformation? = null,
+    isPassword: Boolean = false,
+    keyboardType: KeyboardType = KeyboardType.Text,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
@@ -250,19 +267,21 @@ fun SignUpInputField(
             inputTransformation = inputTransformation,
             outputTransformation = outputTransformation,
             isFocused = isFocused,
+            isPassword = isPassword,
+            keyboardType = keyboardType,
         )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun OrganizationSignUpScreenPreview() {
+private fun CenterSignUpScreenPreview() {
     OnItTheme {
-        OrganizationSignUpScreen(
+        CenterSignUpScreen(
             padding = PaddingValues(),
             enabled = true,
-            uiState = OrganizationSignUpUiState(),
-            navigateToHome = {},
+            uiState = CenterSignUpUiState(),
+            navigateToCenter = {},
             popBackStack = {}
         )
     }

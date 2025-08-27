@@ -1,8 +1,8 @@
-package com.konkuk.hackathon.feature.signup.organization
+package com.konkuk.hackathon.feature.signup.center
 
 import androidx.compose.foundation.text.input.TextFieldState
 
-data class OrganizationSignUpUiState(
+data class CenterSignUpUiState(
     val idState: TextFieldState = TextFieldState(),
     val passwordState: TextFieldState = TextFieldState(),
     val nameState: TextFieldState = TextFieldState(),

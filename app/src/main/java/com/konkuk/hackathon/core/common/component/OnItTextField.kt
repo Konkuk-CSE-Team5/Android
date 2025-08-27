@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicSecureTextField
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.InputTransformation
 import androidx.compose.foundation.text.input.OutputTransformation
 import androidx.compose.foundation.text.input.TextFieldLineLimits
@@ -21,11 +23,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.konkuk.hackathon.core.designsystem.theme.Gray_2
 import com.konkuk.hackathon.core.designsystem.theme.Gray_4
+import com.konkuk.hackathon.core.designsystem.theme.Main_Primary
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 
 @Composable
@@ -37,48 +41,94 @@ fun OnItTextField(
     inputTransformation: InputTransformation? = null,
     outputTransformation: OutputTransformation? = null,
     isFocused: Boolean = false,
+    isPassword: Boolean = false,
+    keyboardType: KeyboardType = KeyboardType.Text,
 ) {
-    BasicTextField(
-        state = state,
-        modifier = modifier,
-        enabled = true,
-        inputTransformation = inputTransformation,
-        textStyle = OnItTheme.typography.B_17.copy(
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Medium,
-            color = Color.Black
-        ),
-        lineLimits = TextFieldLineLimits.SingleLine,
-        interactionSource = interactionSource,
-        outputTransformation = outputTransformation,
-        decorator = { innerTextField ->
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(min = 54.dp)
-                    .border(
-                        width = 1.dp,
-                        color = if (isFocused) Color(0xFFFFF4EB) else Gray_2,
-                        shape = RoundedCornerShape(14.dp),
-                    )
-                    .padding(vertical = 14.dp)
-                    .padding(start = 16.dp),
-                contentAlignment = Alignment.CenterStart
-            ) {
-                if (state.text.isEmpty()) {
-                    Text(
-                        text = placeHolder,
-                        style = OnItTheme.typography.B_17.copy(
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Medium,
-                            color = Gray_4
+    if (isPassword) {
+        BasicSecureTextField(
+            state = state,
+            modifier = modifier,
+            enabled = true,
+            inputTransformation = inputTransformation,
+            textStyle = OnItTheme.typography.B_17.copy(
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium,
+                color = Color.Black
+            ),
+            interactionSource = interactionSource,
+            keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+            decorator = { innerTextField ->
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(min = 54.dp)
+                        .border(
+                            width = 1.dp,
+                            color = if (isFocused) Main_Primary else Gray_2,
+                            shape = RoundedCornerShape(14.dp),
                         )
-                    )
+                        .padding(vertical = 14.dp)
+                        .padding(start = 16.dp),
+                    contentAlignment = Alignment.CenterStart
+                ) {
+                    if (state.text.isEmpty()) {
+                        Text(
+                            text = placeHolder,
+                            style = OnItTheme.typography.B_17.copy(
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Medium,
+                                color = Gray_4
+                            )
+                        )
+                    }
+                    innerTextField()
                 }
-                innerTextField()
-            }
-        },
-    )
+            },
+        )
+    } else {
+        BasicTextField(
+            state = state,
+            modifier = modifier,
+            enabled = true,
+            inputTransformation = inputTransformation,
+            textStyle = OnItTheme.typography.B_17.copy(
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium,
+                color = Color.Black
+            ),
+            lineLimits = TextFieldLineLimits.SingleLine,
+            interactionSource = interactionSource,
+            outputTransformation = outputTransformation,
+            keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+            decorator = { innerTextField ->
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(min = 54.dp)
+                        .border(
+                            width = 1.dp,
+                            color = if (isFocused) Main_Primary else Gray_2,
+                            shape = RoundedCornerShape(14.dp),
+                        )
+                        .padding(vertical = 14.dp)
+                        .padding(start = 16.dp),
+                    contentAlignment = Alignment.CenterStart
+                ) {
+                    if (state.text.isEmpty()) {
+                        Text(
+                            text = placeHolder,
+                            style = OnItTheme.typography.B_17.copy(
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Medium,
+                                color = Gray_4
+                            )
+                        )
+                    }
+                    innerTextField()
+                }
+            },
+        )
+    }
 }
 
 @Preview(showBackground = true)

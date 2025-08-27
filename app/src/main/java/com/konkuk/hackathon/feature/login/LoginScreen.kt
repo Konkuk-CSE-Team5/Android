@@ -1,5 +1,6 @@
 package com.konkuk.hackathon.feature.login
 
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -18,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,8 +34,10 @@ import com.konkuk.hackathon.core.common.component.VerticalSpacer
 import com.konkuk.hackathon.core.common.extension.noRippleClickable
 import com.konkuk.hackathon.core.designsystem.theme.Main_Primary
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
+import com.konkuk.hackathon.feature.center.CenterActivity
 import com.konkuk.hackathon.feature.login.component.LoginInputField
 import com.konkuk.hackathon.feature.login.component.LoginRadioGroup
+import com.konkuk.hackathon.feature.volunteer.VolunteerActivity
 
 @Composable
 fun LoginScreen(
@@ -43,11 +47,26 @@ fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel<LoginViewModel>(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     LoginScreen(
         padding = padding,
         uiState = uiState,
-        navigateToHome = navigateToHome,
+        navigateToHome = {
+            if (uiState.loginType == LoginType.VOLUNTEER) {
+                context.startActivity(
+                    Intent(context, VolunteerActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    }
+                )
+            } else {
+                context.startActivity(
+                    Intent(context, CenterActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    }
+                )
+            }
+        },
         navigateToSignUp = navigateToSignUp,
         updateSignInType = { viewModel.updateLoginType(it) }
 

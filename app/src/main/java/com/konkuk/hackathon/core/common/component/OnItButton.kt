@@ -12,6 +12,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.konkuk.hackathon.core.designsystem.theme.Gray_2
+import com.konkuk.hackathon.core.designsystem.theme.Gray_4
 import com.konkuk.hackathon.core.designsystem.theme.Gray_7
 import com.konkuk.hackathon.core.designsystem.theme.Main_Primary
 import com.konkuk.hackathon.core.designsystem.theme.Main_Primary_Container
@@ -58,6 +60,8 @@ fun OnItButtonPrimaryContent(
         colors = ButtonDefaults.buttonColors(
             containerColor = Main_Primary,
             contentColor = Color.White,
+            disabledContainerColor = Gray_2,
+            disabledContentColor = Gray_7,
         )
     ) {
         Text(

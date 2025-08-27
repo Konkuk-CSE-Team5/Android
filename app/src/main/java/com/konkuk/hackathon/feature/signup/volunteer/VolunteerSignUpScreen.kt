@@ -1,5 +1,6 @@
 package com.konkuk.hackathon.feature.signup.volunteer
 
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -16,6 +17,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.input.InputTransformation
 import androidx.compose.foundation.text.input.OutputTransformation
@@ -32,7 +35,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -46,30 +51,37 @@ import com.konkuk.hackathon.core.designsystem.theme.Gray_2
 import com.konkuk.hackathon.core.designsystem.theme.Gray_7
 import com.konkuk.hackathon.core.designsystem.theme.Main_Primary
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
+import com.konkuk.hackathon.feature.center.CenterActivity
 import com.konkuk.hackathon.feature.signup.Gender
 import com.konkuk.hackathon.feature.signup.component.SignUpTopBar
-import com.konkuk.hackathon.feature.signup.organization.SignUpInputField
+import com.konkuk.hackathon.feature.volunteer.VolunteerActivity
 
 @Composable
 fun VolunteerSignUpScreen(
     padding: PaddingValues,
     popBackStack: () -> Unit,
-    navigateToHome: () -> Unit,
     viewModel: VolunteerSignUpViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val buttonEnabled by remember {
         derivedStateOf {
             uiState.idValid && uiState.passwordValid && uiState.nameValid && uiState.birthValid
-                    && uiState.isPrivacyTermsAccepted && uiState.isAllTermsAccepted
+                    && uiState.phoneNumberValid && uiState.isPrivacyTermsAccepted && uiState.isAllTermsAccepted
         }
     }
+    val context = LocalContext.current
 
     VolunteerSignUpScreen(
         padding = padding,
         uiState = uiState,
         enabled = buttonEnabled,
-        navigateToHome = navigateToHome,
+        navigateToVolunteer = {
+            context.startActivity(
+                Intent(context, VolunteerActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
+            )
+        },
         popBackStack = popBackStack,
         updateAllTermsAccepted = viewModel::updateAllTermsAccepted,
         updatePrivacyTermsAccepted = viewModel::updatePrivacyTermsAccepted,
@@ -82,7 +94,7 @@ private fun VolunteerSignUpScreen(
     padding: PaddingValues,
     uiState: VolunteerSignUpUiState,
     enabled: Boolean,
-    navigateToHome: () -> Unit,
+    navigateToVolunteer: () -> Unit,
     popBackStack: () -> Unit,
     updateAllTermsAccepted: (Boolean) -> Unit = {},
     updatePrivacyTermsAccepted: (Boolean) -> Unit = {},
@@ -93,18 +105,18 @@ private fun VolunteerSignUpScreen(
             .padding(padding)
             .fillMaxSize()
     ) {
-        SignUpTopBar(
-            modifier = Modifier.align(Alignment.TopCenter),
-            title = "봉사자 회원가입",
-            onBackClick = popBackStack
-        )
+
         VolunteerSignUpContent(
             uiState = uiState,
             updateAllTermsAccepted = updateAllTermsAccepted,
             updatePrivacyTermsAccepted = updatePrivacyTermsAccepted,
             updateGender = updateGender,
-
-            )
+        )
+        SignUpTopBar(
+            modifier = Modifier.align(Alignment.TopCenter),
+            title = "봉사자 회원가입",
+            onBackClick = popBackStack
+        )
 
         OnItButtonPrimaryContent(
             modifier = Modifier
@@ -113,7 +125,7 @@ private fun VolunteerSignUpScreen(
                 .padding(20.dp),
             text = "회원가입",
             enabled = enabled,
-            onClick = navigateToHome
+            onClick = navigateToVolunteer
         )
     }
 }
@@ -128,6 +140,7 @@ fun VolunteerSignUpContent(
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .verticalScroll(rememberScrollState())
             .padding(horizontal = 24.dp)
             .padding(top = 72.dp, bottom = 100.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp)
@@ -141,6 +154,7 @@ fun VolunteerSignUpContent(
             state = uiState.passwordState,
             title = "비밀번호",
             placeholder = "비밀번호",
+            isPassword = true,
         )
         SignUpInputField(
             state = uiState.nameState,
@@ -162,7 +176,8 @@ fun VolunteerSignUpContent(
             outputTransformation = OutputTransformation {
                 if (length > 4) insert(4, "/")
                 if (length > 6) insert(7, "/")
-            }
+            },
+            keyboardType = KeyboardType.Number
         )
 
         Column {
@@ -228,6 +243,25 @@ fun VolunteerSignUpContent(
             }
         }
 
+        SignUpInputField(
+            state = uiState.phoneNumberState,
+            title = "전화번호",
+            placeholder = "전화번호",
+            inputTransformation = InputTransformation {
+                if (asCharSequence().isNotEmpty()) {
+                    if (asCharSequence().last().isDigit().not()) revertAllChanges()
+                    if (length > 11) {
+                        revertAllChanges()
+                    }
+                }
+            },
+            outputTransformation = OutputTransformation {
+                if (length > 3) insert(3, "-")
+                if (length > 8) insert(8, "-")
+            },
+            keyboardType = KeyboardType.Number
+        )
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -292,6 +326,8 @@ fun SignUpInputField(
     placeholder: String,
     inputTransformation: InputTransformation? = null,
     outputTransformation: OutputTransformation? = null,
+    isPassword: Boolean = false,
+    keyboardType: KeyboardType = KeyboardType.Text,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
@@ -316,6 +352,8 @@ fun SignUpInputField(
             inputTransformation = inputTransformation,
             outputTransformation = outputTransformation,
             isFocused = isFocused,
+            isPassword = isPassword,
+            keyboardType = keyboardType,
         )
     }
 }
@@ -328,7 +366,7 @@ private fun VolunteerSignUpScreenPreview() {
             padding = PaddingValues(),
             enabled = true,
             uiState = VolunteerSignUpUiState(),
-            navigateToHome = {},
+            navigateToVolunteer = {},
             popBackStack = {}
         )
     }

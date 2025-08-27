@@ -1,4 +1,4 @@
-package com.konkuk.hackathon
+package com.konkuk.hackathon.feature.center
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -9,38 +9,38 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
-import com.konkuk.hackathon.core.navigation.MainNavHost
-import com.konkuk.hackathon.core.navigation.MainTab
-import com.konkuk.hackathon.core.navigation.component.MainBottomBar
-import com.konkuk.hackathon.core.navigation.rememberMainNavigator
+import com.konkuk.hackathon.core.navigation.center.CenterNavHost
+import com.konkuk.hackathon.core.navigation.center.CenterTab
+import com.konkuk.hackathon.core.navigation.center.rememberCenterNavigator
+import com.konkuk.hackathon.core.navigation.component.CenterBottomBar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class CenterActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             OnItTheme {
-                val mainNavigator = rememberMainNavigator()
+                val centerNavigator = rememberCenterNavigator()
 
                 Scaffold(
                     containerColor = Color.White,
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = {
-                        MainBottomBar(
-                            visible = mainNavigator.shouldShowBottomBar(),
-                            tabs = MainTab.entries,
-                            currentTab = mainNavigator.currentTab,
+                        CenterBottomBar(
+                            visible = centerNavigator.shouldShowBottomBar(),
+                            tabs = CenterTab.entries,
+                            currentTab = centerNavigator.currentTab,
                             onTabSelected = {
-                                mainNavigator.navigate(it)
+                                centerNavigator.navigate(it)
                             },
                         )
                     }
                 ) { innerPadding ->
-                    MainNavHost(
+                    CenterNavHost(
                         padding = innerPadding,
-                        navigator = mainNavigator,
+                        navigator = centerNavigator,
                     )
                 }
             }
