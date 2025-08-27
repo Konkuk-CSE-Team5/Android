@@ -17,6 +17,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.konkuk.hackathon.core.common.component.HorizontalSpacer
 import com.konkuk.hackathon.core.designsystem.theme.Gray_7
+import com.konkuk.hackathon.core.designsystem.theme.Main_Primary
+import com.konkuk.hackathon.core.designsystem.theme.Main_Primary_Container
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 import com.konkuk.hackathon.feature.login.LoginType
 
@@ -43,7 +45,7 @@ fun LoginRadioGroup(
                         .border(
                             width = 1.dp,
                             shape = CircleShape,
-                            color = OnItTheme.colors.primary.container
+                            color = Main_Primary_Container
                         )
                 ) {
                     if (type == selectedType) {
@@ -52,7 +54,7 @@ fun LoginRadioGroup(
                                 .size(14.dp)
                                 .background(
                                     shape = CircleShape,
-                                    color = OnItTheme.colors.primary.content
+                                    color = Main_Primary
                                 )
                                 .align(Alignment.Center)
                         )
@@ -60,7 +62,7 @@ fun LoginRadioGroup(
                 }
                 Text(
                     text = type.label,
-                    style = OnItTheme.typography.Caption1_M.copy(color = Gray_7)
+                    style = OnItTheme.typography.R_15.copy(color = Gray_7)
                 )
             }
             HorizontalSpacer(8.dp)

@@ -2,19 +2,12 @@ package com.konkuk.hackathon.feature.signup
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -85,11 +78,11 @@ fun SignUpTypeComponent(
     ) {
         Text(
             text = signUpType.label,
-            style = OnItTheme.typography.H4_B.copy(color = Gray_7)
+            style = OnItTheme.typography.B_17.copy(color = Gray_7, fontSize = 18.sp)
         )
         Text(
             text = signUpType.description,
-            style = OnItTheme.typography.H4_B.copy(
+            style = OnItTheme.typography.R_15.copy(
                 color = Gray_7,
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Normal

@@ -30,6 +30,7 @@ import com.konkuk.hackathon.core.common.component.HorizontalSpacer
 import com.konkuk.hackathon.core.common.component.OnItButtonPrimaryContent
 import com.konkuk.hackathon.core.common.component.VerticalSpacer
 import com.konkuk.hackathon.core.common.extension.noRippleClickable
+import com.konkuk.hackathon.core.designsystem.theme.Main_Primary
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 import com.konkuk.hackathon.feature.login.component.LoginInputField
 import com.konkuk.hackathon.feature.login.component.LoginRadioGroup
@@ -97,7 +98,7 @@ private fun LoginScreen(
         ) {
             Text(
                 text = "아이디 찾기",
-                style = OnItTheme.typography.Caption1_M.copy(
+                style = OnItTheme.typography.B_17.copy(
                     fontSize = 15.sp,
                     fontWeight = FontWeight.Normal
                 )
@@ -110,7 +111,7 @@ private fun LoginScreen(
             HorizontalSpacer(8.dp)
             Text(
                 text = "비밀번호 재설정",
-                style = OnItTheme.typography.Caption1_M.copy(
+                style = OnItTheme.typography.B_17.copy(
                     fontSize = 15.sp,
                     fontWeight = FontWeight.Normal
                 )
@@ -126,7 +127,7 @@ private fun LoginScreen(
         ) {
             Text(
                 text = "처음이신가요?",
-                style = OnItTheme.typography.Caption1_M.copy(
+                style = OnItTheme.typography.B_17.copy(
                     fontSize = 15.sp,
                     fontWeight = FontWeight.Normal
                 )
@@ -134,10 +135,10 @@ private fun LoginScreen(
             HorizontalSpacer(8.dp)
             Text(
                 text = "회원가입",
-                style = OnItTheme.typography.Caption1_M.copy(
+                style = OnItTheme.typography.B_17.copy(
                     fontSize = 15.sp,
                     fontWeight = FontWeight.Normal,
-                    color = OnItTheme.colors.primary.content
+                    color = Main_Primary
                 )
             )
         }

@@ -40,6 +40,7 @@ import com.konkuk.hackathon.core.common.component.OnItTextField
 import com.konkuk.hackathon.core.common.component.VerticalSpacer
 import com.konkuk.hackathon.core.designsystem.theme.Gray_2
 import com.konkuk.hackathon.core.designsystem.theme.Gray_7
+import com.konkuk.hackathon.core.designsystem.theme.Main_Primary
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 import com.konkuk.hackathon.feature.signup.component.SignUpTopBar
 import com.konkuk.hackathon.feature.signup.volunteer.SignUpInputField
@@ -175,14 +176,14 @@ fun OrganizationSignUpContent(
                     modifier = Modifier
                         .size(16.dp)
                         .background(
-                            color = if (uiState.isAllTermsAccepted) OnItTheme.colors.primary.content else Gray_2,
+                            color = if (uiState.isAllTermsAccepted) Main_Primary else Gray_2,
                             shape = RoundedCornerShape(4.dp)
                         )
                 )
                 HorizontalSpacer(8.dp)
                 Text(
                     text = "이용약관 동의 (필수)",
-                    style = OnItTheme.typography.Body1_N_M.copy(
+                    style = OnItTheme.typography.R_15.copy(
                         color = Gray_7,
                         fontSize = 15.sp,
                         fontWeight = FontWeight.Normal,
@@ -199,14 +200,14 @@ fun OrganizationSignUpContent(
                     modifier = Modifier
                         .size(16.dp)
                         .background(
-                            color = if (uiState.isPrivacyTermsAccepted) OnItTheme.colors.primary.content else Gray_2,
+                            color = if (uiState.isPrivacyTermsAccepted) Main_Primary else Gray_2,
                             shape = RoundedCornerShape(4.dp)
                         )
                 )
                 HorizontalSpacer(8.dp)
                 Text(
                     text = "개인정보 처리방침 동의 (필수)",
-                    style = OnItTheme.typography.Body1_N_M.copy(
+                    style = OnItTheme.typography.R_15.copy(
                         color = Gray_7,
                         fontSize = 15.sp,
                         fontWeight = FontWeight.Normal,
@@ -235,7 +236,7 @@ fun SignUpInputField(
     ) {
         Text(
             text = title,
-            style = OnItTheme.typography.Body1_N_M.copy(
+            style = OnItTheme.typography.R_17.copy(
                 color = Gray_7,
                 fontSize = 17.sp,
                 fontWeight = FontWeight.Normal,
