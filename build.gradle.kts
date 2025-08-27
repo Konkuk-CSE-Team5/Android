@@ -7,4 +7,5 @@ plugins {
     alias(libs.plugins.hilt.android) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.google.services) apply false
+    id("com.android.library") version "8.12.1" apply false
 }

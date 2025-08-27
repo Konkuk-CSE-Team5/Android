@@ -65,6 +65,8 @@ dependencies {
     implementation(libs.com.google.firebase.firebase.messaging.ktx)
     implementation(libs.play.services.vision.common)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.com.google.firebase.firebase.messaging.ktx2)
+    implementation(libs.firebase.messaging)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -99,5 +101,6 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.google.firebase.analytics)
     implementation(libs.google.firebase.messaging.ktx)
+
 
 }

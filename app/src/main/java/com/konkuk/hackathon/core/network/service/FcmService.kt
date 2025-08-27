@@ -1,55 +1,36 @@
 package com.konkuk.hackathon.core.network.service
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.Context
-import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat.getSystemService
-import com.google.android.gms.vision.clearcut.LogUtils
+import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
-@AndroidEntryPoint
-class FcmService : FirebaseMessagingService() {
-    @Inject
-    lateinit var appPreferences: AppPreferences
+class MyFirebaseMessagingService : FirebaseMessagingService() {
 
+    // 새 토큰이 생성될 때 호출됩니다.
     override fun onNewToken(token: String) {
-        super.onNewToken(token)
-        LogUtils.d("new token : $token")
-        appPreferences.saveFcmToken(token)
+        Log.d("FCM_Token", "Refreshed token: $token")
+        // 서버에 토큰을 보내거나 저장하는 로직을 구현하세요.
     }
 
+    // 메시지를 수신할 때 호출됩니다.
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        super.onMessageReceived(remoteMessage)
-        LogUtils.d("From: ${remoteMessage.from}")
+        Log.d("FCM_Message", "From: ${remoteMessage.from}")
 
-        // 알림 메시지인 경우
-        if (remoteMessage.notification != null) {
-            LogUtils.d("Message Notification Body: ${remoteMessage.notification?.body}")
-            showNotification(remoteMessage.notification?.title, remoteMessage.notification?.body)
+        // 메시지에 데이터 페이로드가 포함되어 있는지 확인
+        remoteMessage.data.isNotEmpty().let {
+            Log.d("FCM_Data", "Message data payload: " + remoteMessage.data)
+        }
+
+        // 메시지에 알림 페이로드가 포함되어 있는지 확인
+        remoteMessage.notification?.let {
+            Log.d("FCM_Notification", "Message Notification Title: ${it.title}")
+            Log.d("FCM_Notification", "Message Notification Body: ${it.body}")
+            // 알림을 표시하는 로직을 구현하세요. (예: NotificationManager)
+            showNotification(it.title, it.body)
         }
     }
 
     private fun showNotification(title: String?, body: String?) {
-        val notificationManager =
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-        val channel = NotificationChannel(
-            FCM_NOTIFICATION_NAME,
-            "Notification",
-            NotificationManager.IMPORTANCE_HIGH
-        )
-        notificationManager.createNotificationChannel(channel)
-
-        val notificationBuilder = NotificationCompat.Builder(this, FCM_NOTIFICATION_NAME)
-            .setContentTitle(title ?: "Promotion Title")
-            .setContentText(body ?: "Promotion Message")
-            .setSmallIcon(android.R.drawable.ic_dialog_email)
-            .setAutoCancel(true)
-
-        notificationManager.notify(FCM_NOTIFICATION_ID, notificationBuilder.build())
+        // 알림 채널 및 알림을 생성하고 표시하는 로직
     }
 }
