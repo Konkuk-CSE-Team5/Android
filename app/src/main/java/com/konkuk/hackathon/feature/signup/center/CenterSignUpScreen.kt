@@ -93,7 +93,7 @@ private fun CenterSignUpScreen(
         )
         SignUpTopBar(
             modifier = Modifier.align(Alignment.TopCenter),
-            title = "봉사자 회원가입",
+            title = "기관 회원가입",
             onBackClick = popBackStack
         )
 
