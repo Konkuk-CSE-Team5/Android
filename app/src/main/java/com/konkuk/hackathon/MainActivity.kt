@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 import com.konkuk.hackathon.core.navigation.MainNavHost
 import com.konkuk.hackathon.core.navigation.MainTab
@@ -24,6 +25,7 @@ class MainActivity : ComponentActivity() {
                 val mainNavigator = rememberMainNavigator()
 
                 Scaffold(
+                    containerColor = Color.White,
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = {
                         MainBottomBar(
