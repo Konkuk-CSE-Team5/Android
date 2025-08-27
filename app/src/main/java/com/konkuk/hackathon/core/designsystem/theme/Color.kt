@@ -1,151 +1,102 @@
 package com.konkuk.hackathon.core.designsystem.theme
 
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.core.graphics.toColorInt
 
 
-// Color 객체를 Hex 코드로 쉽게 생성하기 위한 확장 함수
-fun Color(hex: String): Color {
-    return Color(hex.toColorInt())
-}
 
-// JSON 구조를 그대로 따르는 색상 데이터 클래스 정의
+val BG = Color(0xFFFAFAFA)
+val dim = Color(0xFF000000)
+
+// Main
+val Primary = Color(0xFFEE863B)
+val Primary_container = Color(0xFFFFF4EB)
+
+
+// System
+val Warning = Color(0xFFFFCB3D)
+val Warning2 = Color(0xFFFFA13D)
+val Active = Color(0xFF2D8FFF)
+
+// Positive
+val Positive = Color(0xFF218A21)
+val Positive_container = Color(0xFFDBFAE3)
+
+// Negative
+val Negative = Color(0xFFE6533E)
+val Negative_container = Color(0xFFE6533E)
+
+// Gray
+val White = Color(0xFFFFFFFF)
+val gray1 = Color(0xFFECECEC)
+val gray2 = Color(0xFFD2D2D2)
+val gray3 = Color(0xFFAFAFAF)
+val gray4 = Color(0xFF8A8A8A)
+val gray5 = Color(0xFF666666)
+val gray6 = Color(0xFF454545)
+val gray7 = Color(0xFF3B3B3B)
+val gray8 = Color(0xFF313131)
+val gray9 = Color(0xFF272727)
+val gray10 = Color(0xFF1F1F1F)
+val Black = Color(0xFF000000)
+
+@Immutable
 data class OnItColors(
-    val base: BaseColors,
-    val label: LabelColors,
-    val contents: ContentsColors,
-    val border: BorderColors,
-    val container: ContainerColors,
-    val layer: LayerColors,
-    val decrease: DecreaseColors,
-    val positive: PositiveColors,
-    val negative: NegativeColors,
-    val inverse: InverseColors,
-    val primary: PrimaryColors
-)
-
-data class BaseColors(
-    val black: Color,
-    val white: Color
-)
-
-data class LabelColors(
-    val normal: Color,
-    val strong: Color,
-    val disabled: Color,
-    val alternative: Color,
-    val neutral: Color
-)
-
-data class ContentsColors(
-    val normal: Color,
-    val neutral: Color
-)
-
-data class BorderColors(
-    val normal: Color,
-    val neutral: Color
-)
-
-data class ContainerColors(
-    val selectedHover: Color,
-    val normal: Color,
-    val alternative: Color,
-    val disabled: Color,
-    val neutral: Color
-)
-
-data class LayerColors(
+    val bg: Color,
     val dim: Color,
-    val elevated: Color,
-    val base: Color
-)
-
-data class DecreaseColors(
-    val container: Color,
-    val content: Color
-)
-
-data class PositiveColors(
-    val container: Color,
-    val content: Color
-)
-
-data class NegativeColors(
-    val container: Color,
-    val content: Color
-)
-
-data class InverseColors(
+    val primary: Color,
+    val primary_container: Color,
+    val warning: Color,
+    val warning2: Color,
+    val active: Color,
+    val positive: Color,
+    val positive_container: Color,
+    val negative: Color,
+    val negative_container: Color,
     val white: Color,
+    val gray1: Color,
+    val gray2: Color,
+    val gray3: Color,
+    val gray4: Color,
+    val gray5: Color,
+    val gray6: Color,
+    val gray7: Color,
+    val gray8: Color,
+    val gray9: Color,
+    val gray10: Color,
     val black: Color
 )
 
-data class PrimaryColors(
-    val content: Color,
-    val container: Color
-)
-
-// 라이트 테마 색상 정의
-fun lightColors(): OnItColors = OnItColors(
-    base = BaseColors(
-        black = Color("#000000"),
-        white = Color("#ffffff")
-    ),
-    label = LabelColors(
-        normal = Color("#151719"),
-        strong = Color("#000000"),
-        disabled = Color("#b1b8c0"),
-        alternative = Color("#b1b8c0"),
-        neutral = Color("#505866")
-    ),
-    contents = ContentsColors(
-        normal = Color("#b1b8c0"),
-        neutral = Color("#6d7582")
-    ),
-    border = BorderColors(
-        normal = Color("#e7e9ec"),
-        neutral = Color("#b1b8c0")
-    ),
-    container = ContainerColors(
-        selectedHover = Color("#f2f3f5"),
-        normal = Color("#fafafb"),
-        alternative = Color("#e7e9ec"),
-        disabled = Color("#e7e9ec"),
-        neutral = Color("#f3f4f8")
-    ),
-    layer = LayerColors(
-        // #00000066 -> Alpha(66) + RGB(000000)
-        // Compose Color는 AARRGGBB 순서이므로 0x66000000 로 변환
-        dim = Color(0x66000000),
-        elevated = Color("#ffffff"),
-        base = Color("#f3f4f8")
-    ),
-    decrease = DecreaseColors(
-        container = Color("#e4f2fd"),
-        content = Color("#3f94ee")
-    ),
-    positive = PositiveColors(
-        container = Color("#e6f7e9"),
-        content = Color("#0bbd49")
-    ),
-    negative = NegativeColors(
-        container = Color("#fdecee"),
-        content = Color("#e6533e")
-    ),
-    inverse = InverseColors(
-        white = Color("#ffffff"),
-        black = Color("#000000")
-    ),
-    primary = PrimaryColors(
-        content = Color("#ee863b"),
-        container = Color("#fff4eb")
-    )
+val defaultOnItColors = OnItColors(
+    bg = BG,
+    dim = dim,
+    primary = Primary,
+    primary_container = Primary_container,
+    warning = Warning,
+    warning2 = Warning2,
+    active = Active,
+    positive = Positive,
+    positive_container = Positive_container,
+    negative = Negative,
+    negative_container = Negative_container,
+    white = White,
+    gray1 = gray1,
+    gray2 = gray2,
+    gray3 = gray3,
+    gray4 = gray4,
+    gray5 = gray5,
+    gray6 = gray6,
+    gray7 = gray7,
+    gray8 = gray8,
+    gray9 = gray9,
+    gray10 = gray10,
+    black = Black
 )
 
 // CompositionLocal을 통해 앱 전역에 색상 시스템을 제공
-val LocalOnItColorsProvider = staticCompositionLocalOf { lightColors() }
+val LocalOnItColorsProvider = staticCompositionLocalOf { defaultOnItColors }
 
 
 
