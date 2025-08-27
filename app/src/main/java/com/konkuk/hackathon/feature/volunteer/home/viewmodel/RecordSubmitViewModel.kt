@@ -33,9 +33,7 @@ class RecordSubmitViewModel @Inject constructor() : ViewModel() {
 
     // 의견 텍스트 변경 이벤트
     fun onOpinionChanged(text: String) {
-        if (text.length <= 300) { // 글자 수 제한
-            _uiState.update { it.copy(opinionText = text) }
-        }
+        _uiState.update { it.copy(opinionText = text.take(300)) }
     }
 
 

@@ -100,8 +100,9 @@ fun VolunteerHomeScreen(padding: PaddingValues, navigateToRecordSubmit: () -> Un
                         OutlinedTextField(
                             value = pin,
                             onValueChange = {
-                                if (it.length <= 6)
-                                    pin = it
+                                pin = it.filter { char ->
+                                    char.isDigit()
+                                }.take(6)
                             },
                             modifier = Modifier.weight(1f),
                             shape = RoundedCornerShape(14.dp),
@@ -128,7 +129,7 @@ fun VolunteerHomeScreen(padding: PaddingValues, navigateToRecordSubmit: () -> Un
                             Modifier
                                 .clip(RoundedCornerShape(14.dp))
                                 .background(OnItTheme.colors.primary)
-                                .clickable(onClick = {})
+                                .clickable(onClick = {}) // 서버 연동 이후 구현
                         ) {
                             Text(
                                 "등록",
