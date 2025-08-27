@@ -1,4 +1,4 @@
-package com.konkuk.hackathon.feature.user.setting.component
+package com.konkuk.hackathon.feature.volunteer.setting.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

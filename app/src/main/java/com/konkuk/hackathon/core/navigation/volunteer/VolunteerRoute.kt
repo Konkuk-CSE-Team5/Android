@@ -3,7 +3,11 @@ package com.konkuk.hackathon.core.navigation.volunteer
 import kotlinx.serialization.Serializable
 
 sealed interface VolunteerRoute {
+    @Serializable
+    data object SettingsGraph : VolunteerRoute
 
+    @Serializable
+    data object VolInfoGraph : VolunteerRoute
 }
 
 sealed interface VolunteerTabRoute : VolunteerRoute {

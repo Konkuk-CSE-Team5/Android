@@ -4,6 +4,9 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
+import com.konkuk.hackathon.core.navigation.Route
+import com.konkuk.hackathon.feature.volunteer.setting.screen.UserSettingScreen
 
 @Composable
 fun VolunteerNavHost(
@@ -28,7 +31,19 @@ fun VolunteerNavHost(
 
         // Settings
         composable<VolunteerTabRoute.Settings> {
+            UserSettingScreen(
+                onClickModify = {navController.navigate(VolunteerRoute.SettingsGraph)}
+            )
+        }
 
+        navigation<VolunteerRoute.SettingsGraph>(
+            startDestination = VolunteerRoute.VolInfoGraph
+        ) {
+            composable<VolunteerRoute.VolInfoGraph> {
+                UserSettingScreen(
+                    onClickModify = {navController.navigate(VolunteerRoute.SettingsGraph)}
+                )
+            }
         }
     }
 }

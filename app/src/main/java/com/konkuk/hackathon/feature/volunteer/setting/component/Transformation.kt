@@ -1,4 +1,4 @@
-package com.konkuk.hackathon.feature.user.setting.component
+package com.konkuk.hackathon.feature.volunteer.setting.component
 
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping
@@ -130,7 +130,7 @@ class BirthTransformation : VisualTransformation {
             }
         }
 
-        val offsetMapping = object : androidx.compose.ui.text.input.OffsetMapping {
+        val offsetMapping = object : OffsetMapping {
             override fun originalToTransformed(offset: Int): Int {
                 return when {
                     offset <= 4 -> offset

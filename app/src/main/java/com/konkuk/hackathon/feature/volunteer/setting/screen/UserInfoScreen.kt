@@ -1,4 +1,4 @@
-package com.konkuk.hackathon.feature.user.setting.screen
+package com.konkuk.hackathon.feature.volunteer.setting.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,15 +27,17 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.konkuk.hackathon.R
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
-import com.konkuk.hackathon.feature.user.setting.component.BirthTransformation
-import com.konkuk.hackathon.feature.user.setting.component.GenderButton
-import com.konkuk.hackathon.feature.user.setting.component.MyInfoTextField
-import com.konkuk.hackathon.feature.user.setting.component.PhoneTransformation
+import com.konkuk.hackathon.core.navigation.volunteer.VolunteerRoute
+import com.konkuk.hackathon.feature.volunteer.setting.component.BirthTransformation
+import com.konkuk.hackathon.feature.volunteer.setting.component.GenderButton
+import com.konkuk.hackathon.feature.volunteer.setting.component.MyInfoTextField
+import com.konkuk.hackathon.feature.volunteer.setting.component.PhoneTransformation
 
 @Composable
-fun MyDetailScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
+fun MyDetailScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit, navController : NavHostController) {
     var id by remember { mutableStateOf("hackathon1") }
     var pw by remember { mutableStateOf("") }
     var name by remember { mutableStateOf("홍길동") }
@@ -146,7 +147,7 @@ fun MyDetailScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
                 modifier = modifier
                     .fillMaxWidth()
                     .background(color = OnItTheme.colors.primary, shape = RoundedCornerShape(14.dp))
-                    .clickable(onClick = {})
+                    .clickable(onClick = {navController.navigate(VolunteerRoute.SettingsGraph)})
             ) {
                 Text(
                     text = "수정",
@@ -160,10 +161,4 @@ fun MyDetailScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
         }
 
     }
-}
-
-@Preview
-@Composable
-private fun MyDetailPreview() {
-    MyDetailScreen(onBackClick = {})
 }
