@@ -1,8 +1,6 @@
-package com.konkuk.hackathon.feature.signup.volunteer
+package com.konkuk.hackathon.feature.signup.organization
 
-import android.R.attr.enabled
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
@@ -11,10 +9,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,15 +19,12 @@ import androidx.compose.foundation.text.input.OutputTransformation
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.insert
 import androidx.compose.material3.Text
-import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -46,18 +39,19 @@ import com.konkuk.hackathon.core.designsystem.theme.Gray_2
 import com.konkuk.hackathon.core.designsystem.theme.Gray_7
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 import com.konkuk.hackathon.feature.signup.component.SignUpTopBar
+import com.konkuk.hackathon.feature.signup.volunteer.SignUpInputField
 
 @Composable
-fun VolunteerSignUpScreen(
+fun OrganizationSignUpScreen(
     padding: PaddingValues,
     popBackStack: () -> Unit,
     navigateToHome: () -> Unit,
-    viewModel: VolunteerSignUpViewModel = hiltViewModel(),
+    viewModel: OrganizationSignUpViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val enabled by remember { mutableStateOf(viewModel.buttonEnabled) }
 
-    VolunteerSignUpScreen(
+    OrganizationSignUpScreen(
         padding = padding,
         uiState = uiState,
         enabled = enabled,
@@ -65,20 +59,18 @@ fun VolunteerSignUpScreen(
         popBackStack = popBackStack,
         updateAllTermsAccepted = viewModel::updateAllTermsAccepted,
         updatePrivacyTermsAccepted = viewModel::updatePrivacyTermsAccepted,
-        updateGender = viewModel::updateGender,
     )
 }
 
 @Composable
-private fun VolunteerSignUpScreen(
+private fun OrganizationSignUpScreen(
     padding: PaddingValues,
-    uiState: VolunteerSignUpUiState,
+    uiState: OrganizationSignUpUiState,
     enabled: Boolean,
-    navigateToHome: () -> Unit,
-    popBackStack: () -> Unit,
     updateAllTermsAccepted: (Boolean) -> Unit = {},
     updatePrivacyTermsAccepted: (Boolean) -> Unit = {},
-    updateGender: (Gender) -> Unit = {},
+    navigateToHome: () -> Unit,
+    popBackStack: () -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -90,12 +82,10 @@ private fun VolunteerSignUpScreen(
             title = "봉사자 회원가입",
             onBackClick = popBackStack
         )
-        VolunteerSignUpContent(
+        OrganizationSignUpContent(
             uiState = uiState,
             updateAllTermsAccepted = updateAllTermsAccepted,
             updatePrivacyTermsAccepted = updatePrivacyTermsAccepted,
-            updateGender = updateGender,
-
         )
 
         OnItButtonPrimaryContent(
@@ -111,11 +101,10 @@ private fun VolunteerSignUpScreen(
 }
 
 @Composable
-fun VolunteerSignUpContent(
-    uiState: VolunteerSignUpUiState,
+fun OrganizationSignUpContent(
+    uiState: OrganizationSignUpUiState,
     updateAllTermsAccepted: (Boolean) -> Unit = {},
     updatePrivacyTermsAccepted: (Boolean) -> Unit = {},
-    updateGender: (Gender) -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -139,87 +128,31 @@ fun VolunteerSignUpContent(
             title = "이름",
             placeholder = "이름",
         )
+        // 기관명
+        // 담당자명
+        // 담당자 전화번호
         SignUpInputField(
-            state = uiState.birthState,
-            title = "생년월일",
-            placeholder = "YYYY / MM / DD",
+            state = uiState.representativeState,
+            title = "담당자명",
+            placeholder = "담당자명",
+        )
+        SignUpInputField(
+            state = uiState.phoneNumberState,
+            title = "담당자 전화번호",
+            placeholder = "담당자 전화번호",
             inputTransformation = InputTransformation {
-                // 1900.01.01 dlgn ~ 2024.00.00 dlwjs
                 if (asCharSequence().isNotEmpty()) {
                     if (asCharSequence().last().isDigit().not()) revertAllChanges()
-                    if (length > 10) {
+                    if (length > 11) {
                         revertAllChanges()
                     }
                 }
             },
             outputTransformation = OutputTransformation {
-                if (length > 4) insert(4, "/")
-                if (length > 6) insert(7, "/")
+                if (length > 3) insert(3, "-")
+                if (length > 8) insert(8, "-")
             }
         )
-
-        Column {
-            Text(
-                text = "성별",
-                style = OnItTheme.typography.Body1_N_M.copy(
-                    color = Gray_7,
-                    fontSize = 17.sp,
-                    fontWeight = FontWeight.Normal,
-                )
-            )
-            VerticalSpacer(10.dp)
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(54.dp),
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(54.dp)
-                        .border(
-                            width = 1.dp,
-                            color = Gray_2,
-                            shape = RoundedCornerShape(14.dp)
-                        )
-                        .clip(RoundedCornerShape(14.dp))
-                ) {
-                    Gender.entries.dropLast(1).forEach { gender ->
-                        Box(
-                            modifier = Modifier
-                                .weight(1f)
-                                .fillMaxHeight()
-                                .background(
-                                    color =
-                                        if (uiState.gender == gender) OnItTheme.colors.primary.content
-                                        else Color.White
-                                )
-                                .clickable { updateGender(gender) }
-                        ) {
-                            Text(
-                                text = gender.label,
-                                modifier = Modifier
-                                    .align(Alignment.Center),
-                                style = OnItTheme.typography.Body1_N_M.copy(
-                                    fontSize = 16.sp,
-                                    fontWeight = FontWeight.Medium,
-                                    color =
-                                        if (uiState.gender == gender) Color.White
-                                        else Color.Black
-                                )
-                            )
-                        }
-                    }
-                }
-                VerticalDivider(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .align(Alignment.Center),
-                    color = Gray_2,
-                    thickness = 1.dp,
-                )
-            }
-        }
 
         Column(
             modifier = Modifier
@@ -315,12 +248,12 @@ fun SignUpInputField(
 
 @Preview(showBackground = true)
 @Composable
-private fun VolunteerSignUpScreenPreview() {
+private fun OrganizationSignUpScreenPreview() {
     OnItTheme {
-        VolunteerSignUpScreen(
+        OrganizationSignUpScreen(
             padding = PaddingValues(),
             enabled = true,
-            uiState = VolunteerSignUpUiState(),
+            uiState = OrganizationSignUpUiState(),
             navigateToHome = {},
             popBackStack = {}
         )
