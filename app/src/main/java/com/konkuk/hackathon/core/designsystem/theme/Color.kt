@@ -101,6 +101,7 @@ val LocalOnItColorsProvider = staticCompositionLocalOf { defaultOnItColors }
 val Gray_7 = Color(0xFF3b3b3b)
 val Gray_4 = Color(0xFF8A8A8A)
 val Gray_2 = Color(0xFFD2D2D2)
+val Gray_1 = Color(0xFFECECEC)
 val Main_Primary_Container = Color(0xFFFFF4EB)
 val Main_Primary = Color(0xFFEE863B)
 

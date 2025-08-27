@@ -1,5 +1,6 @@
 package com.konkuk.hackathon.feature.login.component
 
+import android.R.attr.text
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -17,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.konkuk.hackathon.core.common.component.HorizontalSpacer
+import com.konkuk.hackathon.core.designsystem.theme.Gray_2
 import com.konkuk.hackathon.core.designsystem.theme.Gray_7
 import com.konkuk.hackathon.core.designsystem.theme.Main_Primary
 import com.konkuk.hackathon.core.designsystem.theme.Main_Primary_Container
@@ -46,7 +48,7 @@ fun LoginRadioGroup(
                         .border(
                             width = 1.dp,
                             shape = CircleShape,
-                            color = Main_Primary_Container
+                            color = if(type == selectedType) Main_Primary_Container else Gray_2
                         )
                 ) {
                     if (type == selectedType) {

@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -27,19 +29,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import com.konkuk.hackathon.core.navigation.MainTab
+import com.konkuk.hackathon.core.designsystem.theme.Gray_1
+import com.konkuk.hackathon.core.designsystem.theme.Gray_2
+import com.konkuk.hackathon.core.designsystem.theme.Gray_7
+import com.konkuk.hackathon.core.designsystem.theme.Primary
+import com.konkuk.hackathon.core.navigation.volunteer.VolunteerTab
 
 @Composable
-internal fun MainBottomBar(
+internal fun VolunteerBottomBar(
     visible: Boolean,
-    tabs: List<MainTab>,
-    currentTab: MainTab?,
-    onTabSelected: (MainTab) -> Unit,
+    tabs: List<VolunteerTab>,
+    currentTab: VolunteerTab?,
+    onTabSelected: (VolunteerTab) -> Unit,
 ) {
     AnimatedVisibility(
         visible = visible,
@@ -47,17 +52,29 @@ internal fun MainBottomBar(
         exit = fadeOut() + slideOut { IntOffset(0, it.height) },
     ) {
         Box(modifier = Modifier.background(Color.White)) {
+            HorizontalDivider(
+                color = Gray_1,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.TopCenter)
+            )
             Column {
-                HorizontalDivider(color = MaterialTheme.colorScheme.outline)
+                HorizontalDivider(
+                    color = Gray_1,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
                 Row(
                     modifier = Modifier
                         .navigationBarsPadding()
                         .fillMaxWidth()
+                        .padding(horizontal = 24.dp)
+                        .padding(top = 10.dp)
                         .height(64.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     tabs.forEach { tab ->
-                        MainBottomBarItem(
+                        VolunteerBottomBarItem(
                             tab = tab,
                             selected = tab == currentTab,
                             onClick = {
@@ -74,8 +91,8 @@ internal fun MainBottomBar(
 }
 
 @Composable
-private fun RowScope.MainBottomBarItem(
-    tab: MainTab,
+private fun RowScope.VolunteerBottomBarItem(
+    tab: VolunteerTab,
     selected: Boolean,
     onClick: () -> Unit,
 ) {
@@ -103,11 +120,24 @@ private fun RowScope.MainBottomBarItem(
             )
             Spacer(modifier = Modifier.height(5.dp))
             Text(
-                text = stringResource(tab.labelResId),
-                color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSecondary,
-                fontWeight = if (selected) FontWeight.SemiBold
-                else FontWeight.Normal,
+                text = tab.label,
+                color = if (selected) Primary else Gray_7
             )
         }
+    }
+}
+
+@Preview(heightDp = 150, showBackground = true)
+@Composable
+private fun BottomBarPreview() {
+    val tabs = VolunteerTab.entries
+    Column {
+        Spacer(Modifier.size(10.dp))
+        VolunteerBottomBar(
+            visible = true,
+            tabs = tabs,
+            currentTab = tabs.first(),
+            onTabSelected = {},
+        )
     }
 }
