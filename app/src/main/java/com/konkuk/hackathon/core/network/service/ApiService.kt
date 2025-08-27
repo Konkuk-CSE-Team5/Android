@@ -2,6 +2,7 @@ package com.konkuk.hackathon.core.network.service
 
 import com.konkuk.hackathon.core.network.request.DummyRequest
 import com.konkuk.hackathon.core.network.response.DummyResponse
+import com.konkuk.hackathon.core.network.response.base.BaseResponse
 import retrofit2.http.GET
 
 interface ApiService {
@@ -11,5 +12,5 @@ interface ApiService {
             message = "Hello, World!",
             status = "success"
         ),
-    ): DummyResponse
+    ): BaseResponse<DummyResponse>
 }
