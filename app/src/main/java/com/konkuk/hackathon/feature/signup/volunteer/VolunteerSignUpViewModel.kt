@@ -1,6 +1,7 @@
 package com.konkuk.hackathon.feature.signup.volunteer
 
 import androidx.lifecycle.ViewModel
+import com.konkuk.hackathon.feature.signup.Gender
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

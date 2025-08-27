@@ -185,14 +185,14 @@ fun OrganizationSignUpContent(
             VerticalSpacer(8.dp)
             Row(
                 modifier = Modifier
-                    .clickable { updatePrivacyTermsAccepted(uiState.isAllTermsAccepted) }
+                    .clickable { updatePrivacyTermsAccepted(uiState.isPrivacyTermsAccepted) }
                     .padding(vertical = 5.dp)
             ) {
                 Box(
                     modifier = Modifier
                         .size(16.dp)
                         .background(
-                            color = if (uiState.isAllTermsAccepted) OnItTheme.colors.primary.content else Gray_2,
+                            color = if (uiState.isPrivacyTermsAccepted) OnItTheme.colors.primary.content else Gray_2,
                             shape = RoundedCornerShape(4.dp)
                         )
                 )

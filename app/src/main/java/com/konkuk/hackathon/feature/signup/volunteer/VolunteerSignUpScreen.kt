@@ -1,6 +1,5 @@
 package com.konkuk.hackathon.feature.signup.volunteer
 
-import android.R.attr.enabled
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -45,6 +44,7 @@ import com.konkuk.hackathon.core.common.component.VerticalSpacer
 import com.konkuk.hackathon.core.designsystem.theme.Gray_2
 import com.konkuk.hackathon.core.designsystem.theme.Gray_7
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
+import com.konkuk.hackathon.feature.signup.Gender
 import com.konkuk.hackathon.feature.signup.component.SignUpTopBar
 
 @Composable
@@ -96,7 +96,7 @@ private fun VolunteerSignUpScreen(
             updatePrivacyTermsAccepted = updatePrivacyTermsAccepted,
             updateGender = updateGender,
 
-        )
+            )
 
         OnItButtonPrimaryContent(
             modifier = Modifier
@@ -252,14 +252,14 @@ fun VolunteerSignUpContent(
             VerticalSpacer(8.dp)
             Row(
                 modifier = Modifier
-                    .clickable { updatePrivacyTermsAccepted(uiState.isAllTermsAccepted) }
+                    .clickable { updatePrivacyTermsAccepted(uiState.isPrivacyTermsAccepted) }
                     .padding(vertical = 5.dp)
             ) {
                 Box(
                     modifier = Modifier
                         .size(16.dp)
                         .background(
-                            color = if (uiState.isAllTermsAccepted) OnItTheme.colors.primary.content else Gray_2,
+                            color = if (uiState.isPrivacyTermsAccepted) OnItTheme.colors.primary.content else Gray_2,
                             shape = RoundedCornerShape(4.dp)
                         )
                 )

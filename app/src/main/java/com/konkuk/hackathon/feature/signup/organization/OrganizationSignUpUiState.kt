@@ -23,9 +23,3 @@ data class OrganizationSignUpUiState(
         get() = phoneNumberState.text.length == 11 && phoneNumberState.text.all { it.isDigit() }
 
 }
-
-enum class Gender(val label: String) {
-    MALE("남성"),
-    FEMALE("여성"),
-    NONE("선택 안함")
-}
