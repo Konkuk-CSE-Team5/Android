@@ -1,4 +1,4 @@
-package com.konkuk.hackathon.core.feature.user.setting.screen
+package com.konkuk.hackathon.feature.user.setting.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -28,8 +28,8 @@ fun UserSettingScreen(modifier: Modifier = Modifier) {
     ) {
         Box(modifier = modifier
             .fillMaxWidth()
-            .height(56.dp)
             .background(OnItTheme.colors.white)
+            .padding(vertical = 12.dp)
             .padding(horizontal = 10.dp),) {
             Text("설정", style = OnItTheme.typography.SB_24, color = OnItTheme.colors.gray7,
                 modifier = Modifier.align(Alignment.CenterStart))
