@@ -8,6 +8,7 @@ data class VolunteerSignUpUiState(
     val passwordState: TextFieldState = TextFieldState(),
     val nameState: TextFieldState = TextFieldState(),
     val birthState: TextFieldState = TextFieldState(),
+    val phoneNumberState: TextFieldState = TextFieldState(),
     val gender: Gender = Gender.NONE,
     val isAllTermsAccepted: Boolean = false,
     val isPrivacyTermsAccepted: Boolean = false,
@@ -25,6 +26,8 @@ data class VolunteerSignUpUiState(
                 && birthState.text.all { it.isDigit() }
                 && birthState.text.toString().toInt() <= 20240000
                 && birthState.text.toString().toInt() >= 19000101
+    val phoneNumberValid: Boolean
+        get() = phoneNumberState.text.length == 11 && phoneNumberState.text.all { it.isDigit() }
 }
 
 
