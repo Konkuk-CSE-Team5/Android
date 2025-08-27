@@ -44,12 +44,14 @@ fun OnItButtonPrimaryContainer(
 fun OnItButtonPrimaryContent(
     modifier: Modifier = Modifier,
     text: String,
+    enabled: Boolean = true,
     height: Dp = 50.dp,
     onClick: () -> Unit,
 ) {
     Button(
         modifier = modifier.height(height),
         onClick = onClick,
+        enabled = enabled,
         shape = RoundedCornerShape(14.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = OnItTheme.colors.primary.content,
