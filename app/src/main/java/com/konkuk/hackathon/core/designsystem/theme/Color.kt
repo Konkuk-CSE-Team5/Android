@@ -98,6 +98,9 @@ val defaultOnItColors = OnItColors(
 // CompositionLocal을 통해 앱 전역에 색상 시스템을 제공
 val LocalOnItColorsProvider = staticCompositionLocalOf { defaultOnItColors }
 
+val Gray_7 = Color("#3b3b3b")
+val Gray_4 = Color("#8A8A8A")
+val Gray_2 = Color("#D2D2D2")
 
 
 

@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     MainNavHost(
                         padding = innerPadding,
-                        navController = mainNavigator.navController,
+                        navigator = mainNavigator,
                     )
                 }
             }
