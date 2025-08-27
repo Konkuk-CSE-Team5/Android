@@ -1,4 +1,4 @@
-package com.konkuk.hackathon.feature.user.setting.screen
+package com.konkuk.hackathon.feature.center.setting.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,7 +25,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.konkuk.hackathon.R
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
@@ -36,10 +34,11 @@ import com.konkuk.hackathon.feature.user.setting.component.MyInfoTextField
 import com.konkuk.hackathon.feature.user.setting.component.PhoneTransformation
 
 @Composable
-fun MyDetailScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
+fun CenterInfoScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
     var id by remember { mutableStateOf("hackathon1") }
     var pw by remember { mutableStateOf("") }
     var name by remember { mutableStateOf("홍길동") }
+    var centerName by remember { mutableStateOf("행복 복지센터") }
     var birth by remember { mutableStateOf("19990101") }
     var phoneNum by remember { mutableStateOf("01012345678") }
     var isMale by remember { mutableStateOf(true) }
@@ -71,7 +70,7 @@ fun MyDetailScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
                 )
             }
             Text(
-                text = "프로필 수정",
+                text = "기관정보 수정",
                 color = OnItTheme.colors.gray7,
                 modifier = Modifier
                     .align(Alignment.Center),
@@ -115,29 +114,23 @@ fun MyDetailScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
                 maxLength = 20
             )
             MyInfoTextField(
+                value = centerName,
+                category = "기관명",
+                placeHolder = "기관명 입력",
+                onValueChange = { name = it },
+            )
+            MyInfoTextField(
                 value = name,
-                category = "이름",
-                placeHolder = "이름",
+                category = "담당자명",
+                placeHolder = "담당자명 입력",
                 onValueChange = { name = it },
                 maxLength = 5
             )
-            MyInfoTextField(
-                value = birth,
-                category = "생년월일",
-                placeHolder = " YYYY / MM / DD",
-                onValueChange = { birth = it },
-                maxLength = 8,
-                visualTransformation = BirthTransformation()
-            )
-            Column(modifier = modifier.fillMaxWidth()) {
-                Text("성별", style = OnItTheme.typography.M_17, color = OnItTheme.colors.gray7)
-                Spacer(modifier = modifier.height(10.dp))
-                GenderButton(isMale = isMale, onClick = { isMale = it })
-            }
+
             MyInfoTextField(
                 value = phoneNum,
-                category = "전화번호",
-                placeHolder = "전화번호",
+                category = "담당자 전화번호",
+                placeHolder = "담당자 전화번호",
                 onValueChange = { phoneNum = it }, keyboardType = KeyboardType.Phone,
                 maxLength = 11,
                 visualTransformation = PhoneTransformation()
@@ -160,10 +153,4 @@ fun MyDetailScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
         }
 
     }
-}
-
-@Preview
-@Composable
-private fun MyDetailPreview() {
-    MyDetailScreen(onBackClick = {})
 }
