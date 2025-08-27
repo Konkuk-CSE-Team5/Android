@@ -8,6 +8,7 @@
 
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -28,13 +29,16 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data
+                android:name="com.google.firebase.messaging.default_notification_channel_id"
+                android:value="@string/default_notification_channel_id" />
         </activity>
         <service
-            android:name=".App"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
+            android:name=".core.network.service.FcmService"
+            android:exported="true">
+        <intent-filter>
+        <action android:name="com.google.firebase.MESSAGING_EVENT" />
+        </intent-filter>
         </service>
     </application>
 
