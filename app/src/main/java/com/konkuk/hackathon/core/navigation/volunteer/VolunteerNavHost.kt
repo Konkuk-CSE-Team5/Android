@@ -5,12 +5,10 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import com.konkuk.hackathon.core.navigation.Route
-import com.konkuk.hackathon.feature.volunteer.setting.screen.UserSettingScreen
-import androidx.navigation.compose.navigation
-import com.konkuk.hackathon.core.navigation.Route
 import com.konkuk.hackathon.feature.volunteer.home.screen.RecordSubmitScreen
 import com.konkuk.hackathon.feature.volunteer.home.screen.VolunteerHomeScreen
+import com.konkuk.hackathon.feature.volunteer.setting.screen.VolunteerInfoScreen
+import com.konkuk.hackathon.feature.volunteer.setting.screen.VolunteerSettingsScreen
 
 @Composable
 fun VolunteerNavHost(
@@ -48,19 +46,16 @@ fun VolunteerNavHost(
 
         // Settings
         composable<VolunteerTabRoute.Settings> {
-            UserSettingScreen(
-                onClickModify = {navController.navigate(VolunteerRoute.SettingsGraph)}
+            VolunteerSettingsScreen(
+                onClickModify = {navController.navigate(VolunteerRoute.VolInfoModify)}
             )
         }
 
-        navigation<VolunteerRoute.SettingsGraph>(
-            startDestination = VolunteerRoute.VolInfoGraph
-        ) {
-            composable<VolunteerRoute.VolInfoGraph> {
-                UserSettingScreen(
-                    onClickModify = {navController.navigate(VolunteerRoute.SettingsGraph)}
-                )
-            }
+        composable<VolunteerRoute.VolInfoModify> {
+            VolunteerInfoScreen(
+                onBackClick = { navController.popBackStack() },
+                navigateToModify = { navController.navigate(VolunteerTabRoute.Settings) }
+            )
         }
     }
 }
