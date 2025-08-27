@@ -2,6 +2,7 @@ package com.konkuk.hackathon.feature.home.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,7 +27,9 @@ fun ElderCard(
     elderName: String,
     age: Int,
     phone: String,
-    modifier: Modifier = Modifier) {
+    onCallClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Box(
         Modifier
             .fillMaxWidth()
@@ -94,6 +97,7 @@ fun ElderCard(
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(14.dp))
                     .background(OnItTheme.colors.primary)
+                    .clickable(onClick = { onCallClick() })
             ) {
                 Text(
                     "전화걸기",
@@ -103,13 +107,8 @@ fun ElderCard(
                         .align(Alignment.Center)
                         .padding(vertical = 13.dp)
                 )
+
             }
         }
     }
-}
-
-@Preview
-@Composable
-private fun ElderCardPrev() {
-    ElderCard(elderName = "김순자", age = 77, phone = "010-1234-5678")
 }

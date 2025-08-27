@@ -64,13 +64,15 @@ fun MainNavHost(
 
         // Home
         composable<MainTabRoute.Home> {
-            HomeScreen(padding = padding)
+            HomeScreen(
+                padding = padding,
+                navigateToRecordSubmit = { navController.navigate(Route.HomeGraph) })
         }
         navigation<Route.HomeGraph>(
             startDestination = Route.RecordSubmit
         ) {
             composable<Route.RecordSubmit> {
-                RecordSubmitScreen()
+                RecordSubmitScreen(padding = padding)
             }
         }
         // Record

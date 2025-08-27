@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -40,9 +42,8 @@ import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 import com.konkuk.hackathon.feature.home.components.ElderCard
 
 @Composable
-fun HomeScreen(padding: PaddingValues) {
+fun HomeScreen(padding: PaddingValues, navigateToRecordSubmit: () -> Unit) {
     var pin by remember { mutableStateOf("") }
-
     val scrollState = rememberScrollState()
 
     Column(
@@ -70,7 +71,9 @@ fun HomeScreen(padding: PaddingValues) {
         Column(
             Modifier
                 .background(OnItTheme.colors.white)
-                .padding(horizontal = 16.dp).padding(bottom = 16.dp).verticalScroll(scrollState),
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 16.dp)
+                .verticalScroll(scrollState),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             Box(
@@ -146,10 +149,10 @@ fun HomeScreen(padding: PaddingValues) {
                     Spacer(Modifier.height(12.dp))
                 }
             }
-            ElderCard("김순자", 65, "010-1234-5678")
-            ElderCard("김순자", 65, "010-1234-5678")
-            ElderCard("김순자", 65, "010-1234-5678")
-            ElderCard("김순자", 65, "010-1234-5678")
+            ElderCard("김순자", 65, "010-1234-5678", onCallClick = { navigateToRecordSubmit() })
+            ElderCard("김순자", 65, "010-1234-5678", onCallClick = { navigateToRecordSubmit() })
+            ElderCard("김순자", 65, "010-1234-5678", onCallClick = { navigateToRecordSubmit() })
+            ElderCard("김순자", 65, "010-1234-5678", onCallClick = { navigateToRecordSubmit() })
         }
     }
 }
@@ -158,6 +161,6 @@ fun HomeScreen(padding: PaddingValues) {
 @Composable
 private fun HomePreview() {
 
-    HomeScreen()
+    HomeScreen(padding = PaddingValues(), navigateToRecordSubmit = {})
 
 }
