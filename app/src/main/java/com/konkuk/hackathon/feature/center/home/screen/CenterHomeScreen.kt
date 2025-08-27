@@ -237,9 +237,9 @@ fun CenterHomeScreen(padding: PaddingValues, modifier: Modifier = Modifier) {
                 "김순자",
                 77,
                 "홍길동",
-                { 0.5f }) // 이후 실제 값으로 수정
-
-
+                executionCount = 4,
+                totalCount = 6
+            ) // 이후 실제 값으로 수정
         }
     }
 }

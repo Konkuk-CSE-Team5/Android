@@ -29,7 +29,8 @@ fun ElderStatusCard(
     elderName: String,
     age: Int,
     volunteerName: String,
-    progress: () -> Float,
+    executionCount: Int,
+    totalCount: Int,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -61,7 +62,7 @@ fun ElderStatusCard(
                     Text("이번 달 통화", style = OnItTheme.typography.R_15, color = gray7)
                     Text("4/6회", style = OnItTheme.typography.B_12, color = gray3)
                 }
-                OnItProgressIndicator(progress)
+                OnItProgressIndicator({ executionCount.toFloat() / totalCount.toFloat() })
             }
         }
     }
@@ -74,6 +75,7 @@ private fun ElderStatusCardPrev() {
         elderName = "김순자",
         age = 77,
         volunteerName = "홍길동",
-        progress = {4f/6f}
+        executionCount = 4,
+        totalCount = 6
     )
 }
