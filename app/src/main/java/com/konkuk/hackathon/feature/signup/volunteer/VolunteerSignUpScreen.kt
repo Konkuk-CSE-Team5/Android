@@ -64,11 +64,10 @@ fun VolunteerSignUpScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val buttonEnabled by remember {
-//        derivedStateOf {
-//            uiState.idValid && uiState.passwordValid && uiState.nameValid && uiState.birthValid
-//                    && uiState.phoneNumberValid && uiState.isPrivacyTermsAccepted && uiState.isAllTermsAccepted
-//        }
-        mutableStateOf(true)
+        derivedStateOf {
+            uiState.idValid && uiState.passwordValid && uiState.nameValid && uiState.birthValid
+                    && uiState.phoneNumberValid && uiState.isPrivacyTermsAccepted && uiState.isAllTermsAccepted
+        }
     }
     val context = LocalContext.current
 

@@ -58,10 +58,9 @@ fun CenterSignUpScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val buttonEnabled by remember {
-//        derivedStateOf {
-//            uiState.idValid && uiState.passwordValid && uiState.nameValid && uiState.representativeValid && uiState.phoneNumberValid && uiState.isAllTermsAccepted && uiState.isPrivacyTermsAccepted
-//        }
-        mutableStateOf(true)
+        derivedStateOf {
+            uiState.idValid && uiState.passwordValid && uiState.nameValid && uiState.representativeValid && uiState.phoneNumberValid && uiState.isAllTermsAccepted && uiState.isPrivacyTermsAccepted
+        }
     }
     val context = LocalContext.current
 
