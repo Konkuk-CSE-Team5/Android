@@ -30,7 +30,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".feature.volunteer.VolunteerActivity" />
+        <activity
+            android:name=".feature.volunteer.VolunteerActivity" />
+        <activity
+            android:name=".feature.center.CenterActivity" />
     </application>
 
 </manifest>

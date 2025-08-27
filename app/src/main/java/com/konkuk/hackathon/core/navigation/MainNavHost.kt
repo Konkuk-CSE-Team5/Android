@@ -1,5 +1,6 @@
 package com.konkuk.hackathon.core.navigation
 
+import android.content.Intent
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
@@ -47,14 +48,12 @@ fun MainNavHost(
             VolunteerSignUpScreen(
                 padding = padding,
                 popBackStack = { navController.popBackStack() },
-                navigateToHome = { navigator.navigate(MainTab.HOME) },
             )
         }
         composable<Route.OrganizationSignUp> {
             CenterSignUpScreen(
                 padding = padding,
                 popBackStack = { navController.popBackStack() },
-                navigateToHome = { navigator.navigate(MainTab.HOME) },
             )
         }
 

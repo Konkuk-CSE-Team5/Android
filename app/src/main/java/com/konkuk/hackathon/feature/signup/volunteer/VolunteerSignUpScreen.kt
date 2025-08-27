@@ -1,5 +1,6 @@
 package com.konkuk.hackathon.feature.signup.volunteer
 
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -28,11 +29,13 @@ import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -48,29 +51,38 @@ import com.konkuk.hackathon.core.designsystem.theme.Gray_2
 import com.konkuk.hackathon.core.designsystem.theme.Gray_7
 import com.konkuk.hackathon.core.designsystem.theme.Main_Primary
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
+import com.konkuk.hackathon.feature.center.CenterActivity
 import com.konkuk.hackathon.feature.signup.Gender
 import com.konkuk.hackathon.feature.signup.component.SignUpTopBar
+import com.konkuk.hackathon.feature.volunteer.VolunteerActivity
 
 @Composable
 fun VolunteerSignUpScreen(
     padding: PaddingValues,
     popBackStack: () -> Unit,
-    navigateToHome: () -> Unit,
     viewModel: VolunteerSignUpViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val buttonEnabled by remember {
-        derivedStateOf {
-            uiState.idValid && uiState.passwordValid && uiState.nameValid && uiState.birthValid
-                    && uiState.phoneNumberValid && uiState.isPrivacyTermsAccepted && uiState.isAllTermsAccepted
-        }
+//        derivedStateOf {
+//            uiState.idValid && uiState.passwordValid && uiState.nameValid && uiState.birthValid
+//                    && uiState.phoneNumberValid && uiState.isPrivacyTermsAccepted && uiState.isAllTermsAccepted
+//        }
+        mutableStateOf(true)
     }
+    val context = LocalContext.current
 
     VolunteerSignUpScreen(
         padding = padding,
         uiState = uiState,
         enabled = buttonEnabled,
-        navigateToHome = navigateToHome,
+        navigateToVolunteer = {
+            context.startActivity(
+                Intent(context, VolunteerActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
+            )
+        },
         popBackStack = popBackStack,
         updateAllTermsAccepted = viewModel::updateAllTermsAccepted,
         updatePrivacyTermsAccepted = viewModel::updatePrivacyTermsAccepted,
@@ -83,7 +95,7 @@ private fun VolunteerSignUpScreen(
     padding: PaddingValues,
     uiState: VolunteerSignUpUiState,
     enabled: Boolean,
-    navigateToHome: () -> Unit,
+    navigateToVolunteer: () -> Unit,
     popBackStack: () -> Unit,
     updateAllTermsAccepted: (Boolean) -> Unit = {},
     updatePrivacyTermsAccepted: (Boolean) -> Unit = {},
@@ -114,7 +126,7 @@ private fun VolunteerSignUpScreen(
                 .padding(20.dp),
             text = "회원가입",
             enabled = enabled,
-            onClick = navigateToHome
+            onClick = navigateToVolunteer
         )
     }
 }
@@ -355,7 +367,7 @@ private fun VolunteerSignUpScreenPreview() {
             padding = PaddingValues(),
             enabled = true,
             uiState = VolunteerSignUpUiState(),
-            navigateToHome = {},
+            navigateToVolunteer = {},
             popBackStack = {}
         )
     }
