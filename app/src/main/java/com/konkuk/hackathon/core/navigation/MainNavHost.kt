@@ -1,13 +1,11 @@
 package com.konkuk.hackathon.core.navigation
 
-import android.content.Intent
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import com.konkuk.hackathon.feature.home.screen.HomeScreen
-import com.konkuk.hackathon.feature.home.screen.RecordSubmitScreen
+import com.konkuk.hackathon.feature.volunteer.home.screen.RecordSubmitScreen
 import com.konkuk.hackathon.feature.login.LoginScreen
 import com.konkuk.hackathon.feature.onboarding.OnboardingScreen
 import com.konkuk.hackathon.feature.signup.SignUpScreen
@@ -63,16 +61,7 @@ fun MainNavHost(
 
         // Home
         composable<MainTabRoute.Home> {
-            HomeScreen(
-                padding = padding,
-                navigateToRecordSubmit = { navController.navigate(Route.HomeGraph) })
-        }
-        navigation<Route.HomeGraph>(
-            startDestination = Route.RecordSubmit
-        ) {
-            composable<Route.RecordSubmit> {
-                RecordSubmitScreen(padding = padding)
-            }
+
         }
         // Record
         composable<MainTabRoute.Record> {

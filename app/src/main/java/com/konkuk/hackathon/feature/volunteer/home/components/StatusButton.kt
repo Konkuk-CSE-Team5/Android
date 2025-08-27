@@ -1,6 +1,5 @@
-package com.konkuk.hackathon.feature.home.components
+package com.konkuk.hackathon.feature.volunteer.home.components
 
-import android.util.Log.i
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box

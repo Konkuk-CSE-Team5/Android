@@ -1,4 +1,4 @@
-package com.konkuk.hackathon.feature.home.screen
+package com.konkuk.hackathon.feature.volunteer.home.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBars
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -39,10 +37,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.konkuk.hackathon.R
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
-import com.konkuk.hackathon.feature.home.components.ElderCard
+import com.konkuk.hackathon.feature.volunteer.home.components.ElderCard
 
 @Composable
-fun HomeScreen(padding: PaddingValues, navigateToRecordSubmit: () -> Unit) {
+fun VolunteerHomeScreen(padding: PaddingValues, navigateToRecordSubmit: () -> Unit) {
     var pin by remember { mutableStateOf("") }
     val scrollState = rememberScrollState()
 
@@ -161,6 +159,6 @@ fun HomeScreen(padding: PaddingValues, navigateToRecordSubmit: () -> Unit) {
 @Composable
 private fun HomePreview() {
 
-    HomeScreen(padding = PaddingValues(), navigateToRecordSubmit = {})
+    VolunteerHomeScreen(padding = PaddingValues(), navigateToRecordSubmit = {})
 
 }
