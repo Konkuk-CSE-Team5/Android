@@ -15,11 +15,6 @@ class VolunteerSignUpViewModel @Inject constructor() : ViewModel() {
     val uiState: StateFlow<VolunteerSignUpUiState>
         get() = _uiState.asStateFlow()
 
-    val buttonEnabled: Boolean
-        get() = with(_uiState.value) {
-            idValid && passwordValid && nameValid && genderValid && birthValid && isPrivacyTermsAccepted && isAllTermsAccepted
-        }
-
     fun updateAllTermsAccepted(checked: Boolean) {
         _uiState.value = _uiState.value.copy(
             isAllTermsAccepted = !checked,

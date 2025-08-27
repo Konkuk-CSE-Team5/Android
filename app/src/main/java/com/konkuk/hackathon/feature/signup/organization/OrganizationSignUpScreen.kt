@@ -1,5 +1,7 @@
 package com.konkuk.hackathon.feature.signup.organization
 
+import android.R.attr.enabled
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -20,6 +22,7 @@ import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.insert
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,12 +52,16 @@ fun OrganizationSignUpScreen(
     viewModel: OrganizationSignUpViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val enabled by remember { mutableStateOf(viewModel.buttonEnabled) }
+    val buttonEnabled by remember {
+        derivedStateOf {
+            uiState.idValid && uiState.passwordValid && uiState.nameValid && uiState.representativeValid && uiState.phoneNumberValid && uiState.isAllTermsAccepted && uiState.isPrivacyTermsAccepted
+        }
+    }
 
     OrganizationSignUpScreen(
         padding = padding,
         uiState = uiState,
-        enabled = enabled,
+        enabled = buttonEnabled,
         navigateToHome = navigateToHome,
         popBackStack = popBackStack,
         updateAllTermsAccepted = viewModel::updateAllTermsAccepted,

@@ -1,5 +1,6 @@
 package com.konkuk.hackathon.feature.signup.organization
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,11 +14,6 @@ class OrganizationSignUpViewModel @Inject constructor() : ViewModel() {
     private val _uiState = MutableStateFlow(OrganizationSignUpUiState())
     val uiState: StateFlow<OrganizationSignUpUiState>
         get() = _uiState.asStateFlow()
-
-    val buttonEnabled: Boolean
-        get() = with(_uiState.value) {
-            idValid && passwordValid && nameValid && representativeValid && phoneNumberValid && isPrivacyTermsAccepted && isAllTermsAccepted
-        }
 
     fun updateAllTermsAccepted(checked: Boolean) {
         _uiState.value = _uiState.value.copy(

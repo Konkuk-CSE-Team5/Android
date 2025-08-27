@@ -24,6 +24,7 @@ import androidx.compose.foundation.text.input.insert
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,6 +47,7 @@ import com.konkuk.hackathon.core.designsystem.theme.Gray_7
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 import com.konkuk.hackathon.feature.signup.Gender
 import com.konkuk.hackathon.feature.signup.component.SignUpTopBar
+import com.konkuk.hackathon.feature.signup.organization.SignUpInputField
 
 @Composable
 fun VolunteerSignUpScreen(
@@ -55,12 +57,17 @@ fun VolunteerSignUpScreen(
     viewModel: VolunteerSignUpViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val enabled by remember { mutableStateOf(viewModel.buttonEnabled) }
+    val buttonEnabled by remember {
+        derivedStateOf {
+            uiState.idValid && uiState.passwordValid && uiState.nameValid && uiState.birthValid
+                    && uiState.isPrivacyTermsAccepted && uiState.isAllTermsAccepted
+        }
+    }
 
     VolunteerSignUpScreen(
         padding = padding,
         uiState = uiState,
-        enabled = enabled,
+        enabled = buttonEnabled,
         navigateToHome = navigateToHome,
         popBackStack = popBackStack,
         updateAllTermsAccepted = viewModel::updateAllTermsAccepted,
@@ -144,10 +151,9 @@ fun VolunteerSignUpContent(
             title = "생년월일",
             placeholder = "YYYY / MM / DD",
             inputTransformation = InputTransformation {
-                // 1900.01.01 dlgn ~ 2024.00.00 dlwjs
                 if (asCharSequence().isNotEmpty()) {
                     if (asCharSequence().last().isDigit().not()) revertAllChanges()
-                    if (length > 10) {
+                    if (length > 8) {
                         revertAllChanges()
                     }
                 }
