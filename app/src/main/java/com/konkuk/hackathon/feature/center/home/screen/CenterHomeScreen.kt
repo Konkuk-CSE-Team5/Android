@@ -112,7 +112,7 @@ fun CenterHomeScreen(padding: PaddingValues, modifier: Modifier = Modifier) {
                             horizontalArrangement = Arrangement.spacedBy(5.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text("●", color = gray2)
+                            Text("●", style = OnItTheme.typography.B_12, color = gray2)
                             Text(
                                 "예정 15",
                                 style = OnItTheme.typography.R_14, color = gray4
@@ -122,7 +122,11 @@ fun CenterHomeScreen(padding: PaddingValues, modifier: Modifier = Modifier) {
                             horizontalArrangement = Arrangement.spacedBy(5.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text("●", color = OnItTheme.colors.positive)
+                            Text(
+                                "●",
+                                style = OnItTheme.typography.B_12,
+                                color = OnItTheme.colors.positive
+                            )
                             Text(
                                 "완료 15",
                                 style = OnItTheme.typography.R_14, color = gray4
@@ -132,7 +136,11 @@ fun CenterHomeScreen(padding: PaddingValues, modifier: Modifier = Modifier) {
                             horizontalArrangement = Arrangement.spacedBy(5.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text("●", color = OnItTheme.colors.negative)
+                            Text(
+                                "●",
+                                style = OnItTheme.typography.B_12,
+                                color = OnItTheme.colors.negative
+                            )
                             Text(
                                 "부재중 3",
                                 style = OnItTheme.typography.R_14, color = gray4
@@ -142,7 +150,11 @@ fun CenterHomeScreen(padding: PaddingValues, modifier: Modifier = Modifier) {
                             horizontalArrangement = Arrangement.spacedBy(5.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text("●", color = OnItTheme.colors.primary)
+                            Text(
+                                "●",
+                                style = OnItTheme.typography.B_12,
+                                color = OnItTheme.colors.primary
+                            )
                             Text(
                                 "미실시 3",
                                 style = OnItTheme.typography.R_14, color = gray4

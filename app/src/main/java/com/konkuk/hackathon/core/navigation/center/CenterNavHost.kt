@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.konkuk.hackathon.feature.center.home.screen.CenterHomeScreen
 
 @Composable
 fun CenterNavHost(
@@ -18,7 +19,7 @@ fun CenterNavHost(
     ) {
         // Home
         composable<CenterTabRoute.Home> {
-
+            CenterHomeScreen(padding = padding)
         }
 
         // Record
