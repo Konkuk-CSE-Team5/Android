@@ -147,6 +147,7 @@ fun lightColors(): OnItColors = OnItColors(
 // CompositionLocal을 통해 앱 전역에 색상 시스템을 제공
 val LocalOnItColorsProvider = staticCompositionLocalOf { lightColors() }
 
+val Gray_7 = Color("#3b3b3b")
 
 
 

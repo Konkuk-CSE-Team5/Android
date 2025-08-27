@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.konkuk.hackathon.feature.onboarding.OnboardingScreen
 
 @Composable
 fun MainNavHost(
@@ -14,11 +15,14 @@ fun MainNavHost(
 
     NavHost(
         navController = navController,
-        startDestination = Route.Start,
+        startDestination = Route.Onboarding,
     ) {
         // Onboarding
-        composable<Route.Start> {
-
+        composable<Route.Onboarding> {
+            OnboardingScreen(
+                padding = padding,
+                navigateToLogin = { navController.navigate(Route.Login) },
+            )
         }
         composable<Route.Login> {
 
