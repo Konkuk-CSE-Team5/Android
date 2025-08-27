@@ -1,0 +1,37 @@
+package com.konkuk.hackathon.core.navigation
+
+import kotlinx.serialization.Serializable
+
+sealed interface Route {
+
+    @Serializable
+    data object Start : Route
+
+    @Serializable
+    data object Login : Route
+
+    @Serializable
+    data object SignUp : Route
+
+    @Serializable
+    data object VolunteerSignUp : Route
+
+    @Serializable
+    data object OrganizationSignUp : Route
+
+
+}
+
+sealed interface MainTabRoute : Route {
+    // 홈
+    @Serializable
+    data object Home : MainTabRoute
+
+    // 기록
+    @Serializable
+    data object Record : MainTabRoute
+
+    // 설정
+    @Serializable
+    data object Settings : MainTabRoute
+}
