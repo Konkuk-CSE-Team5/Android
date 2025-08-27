@@ -1,7 +1,5 @@
-package com.konkuk.hackathon.feature.signup.organization
+package com.konkuk.hackathon.feature.signup.center
 
-import android.R.attr.enabled
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -26,7 +24,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,11 +46,11 @@ import com.konkuk.hackathon.feature.signup.component.SignUpTopBar
 import com.konkuk.hackathon.feature.signup.volunteer.SignUpInputField
 
 @Composable
-fun OrganizationSignUpScreen(
+fun CenterSignUpScreen(
     padding: PaddingValues,
     popBackStack: () -> Unit,
     navigateToHome: () -> Unit,
-    viewModel: OrganizationSignUpViewModel = hiltViewModel(),
+    viewModel: CenterSignUpViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val buttonEnabled by remember {
@@ -62,7 +59,7 @@ fun OrganizationSignUpScreen(
         }
     }
 
-    OrganizationSignUpScreen(
+    CenterSignUpScreen(
         padding = padding,
         uiState = uiState,
         enabled = buttonEnabled,
@@ -74,9 +71,9 @@ fun OrganizationSignUpScreen(
 }
 
 @Composable
-private fun OrganizationSignUpScreen(
+private fun CenterSignUpScreen(
     padding: PaddingValues,
-    uiState: OrganizationSignUpUiState,
+    uiState: CenterSignUpUiState,
     enabled: Boolean,
     updateAllTermsAccepted: (Boolean) -> Unit = {},
     updatePrivacyTermsAccepted: (Boolean) -> Unit = {},
@@ -89,7 +86,7 @@ private fun OrganizationSignUpScreen(
             .fillMaxSize()
     ) {
 
-        OrganizationSignUpContent(
+        CenterSignUpContent(
             uiState = uiState,
             updateAllTermsAccepted = updateAllTermsAccepted,
             updatePrivacyTermsAccepted = updatePrivacyTermsAccepted,
@@ -113,8 +110,8 @@ private fun OrganizationSignUpScreen(
 }
 
 @Composable
-fun OrganizationSignUpContent(
-    uiState: OrganizationSignUpUiState,
+fun CenterSignUpContent(
+    uiState: CenterSignUpUiState,
     updateAllTermsAccepted: (Boolean) -> Unit = {},
     updatePrivacyTermsAccepted: (Boolean) -> Unit = {},
 ) {
@@ -267,12 +264,12 @@ fun SignUpInputField(
 
 @Preview(showBackground = true)
 @Composable
-private fun OrganizationSignUpScreenPreview() {
+private fun CenterSignUpScreenPreview() {
     OnItTheme {
-        OrganizationSignUpScreen(
+        CenterSignUpScreen(
             padding = PaddingValues(),
             enabled = true,
-            uiState = OrganizationSignUpUiState(),
+            uiState = CenterSignUpUiState(),
             navigateToHome = {},
             popBackStack = {}
         )

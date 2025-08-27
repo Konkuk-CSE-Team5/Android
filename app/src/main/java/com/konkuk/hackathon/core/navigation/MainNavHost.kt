@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import com.konkuk.hackathon.feature.login.LoginScreen
 import com.konkuk.hackathon.feature.onboarding.OnboardingScreen
 import com.konkuk.hackathon.feature.signup.SignUpScreen
-import com.konkuk.hackathon.feature.signup.organization.OrganizationSignUpScreen
+import com.konkuk.hackathon.feature.signup.center.CenterSignUpScreen
 import com.konkuk.hackathon.feature.signup.volunteer.VolunteerSignUpScreen
 
 @Composable
@@ -51,7 +51,7 @@ fun MainNavHost(
             )
         }
         composable<Route.OrganizationSignUp> {
-            OrganizationSignUpScreen(
+            CenterSignUpScreen(
                 padding = padding,
                 popBackStack = { navController.popBackStack() },
                 navigateToHome = { navigator.navigate(MainTab.HOME) },

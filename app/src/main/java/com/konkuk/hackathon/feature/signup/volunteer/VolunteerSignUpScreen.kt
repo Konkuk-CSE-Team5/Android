@@ -28,7 +28,6 @@ import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,7 +50,6 @@ import com.konkuk.hackathon.core.designsystem.theme.Main_Primary
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 import com.konkuk.hackathon.feature.signup.Gender
 import com.konkuk.hackathon.feature.signup.component.SignUpTopBar
-import com.konkuk.hackathon.feature.signup.organization.SignUpInputField
 
 @Composable
 fun VolunteerSignUpScreen(
