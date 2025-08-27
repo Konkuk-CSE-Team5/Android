@@ -43,6 +43,7 @@ data class OnItTypography(
     val R_15: TextStyle,
     val SB_14: TextStyle,
     val R_14: TextStyle,
+    val B_12: TextStyle,
 )
 
 val defaultOnItTypography = OnItTypography(
@@ -179,7 +180,14 @@ val defaultOnItTypography = OnItTypography(
         lineHeight = 1.5.em,
         letterSpacing = (0.01).em,
         fontWeight = FontWeight.Normal
-    )
+    ),
+    B_12 = TextStyle(
+        fontFamily = pretendardFamily,
+        fontSize = 12.sp,
+        lineHeight = 1.5.em,
+        letterSpacing = -(0.05).em,
+        fontWeight = FontWeight.Bold
+    ),
 )
 
 val LocalOnItTypographyProvider = staticCompositionLocalOf { defaultOnItTypography }
