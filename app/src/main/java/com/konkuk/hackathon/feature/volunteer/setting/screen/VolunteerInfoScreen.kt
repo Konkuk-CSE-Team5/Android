@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -34,7 +35,7 @@ import com.konkuk.hackathon.feature.volunteer.setting.component.MyInfoTextField
 import com.konkuk.hackathon.feature.volunteer.setting.component.PhoneTransformation
 
 @Composable
-fun VolunteerInfoScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit, navigateToModify: () -> Unit) {
+fun VolunteerInfoScreen(padding : PaddingValues, modifier: Modifier = Modifier, onBackClick: () -> Unit, navigateToModify: () -> Unit) {
     var id by remember { mutableStateOf("hackathon1") }
     var pw by remember { mutableStateOf("") }
     var name by remember { mutableStateOf("홍길동") }
@@ -46,6 +47,7 @@ fun VolunteerInfoScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit, 
         modifier = modifier
             .fillMaxSize()
             .background(color = OnItTheme.colors.white)
+            .padding(padding)
     ) {
         Box(
             modifier = modifier

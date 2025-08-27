@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,11 +21,12 @@ import androidx.compose.ui.unit.dp
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 
 @Composable
-fun VolunteerSettingsScreen(modifier: Modifier = Modifier, onClickModify : () -> Unit) {
+fun VolunteerSettingsScreen(padding: PaddingValues, modifier: Modifier = Modifier, onClickModify : () -> Unit) {
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(color = OnItTheme.colors.white)
+            .padding(padding)
     ) {
         Box(modifier = modifier
             .fillMaxWidth()

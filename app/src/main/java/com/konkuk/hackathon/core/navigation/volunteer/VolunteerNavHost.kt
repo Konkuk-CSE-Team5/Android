@@ -47,12 +47,14 @@ fun VolunteerNavHost(
         // Settings
         composable<VolunteerTabRoute.Settings> {
             VolunteerSettingsScreen(
+                padding = padding,
                 onClickModify = {navController.navigate(VolunteerRoute.VolInfoModify)}
             )
         }
 
         composable<VolunteerRoute.VolInfoModify> {
             VolunteerInfoScreen(
+                padding = padding,
                 onBackClick = { navController.popBackStack() },
                 navigateToModify = { navController.navigate(VolunteerTabRoute.Settings) }
             )
