@@ -8,28 +8,28 @@ import com.konkuk.hackathon.R
 enum class VolunteerTab(
     @DrawableRes val iconResId: Int,
     @DrawableRes val selectedIconResId: Int,
-    @StringRes val labelResId: Int,
+    val label: String,
     internal val contentDescription: String,
     val route: VolunteerTabRoute,
 ) {
     HOME(
         iconResId = R.drawable.ic_home_default,
         selectedIconResId = R.drawable.ic_home_select,
-        labelResId = R.string.app_name,
+        label = "홈",
         contentDescription = "Home Icon",
         route = VolunteerTabRoute.Home,
     ),
     RECORD(
         iconResId = R.drawable.ic_record_default,
         selectedIconResId = R.drawable.ic_record_select,
-        labelResId = R.string.app_name,
+        label = "등록",
         contentDescription = "Waiting Icon",
         route = VolunteerTabRoute.Record,
     ),
     SETTING(
         iconResId = R.drawable.ic_setting_default,
         selectedIconResId = R.drawable.ic_setting_select,
-        labelResId = R.string.app_name,
+        label = "설정",
         contentDescription = "Map Icon",
         route = VolunteerTabRoute.Settings,
     ),

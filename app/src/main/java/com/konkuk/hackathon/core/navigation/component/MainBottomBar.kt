@@ -46,7 +46,7 @@ internal fun MainBottomBar(
         enter = fadeIn() + slideIn { IntOffset(0, it.height) },
         exit = fadeOut() + slideOut { IntOffset(0, it.height) },
     ) {
-        Box(modifier = Modifier.background(MaterialTheme.colorScheme.surface)) {
+        Box(modifier = Modifier.background(Color.White)) {
             Column {
                 HorizontalDivider(color = MaterialTheme.colorScheme.outline)
                 Row(
