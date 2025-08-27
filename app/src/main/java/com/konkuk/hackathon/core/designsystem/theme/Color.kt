@@ -26,7 +26,7 @@ val Positive_container = Color(0xFFDBFAE3)
 
 // Negative
 val Negative = Color(0xFFE6533E)
-val Negative_container = Color(0xFFE6533E)
+val Negative_container = Color(0xFFFDECEE)
 
 // Gray
 val White = Color(0xFFFFFFFF)
