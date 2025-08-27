@@ -4,6 +4,9 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
+import com.konkuk.hackathon.feature.home.screen.HomeScreen
+import com.konkuk.hackathon.feature.home.screen.RecordSubmitScreen
 import com.konkuk.hackathon.feature.login.LoginScreen
 import com.konkuk.hackathon.feature.onboarding.OnboardingScreen
 import com.konkuk.hackathon.feature.signup.SignUpScreen
@@ -58,11 +61,18 @@ fun MainNavHost(
             )
         }
 
+
         // Home
         composable<MainTabRoute.Home> {
-
+            HomeScreen(padding = padding)
         }
-
+        navigation<Route.HomeGraph>(
+            startDestination = Route.RecordSubmit
+        ) {
+            composable<Route.RecordSubmit> {
+                RecordSubmitScreen()
+            }
+        }
         // Record
         composable<MainTabRoute.Record> {
 

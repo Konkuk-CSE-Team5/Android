@@ -19,6 +19,12 @@ sealed interface Route {
     @Serializable
     data object OrganizationSignUp : Route
 
+    @Serializable
+    data object HomeGraph : Route
+
+    @Serializable
+    data object RecordSubmit : Route
+
 
 }
 

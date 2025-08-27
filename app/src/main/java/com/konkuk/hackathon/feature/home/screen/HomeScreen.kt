@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -39,15 +40,16 @@ import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 import com.konkuk.hackathon.feature.home.components.ElderCard
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(padding: PaddingValues) {
     var pin by remember { mutableStateOf("") }
 
     val scrollState = rememberScrollState()
 
     Column(
-        modifier
+        Modifier
             .fillMaxSize()
             .background(OnItTheme.colors.white)
+            .padding(padding)
 
     ) {
         Box {
