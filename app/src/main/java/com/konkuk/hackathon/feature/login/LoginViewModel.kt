@@ -14,8 +14,8 @@ class LoginViewModel @Inject constructor() : ViewModel() {
     val uiState: StateFlow<LoginUiState>
         get() = _uiState.asStateFlow()
 
-    fun updateSignInType(type: SignInType) {
-        _uiState.value = _uiState.value.copy(signInType = type)
+    fun updateLoginType(type: LoginType) {
+        _uiState.value = _uiState.value.copy(loginType = type)
     }
 
 }

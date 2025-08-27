@@ -148,6 +148,8 @@ fun lightColors(): OnItColors = OnItColors(
 val LocalOnItColorsProvider = staticCompositionLocalOf { lightColors() }
 
 val Gray_7 = Color("#3b3b3b")
+val Gray_4 = Color("#8A8A8A")
+val Gray_2 = Color("#8A8A8A")
 
 
 
