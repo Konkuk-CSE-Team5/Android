@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 sealed interface Route {
 
     @Serializable
-    data object Start : Route
+    data object Onboarding : Route
 
     @Serializable
     data object Login : Route
