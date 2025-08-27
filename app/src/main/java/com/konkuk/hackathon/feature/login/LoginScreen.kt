@@ -29,6 +29,7 @@ import com.konkuk.hackathon.R
 import com.konkuk.hackathon.core.common.component.HorizontalSpacer
 import com.konkuk.hackathon.core.common.component.OnItButtonPrimaryContent
 import com.konkuk.hackathon.core.common.component.VerticalSpacer
+import com.konkuk.hackathon.core.common.extension.noRippleClickable
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 import com.konkuk.hackathon.feature.login.component.LoginInputField
 import com.konkuk.hackathon.feature.login.component.LoginRadioGroup
@@ -45,7 +46,10 @@ fun LoginScreen(
     LoginScreen(
         padding = padding,
         uiState = uiState,
+        navigateToHome = navigateToHome,
+        navigateToSignUp = navigateToSignUp,
         updateSignInType = { viewModel.updateLoginType(it) }
+
     )
 }
 
@@ -55,6 +59,7 @@ private fun LoginScreen(
     uiState: LoginUiState,
     updateSignInType: (LoginType) -> Unit,
     navigateToHome: () -> Unit = { },
+    navigateToSignUp: () -> Unit = { },
 ) {
     Column(
         modifier = Modifier
@@ -115,6 +120,9 @@ private fun LoginScreen(
         Row(
             modifier = Modifier
                 .wrapContentHeight()
+                .noRippleClickable(
+                    onClick = navigateToSignUp,
+                )
         ) {
             Text(
                 text = "처음이신가요?",

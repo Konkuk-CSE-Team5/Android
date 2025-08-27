@@ -52,7 +52,7 @@ fun OnItTextField(
         interactionSource = interactionSource,
         outputTransformation = outputTransformation,
         decorator = { innerTextField ->
-            Row(
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .heightIn(min = 54.dp)
@@ -63,7 +63,7 @@ fun OnItTextField(
                     )
                     .padding(vertical = 14.dp)
                     .padding(start = 16.dp),
-                verticalAlignment = Alignment.CenterVertically,
+                contentAlignment = Alignment.CenterStart
             ) {
                 if (state.text.isEmpty()) {
                     Text(
