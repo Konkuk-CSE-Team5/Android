@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.konkuk.hackathon.core.designsystem.theme.Gray_7
@@ -43,10 +44,11 @@ fun OnItButtonPrimaryContainer(
 fun OnItButtonPrimaryContent(
     modifier: Modifier = Modifier,
     text: String,
+    height: Dp = 50.dp,
     onClick: () -> Unit,
 ) {
     Button(
-        modifier = modifier.height(50.dp),
+        modifier = modifier.height(height),
         onClick = onClick,
         shape = RoundedCornerShape(14.dp),
         colors = ButtonDefaults.buttonColors(
