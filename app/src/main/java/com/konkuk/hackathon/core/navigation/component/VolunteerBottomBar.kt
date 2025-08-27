@@ -68,7 +68,8 @@ internal fun VolunteerBottomBar(
                     modifier = Modifier
                         .navigationBarsPadding()
                         .fillMaxWidth()
-                        .padding(horizontal = 24.dp, vertical = 10.dp)
+                        .padding(horizontal = 24.dp)
+                        .padding(top = 10.dp)
                         .height(64.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -132,10 +133,11 @@ private fun BottomBarPreview() {
     val tabs = VolunteerTab.entries
     Column {
         Spacer(Modifier.size(10.dp))
-    VolunteerBottomBar(
-        visible = true,
-        tabs = tabs,
-        currentTab = tabs.first(),
-        onTabSelected = {},
-    ) }
+        VolunteerBottomBar(
+            visible = true,
+            tabs = tabs,
+            currentTab = tabs.first(),
+            onTabSelected = {},
+        )
+    }
 }

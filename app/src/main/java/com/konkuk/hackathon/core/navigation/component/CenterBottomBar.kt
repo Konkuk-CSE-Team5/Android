@@ -56,12 +56,14 @@ internal fun CenterBottomBar(
                     color = Gray_1,
                     modifier = Modifier
                         .fillMaxWidth()
+                        .padding(top = 10.dp)
                 )
                 Row(
                     modifier = Modifier
                         .navigationBarsPadding()
                         .fillMaxWidth()
-                        .padding(horizontal = 24.dp, vertical = 10.dp)
+                        .padding(horizontal = 24.dp)
+                        .padding(top = 10.dp)
                         .height(64.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
