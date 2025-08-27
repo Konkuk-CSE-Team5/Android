@@ -5,9 +5,13 @@ import kotlinx.serialization.Serializable
 sealed interface VolunteerRoute {
     @Serializable
     data object SettingsGraph : VolunteerRoute
+    @Serializable
+    data object HomeGraph : VolunteerRoute
 
     @Serializable
     data object VolInfoGraph : VolunteerRoute
+    @Serializable
+    data object RecordSubmit : VolunteerRoute
 }
 
 sealed interface VolunteerTabRoute : VolunteerRoute {

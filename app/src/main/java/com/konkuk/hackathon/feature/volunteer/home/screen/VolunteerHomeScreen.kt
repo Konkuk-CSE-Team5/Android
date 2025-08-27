@@ -1,4 +1,4 @@
-package com.konkuk.hackathon.core.feature.home.screen
+package com.konkuk.hackathon.feature.volunteer.home.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -6,15 +6,17 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -35,17 +37,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.konkuk.hackathon.R
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
-import com.konkuk.hackathon.core.feature.home.components.ElderCard
+import com.konkuk.hackathon.feature.volunteer.home.components.ElderCard
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun VolunteerHomeScreen(padding: PaddingValues, navigateToRecordSubmit: () -> Unit) {
     var pin by remember { mutableStateOf("") }
+    val scrollState = rememberScrollState()
 
     Column(
         Modifier
             .fillMaxSize()
             .background(OnItTheme.colors.white)
-            .systemBarsPadding()
+            .padding(padding)
+
     ) {
         Box {
             Row(
@@ -64,8 +68,10 @@ fun HomeScreen(modifier: Modifier = Modifier) {
         }
         Column(
             Modifier
-                .background(OnItTheme.colors.bg)
-                .padding(horizontal = 16.dp),
+                .background(OnItTheme.colors.white)
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 16.dp)
+                .verticalScroll(scrollState),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             Box(
@@ -94,8 +100,9 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                         OutlinedTextField(
                             value = pin,
                             onValueChange = {
-                                if (it.length <= 6)
-                                    pin = it
+                                pin = it.filter { char ->
+                                    char.isDigit()
+                                }.take(6)
                             },
                             modifier = Modifier.weight(1f),
                             shape = RoundedCornerShape(14.dp),
@@ -122,7 +129,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                             Modifier
                                 .clip(RoundedCornerShape(14.dp))
                                 .background(OnItTheme.colors.primary)
-                                .clickable(onClick = {})
+                                .clickable(onClick = {}) // 서버 연동 이후 구현
                         ) {
                             Text(
                                 "등록",
@@ -141,7 +148,10 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                     Spacer(Modifier.height(12.dp))
                 }
             }
-            ElderCard()
+            ElderCard("김순자", 65, "010-1234-5678", onCallClick = { navigateToRecordSubmit() })
+            ElderCard("김순자", 65, "010-1234-5678", onCallClick = { navigateToRecordSubmit() })
+            ElderCard("김순자", 65, "010-1234-5678", onCallClick = { navigateToRecordSubmit() })
+            ElderCard("김순자", 65, "010-1234-5678", onCallClick = { navigateToRecordSubmit() })
         }
     }
 }
@@ -150,6 +160,6 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 @Composable
 private fun HomePreview() {
 
-    HomeScreen()
+    VolunteerHomeScreen(padding = PaddingValues(), navigateToRecordSubmit = {})
 
 }
