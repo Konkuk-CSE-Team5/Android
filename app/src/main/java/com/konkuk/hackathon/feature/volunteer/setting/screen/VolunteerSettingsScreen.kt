@@ -16,13 +16,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 
 @Composable
-fun UserSettingScreen(modifier: Modifier = Modifier, onClickModify : () -> Unit) {
+fun VolunteerSettingsScreen(modifier: Modifier = Modifier, onClickModify : () -> Unit) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -45,7 +43,7 @@ fun UserSettingScreen(modifier: Modifier = Modifier, onClickModify : () -> Unit)
             Text("전화번호: 010-1234-5678", style = OnItTheme.typography.R_14, color = OnItTheme.colors.gray7)
             // 추후 값 받아오는 방식으로 수정 필요
             Spacer(modifier = Modifier.height(12.dp))
-            Text("정보 수정", style = OnItTheme.typography.SB_14, color = OnItTheme.colors.primary, modifier = Modifier.align(Alignment.End).clickable(onClick = onClickModify))
+            Text("정보 수정", style = OnItTheme.typography.SB_14, color = OnItTheme.colors.primary, modifier = Modifier.align(Alignment.End).clickable{onClickModify()})
         }
     }
 }

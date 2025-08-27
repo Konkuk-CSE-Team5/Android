@@ -25,19 +25,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.konkuk.hackathon.R
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
-import com.konkuk.hackathon.core.navigation.volunteer.VolunteerRoute
 import com.konkuk.hackathon.feature.volunteer.setting.component.BirthTransformation
 import com.konkuk.hackathon.feature.volunteer.setting.component.GenderButton
 import com.konkuk.hackathon.feature.volunteer.setting.component.MyInfoTextField
 import com.konkuk.hackathon.feature.volunteer.setting.component.PhoneTransformation
 
 @Composable
-fun MyDetailScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit, navController : NavHostController) {
+fun VolunteerInfoScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit, navigateToModify: () -> Unit) {
     var id by remember { mutableStateOf("hackathon1") }
     var pw by remember { mutableStateOf("") }
     var name by remember { mutableStateOf("홍길동") }
@@ -147,7 +144,7 @@ fun MyDetailScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit, navCo
                 modifier = modifier
                     .fillMaxWidth()
                     .background(color = OnItTheme.colors.primary, shape = RoundedCornerShape(14.dp))
-                    .clickable(onClick = {navController.navigate(VolunteerRoute.SettingsGraph)})
+                    .clickable(onClick = {navigateToModify()})
             ) {
                 Text(
                     text = "수정",
