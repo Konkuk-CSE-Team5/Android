@@ -43,7 +43,7 @@ fun OnItTextField(
         modifier = modifier,
         enabled = true,
         inputTransformation = inputTransformation,
-        textStyle = OnItTheme.typography.Body1_N_B.copy(
+        textStyle = OnItTheme.typography.B_17.copy(
             fontSize = 16.sp,
             fontWeight = FontWeight.Medium,
             color = Color.Black
@@ -58,7 +58,7 @@ fun OnItTextField(
                     .heightIn(min = 54.dp)
                     .border(
                         width = 1.dp,
-                        color = if (isFocused) OnItTheme.colors.primary.content else Gray_2,
+                        color = if (isFocused) Color(0xFFFFF4EB) else Gray_2,
                         shape = RoundedCornerShape(14.dp),
                     )
                     .padding(vertical = 14.dp)
@@ -68,7 +68,7 @@ fun OnItTextField(
                 if (state.text.isEmpty()) {
                     Text(
                         text = placeHolder,
-                        style = OnItTheme.typography.Body1_N_B.copy(
+                        style = OnItTheme.typography.B_17.copy(
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Medium,
                             color = Gray_4

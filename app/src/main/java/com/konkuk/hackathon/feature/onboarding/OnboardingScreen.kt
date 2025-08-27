@@ -14,6 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.konkuk.hackathon.R
 import com.konkuk.hackathon.core.common.component.OnItButtonPrimaryContainer
 import com.konkuk.hackathon.core.common.component.VerticalSpacer
@@ -41,7 +42,7 @@ fun OnboardingScreen(
         VerticalSpacer(9f)
         Text(
             text = "소개소개소개소개소개소개소개\n소개소개소개소개소개",
-            style = OnItTheme.typography.H4_M.copy(color = Gray_7),
+            style = OnItTheme.typography.M_16.copy(color = Gray_7, fontSize = 18.sp),
             textAlign = TextAlign.Center,
         )
         VerticalSpacer(322f)
