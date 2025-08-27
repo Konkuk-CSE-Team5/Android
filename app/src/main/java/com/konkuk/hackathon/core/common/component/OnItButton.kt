@@ -13,6 +13,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.konkuk.hackathon.core.designsystem.theme.Gray_7
+import com.konkuk.hackathon.core.designsystem.theme.Main_Primary
+import com.konkuk.hackathon.core.designsystem.theme.Main_Primary_Container
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 
 @Composable
@@ -26,15 +28,15 @@ fun OnItButtonPrimaryContainer(
         onClick = onClick,
         shape = RoundedCornerShape(14.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = OnItTheme.colors.primary.container,
+            containerColor = Main_Primary_Container,
             contentColor = Gray_7,
         )
     ) {
         Text(
             text = text,
-            style = OnItTheme.typography.Body1_N_B.copy(
+            style = OnItTheme.typography.B_17.copy(
                 fontWeight = FontWeight.Bold,
-                fontSize = 17.sp,
+                fontSize = 16.sp,
             )
         )
     }
@@ -54,15 +56,15 @@ fun OnItButtonPrimaryContent(
         enabled = enabled,
         shape = RoundedCornerShape(14.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = OnItTheme.colors.primary.content,
+            containerColor = Main_Primary,
             contentColor = Color.White,
         )
     ) {
         Text(
             text = text,
-            style = OnItTheme.typography.Body1_N_B.copy(
+            style = OnItTheme.typography.B_17.copy(
                 fontWeight = FontWeight.Bold,
-                fontSize = 17.sp,
+                fontSize = 16.sp,
             )
         )
     }

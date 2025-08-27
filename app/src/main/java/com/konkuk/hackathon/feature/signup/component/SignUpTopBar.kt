@@ -41,7 +41,7 @@ fun SignUpTopBar(
         Text(
             modifier = Modifier.align(Alignment.Center),
             text = title,
-            style = OnItTheme.typography.H4_B.copy(
+            style = OnItTheme.typography.B_17.copy(
                 color = Gray_7,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp
