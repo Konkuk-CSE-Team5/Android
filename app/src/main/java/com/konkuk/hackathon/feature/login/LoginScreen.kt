@@ -69,6 +69,8 @@ private fun LoginScreen(
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        VerticalSpacer(64.dp)
+        VerticalSpacer(55.dp)
         Image(
             painter = painterResource(R.drawable.img_onboarding_logo),
             contentDescription = null,
