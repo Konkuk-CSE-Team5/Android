@@ -35,7 +35,8 @@ fun LoginInputField(
             state = passwordState,
             placeHolder = "비밀번호",
             interactionSource = passwordInteractionSource,
-            isFocused = passwordFieldFocused
+            isFocused = passwordFieldFocused,
+            isPassword = true
         )
     }
 }

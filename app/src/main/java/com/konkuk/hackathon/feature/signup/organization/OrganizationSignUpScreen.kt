@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.input.InputTransformation
 import androidx.compose.foundation.text.input.OutputTransformation
@@ -29,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -85,15 +88,16 @@ private fun OrganizationSignUpScreen(
             .padding(padding)
             .fillMaxSize()
     ) {
-        SignUpTopBar(
-            modifier = Modifier.align(Alignment.TopCenter),
-            title = "봉사자 회원가입",
-            onBackClick = popBackStack
-        )
+
         OrganizationSignUpContent(
             uiState = uiState,
             updateAllTermsAccepted = updateAllTermsAccepted,
             updatePrivacyTermsAccepted = updatePrivacyTermsAccepted,
+        )
+        SignUpTopBar(
+            modifier = Modifier.align(Alignment.TopCenter),
+            title = "봉사자 회원가입",
+            onBackClick = popBackStack
         )
 
         OnItButtonPrimaryContent(
@@ -117,6 +121,7 @@ fun OrganizationSignUpContent(
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .verticalScroll(rememberScrollState())
             .padding(horizontal = 24.dp)
             .padding(top = 72.dp, bottom = 100.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp)
@@ -130,6 +135,7 @@ fun OrganizationSignUpContent(
             state = uiState.passwordState,
             title = "비밀번호",
             placeholder = "비밀번호",
+            isPassword = true,
         )
         SignUpInputField(
             state = uiState.nameState,
@@ -159,7 +165,8 @@ fun OrganizationSignUpContent(
             outputTransformation = OutputTransformation {
                 if (length > 3) insert(3, "-")
                 if (length > 8) insert(8, "-")
-            }
+            },
+            keyboardType = KeyboardType.Number
         )
 
         Column(
@@ -226,6 +233,8 @@ fun SignUpInputField(
     placeholder: String,
     inputTransformation: InputTransformation? = null,
     outputTransformation: OutputTransformation? = null,
+    isPassword: Boolean = false,
+    keyboardType: KeyboardType = KeyboardType.Text,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
@@ -250,6 +259,8 @@ fun SignUpInputField(
             inputTransformation = inputTransformation,
             outputTransformation = outputTransformation,
             isFocused = isFocused,
+            isPassword = isPassword,
+            keyboardType = keyboardType,
         )
     }
 }
