@@ -168,7 +168,7 @@ fun ElderComponent(
                 horizontalArrangement = Arrangement.spacedBy(3.dp),
             ) {
                 Text(
-                    text = "코드 ${elder.code}세",
+                    text = "코드 ${elder.code}",
                     style = OnItTheme.typography.R_14,
                     color = OnItTheme.colors.gray7,
                 )
