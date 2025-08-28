@@ -5,7 +5,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,11 +18,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -37,10 +33,8 @@ import com.konkuk.hackathon.core.common.component.OnItButtonPrimaryContent
 import com.konkuk.hackathon.core.common.component.VerticalSpacer
 import com.konkuk.hackathon.core.designsystem.theme.Gray_1
 import com.konkuk.hackathon.core.designsystem.theme.Gray_2
-import com.konkuk.hackathon.core.designsystem.theme.Gray_3
 import com.konkuk.hackathon.core.designsystem.theme.Gray_7
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
-import com.konkuk.hackathon.core.designsystem.theme.gray2
 import com.konkuk.hackathon.core.designsystem.theme.gray3
 import com.konkuk.hackathon.feature.volunteer.recordmodify.component.SelectBox
 import com.konkuk.hackathon.feature.volunteer.recordmodify.viewmodel.HealthCondition
@@ -50,7 +44,6 @@ import com.konkuk.hackathon.feature.volunteer.recordmodify.viewmodel.RecordModif
 
 @Composable
 fun RecordModifyScreen(
-    padding: PaddingValues,
     popBackStack: () -> Unit,
     viewModel: RecordModifyViewModel = hiltViewModel(),
 ) {
@@ -58,12 +51,14 @@ fun RecordModifyScreen(
 
     RecordModifyScreen(
         uiState = uiState,
+        popBackStack = popBackStack,
     )
 }
 
 @Composable
 private fun RecordModifyScreen(
     uiState: RecordModifyUiState,
+    popBackStack: () -> Unit,
     onHasCalledChange: (Boolean) -> Unit = {},
     onHealthConditionChange: (HealthCondition) -> Unit = {},
     onMindConditionChange: (MindCondition) -> Unit = {},
@@ -79,7 +74,7 @@ private fun RecordModifyScreen(
                     .height(56.dp),
             ) {
                 IconButton(
-                    onClick = {},
+                    onClick = popBackStack,
                     modifier = Modifier.align(Alignment.CenterStart)
                 ) {
                     Icon(
@@ -278,6 +273,7 @@ private fun MindConditionComponent(
 private fun RecordScreenPreview() {
     OnItTheme {
         RecordModifyScreen(
+            popBackStack = {},
             uiState = RecordModifyUiState(
                 name = "김순자",
                 callTime = "2025-08-26 19:32",
