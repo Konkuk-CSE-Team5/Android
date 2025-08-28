@@ -2,6 +2,7 @@ package com.konkuk.hackathon.feature.center.home.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,6 +41,7 @@ import com.konkuk.hackathon.feature.center.home.components.ElderStatusCard
 fun CenterHomeScreen(
     padding: PaddingValues,
     navigateToElderStatus: () -> Unit,
+    navigateToAttentionRequired: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberScrollState()
@@ -194,7 +196,8 @@ fun CenterHomeScreen(
                         Text(
                             "전체 보기",
                             style = OnItTheme.typography.R_16,
-                            color = OnItTheme.colors.primary
+                            color = OnItTheme.colors.primary,
+                            modifier = Modifier.clickable(onClick = navigateToAttentionRequired)
                         )
                     }
                     Row(
@@ -264,6 +267,6 @@ fun CenterHomeScreen(
 @Preview
 @Composable
 private fun CenterHomePrev() {
-    CenterHomeScreen(padding = PaddingValues(), navigateToElderStatus = {})
+    CenterHomeScreen(padding = PaddingValues(), navigateToElderStatus = {}, navigateToAttentionRequired = {})
 
 }

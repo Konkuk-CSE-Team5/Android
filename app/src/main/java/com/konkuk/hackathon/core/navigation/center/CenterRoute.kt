@@ -5,10 +5,10 @@ import kotlinx.serialization.Serializable
 sealed interface CenterRoute {
 
     @Serializable
-    data object AttentionRequiredVolunteeringNavigation : CenterRoute
+    data object AttentionRequiredNavigation : CenterRoute
 
     @Serializable
-    data object AttentionRequiredVolunteering : CenterRoute
+    data object AttentionRequired : CenterRoute
     @Serializable
     data object ElderStatusNavigation : CenterRoute
 

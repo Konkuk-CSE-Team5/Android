@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import com.konkuk.hackathon.feature.center.home.screen.AttentionRequiredScreen
 import com.konkuk.hackathon.feature.center.home.screen.CenterHomeScreen
 import com.konkuk.hackathon.feature.center.home.screen.ElderStatusScreen
 import com.konkuk.hackathon.feature.center.home.screen.RecordDetailScreen
@@ -24,7 +25,8 @@ fun CenterNavHost(
         composable<CenterTabRoute.Home> {
             CenterHomeScreen(
                 padding = padding,
-                navigateToElderStatus = { navController.navigate(CenterRoute.ElderStatusNavigation) })
+                navigateToElderStatus = { navController.navigate(CenterRoute.ElderStatusNavigation) },
+                navigateToAttentionRequired = { navController.navigate(CenterRoute.AttentionRequiredNavigation) })
         }
 
         navigation<CenterRoute.ElderStatusNavigation>(
@@ -41,6 +43,16 @@ fun CenterNavHost(
                     padding = padding,
                     popBackStack = { navController.popBackStack() },
                 )
+            }
+        }
+
+        navigation<CenterRoute.AttentionRequiredNavigation>(
+            CenterRoute.AttentionRequired
+        ) {
+            composable<CenterRoute.AttentionRequired> {
+                AttentionRequiredScreen(
+                    padding = padding,
+                    popBackStack = { navController.popBackStack() })
             }
         }
 
