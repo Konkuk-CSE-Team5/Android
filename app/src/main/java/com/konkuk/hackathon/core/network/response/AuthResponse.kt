@@ -7,6 +7,3 @@ import kotlinx.serialization.Serializable
 data class LoginResponse(
     @SerialName("accessToken") val accessToken: String
 )
-
-@Serializable
-class SignUpResponse

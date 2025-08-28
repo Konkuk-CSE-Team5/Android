@@ -40,3 +40,41 @@ fun <T> BaseResponse<T>.handleBaseResponse(): Result<T> =
             Result.failure(Exception("Unknown error : ${this.message}"))
         }
     }
+
+@Serializable
+data class NullableResponse(
+    @SerialName("code") val code: Int,
+    @SerialName("message") val message: String,
+    @SerialName("data") val data: Nothing? = null,
+)
+
+fun NullableResponse.handleNullableResponse(): Result<Unit> =
+    when (this.code) {
+        in 100..299 -> {
+            Result.success(Unit)
+        }
+
+        in 400..499 -> {
+            Result.failure(Exception("Client error : ${this.message}"))
+        }
+
+        in 500..599 -> {
+            Result.failure(Exception("Server error : ${this.message}"))
+        }
+
+        in 1000..2999 -> {
+            Result.success(Unit)
+        }
+
+        in 4000..4999 -> {
+            Result.failure(Exception("Client error : ${this.message}"))
+        }
+
+        in 5000..5999 -> {
+            Result.failure(Exception("Server error : ${this.message}"))
+        }
+
+        else -> {
+            Result.failure(Exception("Unknown error : ${this.message}"))
+        }
+    }

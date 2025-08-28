@@ -1,11 +1,11 @@
 package com.konkuk.hackathon.core.data.repositoryimpl
 
-import android.R.attr.password
 import com.konkuk.hackathon.core.data.repository.AuthRepository
 import com.konkuk.hackathon.core.network.request.LoginRequest
 import com.konkuk.hackathon.core.network.request.OrganizationSignUpRequest
 import com.konkuk.hackathon.core.network.request.VolunteerSignUpRequest
 import com.konkuk.hackathon.core.network.response.base.handleBaseResponse
+import com.konkuk.hackathon.core.network.response.base.handleNullableResponse
 import com.konkuk.hackathon.core.network.service.AppPreferences
 import com.konkuk.hackathon.core.network.service.AuthService
 import javax.inject.Inject
@@ -48,7 +48,7 @@ class AuthRepositoryImpl @Inject constructor(
                 gender = gender,
                 contact = contact
             )
-        )
+        ).handleNullableResponse()
     }
 
     override suspend fun signUpOrganization(
@@ -66,7 +66,7 @@ class AuthRepositoryImpl @Inject constructor(
                 manager = manager,
                 managerContact = managerContact
             )
-        )
+        ).handleNullableResponse()
     }
 
 
