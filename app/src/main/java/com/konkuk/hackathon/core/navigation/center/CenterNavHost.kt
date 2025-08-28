@@ -2,7 +2,10 @@ package com.konkuk.hackathon.core.navigation.center
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.konkuk.hackathon.feature.center.setting.screen.CenterInfoScreen
@@ -20,6 +23,7 @@ import com.konkuk.hackathon.feature.center.home.screen.RecordDetailScreen
 import com.konkuk.hackathon.feature.center.home.screen.VolunteerAllRecordScreen
 import com.konkuk.hackathon.feature.center.register.screen.RegisterScreen
 import com.konkuk.hackathon.feature.center.register.screen.SuccessRegisterScreen
+import com.konkuk.hackathon.feature.center.setting.viewmodel.CenterInfoViewModel
 
 @Composable
 fun CenterNavHost(
@@ -130,16 +134,47 @@ fun CenterNavHost(
             )
         }
 
-        composable<CenterRoute.SuccessRegister> {
+        composable<CenterRoute.SuccessElderRegister> {
             SuccessRegisterScreen(
                 padding = padding,
                 inviteCode = "ABCD1234", // 값 받아와야함
-                onCheckClick = { navController.navigate(CenterTabRoute.Register) },
+                onCheckClick = { navController.navigate(CenterTabRoute.Register) {
+                    // 앱의 최상위 시작 목적지까지 모두 제거
+                    popUpTo(navController.graph.
+                    findStartDestination().id) {
+                        inclusive = true
+                    }
+                    launchSingleTop = true
+                    restoreState = false
+                } },
                 centerName = "행복 복지센터" // 값 받아와야함
             )
         }
 
         // Settings
+        navigation<CenterRoute.CenterSettingsGraph>(
+            startDestination = CenterTabRoute.Settings
+        ) {
+            composable<CenterTabRoute.Settings> { backStackEntry ->
+                val parentEntry = remember(backStackEntry) {
+                    navController.getBackStackEntry(CenterRoute.CenterSettingsGraph)
+                }
+                val sharedVm: CenterInfoViewModel = hiltViewModel(parentEntry)
+                LaunchedEffect(Unit) { sharedVm.loadCenterInfo() }
+
+                CenterSettingScreen(
+                    padding = padding,
+                    vm = sharedVm, // 같은 뷰모델 공유
+                    onClickModify = { navController.navigate(CenterRoute.CenterInfoModify) }
+                )
+            }
+
+            // Info: 서버 재호출 없이 같은 VM 사용
+            composable<CenterRoute.CenterInfoModify> { backStackEntry ->
+                val parentEntry = remember(backStackEntry) {
+                    navController.getBackStackEntry(CenterRoute.CenterSettingsGraph)
+                }
+                val sharedVm: CenterInfoViewModel = hiltViewModel(parentEntry)
         composable<CenterTabRoute.Settings> {
             CenterSettingScreen(
                 padding = padding,
@@ -147,12 +182,13 @@ fun CenterNavHost(
             )
         }
 
-        composable<CenterRoute.CenterInfoModify> {
-            CenterInfoScreen(
-                padding = padding,
-                onBackClick = { navController.popBackStack() },
-                onClickEdit = { navController.navigate(CenterTabRoute.Settings) }
-            )
+                CenterInfoScreen(
+                    padding = padding,
+                    vm = sharedVm, // 같은 뷰모델 공유
+                    onBackClick = { navController.popBackStack() },
+                    onClickEdit = { navController.popBackStack() }
+                )
+            }
         }
 
     }

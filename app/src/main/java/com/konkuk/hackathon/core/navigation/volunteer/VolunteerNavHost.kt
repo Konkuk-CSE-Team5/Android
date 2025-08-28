@@ -2,7 +2,9 @@ package com.konkuk.hackathon.core.navigation.volunteer
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
@@ -16,6 +18,7 @@ import com.konkuk.hackathon.feature.volunteer.setting.screen.VolunteerSettingsSc
 import com.konkuk.hackathon.feature.volunteer.record.screen.RecordScreen
 import com.konkuk.hackathon.feature.volunteer.recordall.RecordAllScreen
 import com.konkuk.hackathon.feature.volunteer.recordmodify.screen.RecordModifyScreen
+import com.konkuk.hackathon.feature.volunteer.setting.viewmodel.ProfileViewModel
 
 @Composable
 fun VolunteerNavHost(
@@ -83,19 +86,37 @@ fun VolunteerNavHost(
         }
 
         // Settings
-        composable<VolunteerTabRoute.Settings> {
-            VolunteerSettingsScreen(
-                padding = padding,
-                onClickModify = { navController.navigate(VolunteerRoute.VolInfoModify) }
-            )
-        }
+        navigation<VolunteerRoute.SettingsGraph>(
+            startDestination = VolunteerTabRoute.Settings
+        ) {
+            composable<VolunteerTabRoute.Settings> { backStackEntry ->
+                val parentEntry = remember(backStackEntry) {
+                    navController.getBackStackEntry(VolunteerRoute.SettingsGraph)
+                }
+                val sharedVm: ProfileViewModel = hiltViewModel(parentEntry)
+                LaunchedEffect(Unit) { sharedVm.loadProfile() }
 
-        composable<VolunteerRoute.VolInfoModify> {
-            VolunteerInfoScreen(
-                padding = padding,
-                onBackClick = { navController.popBackStack() },
-                onClickEdit = { navController.navigate(VolunteerTabRoute.Settings) }
-            )
+                VolunteerSettingsScreen(
+                    padding = padding,
+                    vm = sharedVm, // 같은 뷰모델 공유
+                    onClickModify = { navController.navigate(VolunteerRoute.VolInfoModify) }
+                )
+            }
+
+            // Info: 서버 재호출 없이 같은 VM 사용
+            composable<VolunteerRoute.VolInfoModify> { backStackEntry ->
+                val parentEntry = remember(backStackEntry) {
+                    navController.getBackStackEntry(VolunteerRoute.SettingsGraph)
+                }
+                val sharedVm: ProfileViewModel = hiltViewModel(parentEntry)
+
+                VolunteerInfoScreen(
+                    padding = padding,
+                    vm = sharedVm, // 같은 뷰모델 공유
+                    onBackClick = { navController.popBackStack() },
+                    onClickEdit = { navController.popBackStack() }
+                )
+            }
         }
 
         composable<VolunteerRoute.RecordAll> { navBackStackEntry ->
