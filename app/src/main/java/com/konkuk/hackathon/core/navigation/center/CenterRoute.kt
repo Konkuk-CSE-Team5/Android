@@ -3,6 +3,8 @@ package com.konkuk.hackathon.core.navigation.center
 import kotlinx.serialization.Serializable
 
 sealed interface CenterRoute {
+    @Serializable
+    data object CenterInfoModify : CenterRoute
 
     @Serializable
     data object AttentionRequiredNavigation : CenterRoute
@@ -18,6 +20,9 @@ sealed interface CenterRoute {
 
     @Serializable
     data object RecordDetail : CenterRoute
+
+    @Serializable
+    data object SuccessRegister : CenterRoute
 
     @Serializable
     data class RegisterManagement(val id: Long) : CenterRoute

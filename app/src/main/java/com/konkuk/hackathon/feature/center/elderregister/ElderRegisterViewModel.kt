@@ -24,11 +24,18 @@ class ElderRegisterViewModel @Inject constructor() : ViewModel() {
     }
 
     fun updateStartDate(newDate: String) {
-        Log.d("TAR", "updateStartDate: $newDate")
         _uiState.value = _uiState.value.copy(startDate = newDate)
     }
 
     fun updateEndDate(newDate: String) {
         _uiState.value = _uiState.value.copy(endDate = newDate)
+    }
+
+    fun updateStartTime(newDate: String) {
+        _uiState.value = _uiState.value.copy(startTime = newDate)
+    }
+
+    fun updateEndTime(newDate: String) {
+        _uiState.value = _uiState.value.copy(endTime = newDate)
     }
 }

@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -27,15 +26,25 @@ import androidx.compose.foundation.text.input.OutputTransformation
 import androidx.compose.foundation.text.input.insert
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import kotlinx.coroutines.launch
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -58,9 +67,13 @@ import com.konkuk.hackathon.core.designsystem.theme.Gray_2
 import com.konkuk.hackathon.core.designsystem.theme.Gray_3
 import com.konkuk.hackathon.core.designsystem.theme.Gray_4
 import com.konkuk.hackathon.core.designsystem.theme.Gray_7
+import com.konkuk.hackathon.core.designsystem.theme.Main_Primary_Container
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 import com.konkuk.hackathon.core.designsystem.theme.gray3
 import com.konkuk.hackathon.feature.signup.volunteer.SignUpInputField
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @Composable
 fun ElderRegisterScreen(
@@ -69,24 +82,32 @@ fun ElderRegisterScreen(
     viewModel: ElderRegisterViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val buttonEnabled = remember {
+        derivedStateOf { uiState.isValid }
+    }
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(padding)
     ) {
         OnItButtonPrimaryContent(
             text = "등록",
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 16.dp),
             onClick = {
                 // TODO: 등록 API
             },
-            enabled = uiState.name.text.isNotEmpty()
-                    && uiState.birth.text.length == 10
-                    && uiState.phoneNumber.text.length == 13
-                    && uiState.schedules.isNotEmpty()
+            enabled = buttonEnabled.value
+        )
+        
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier.align(Alignment.BottomCenter)
         )
     }
     Column(
@@ -119,8 +140,52 @@ fun ElderRegisterScreen(
         ElderRegisterScreen(
             uiState = uiState,
             updateSchedule = { viewModel.updateSchedule(it) },
-            onStartDateChange = { viewModel.updateStartDate(it) },
-            onEndDateChange = { viewModel.updateEndDate(it) }
+            onStartTimeChange = { time ->
+                viewModel.updateStartTime(time)
+                // 종료 시간이 새로운 시작 시간보다 빠르면 종료 시간 초기화
+                if (uiState.endTime.isNotEmpty() && time.isNotEmpty()) {
+                    if (isTimeEarlier(uiState.endTime, time)) {
+                        viewModel.updateEndTime("")
+                        coroutineScope.launch {
+                            snackbarHostState.showSnackbar("시작 시간이 종료 시간보다 늦어 종료 시간을 초기화했습니다.")
+                        }
+                    }
+                }
+            },
+            onEndTimeChange = { time ->
+                if (uiState.startTime.isNotEmpty() && time.isNotEmpty()) {
+                    if (isTimeEarlier(time, uiState.startTime)) {
+                        coroutineScope.launch {
+                            snackbarHostState.showSnackbar("종료 시간은 시작 시간보다 늦어야 합니다.")
+                        }
+                        return@ElderRegisterScreen
+                    }
+                }
+                viewModel.updateEndTime(time)
+            },
+            onStartDateChange = { date ->
+                viewModel.updateStartDate(date)
+                // 종료 날짜가 새로운 시작 날짜보다 빠르면 종료 날짜 초기화
+                if (uiState.endDate.isNotEmpty() && date.isNotEmpty()) {
+                    if (isDateEarlier(uiState.endDate, date)) {
+                        viewModel.updateEndDate("")
+                        coroutineScope.launch {
+                            snackbarHostState.showSnackbar("시작 날짜가 종료 날짜보다 늦어 종료 날짜를 초기화했습니다.")
+                        }
+                    }
+                }
+            },
+            onEndDateChange = { date ->
+                if (uiState.startDate.isNotEmpty() && date.isNotEmpty()) {
+                    if (isDateEarlier(date, uiState.startDate)) {
+                        coroutineScope.launch {
+                            snackbarHostState.showSnackbar("종료 날짜는 시작 날짜보다 늦어야 합니다.")
+                        }
+                        return@ElderRegisterScreen
+                    }
+                }
+                viewModel.updateEndDate(date)
+            }
         )
     }
 }
@@ -129,6 +194,8 @@ fun ElderRegisterScreen(
 fun ElderRegisterScreen(
     uiState: ElderRegisterUiState = ElderRegisterUiState(),
     updateSchedule: (ElderRegisterUiState.Schedule) -> Unit = {},
+    onStartTimeChange: (String) -> Unit = {},
+    onEndTimeChange: (String) -> Unit = {},
     onStartDateChange: (String) -> Unit = {},
     onEndDateChange: (String) -> Unit = {},
 ) {
@@ -163,6 +230,14 @@ fun ElderRegisterScreen(
             keyboardType = KeyboardType.Number
         )
         VerticalSpacer(height = 16.dp)
+        DateRangeSelector(
+            title = "봉사 기간",
+            startDate = uiState.startDate,
+            endDate = uiState.endDate,
+            onStartDateChange = onStartDateChange,
+            onEndDateChange = onEndDateChange
+        )
+        VerticalSpacer(height = 16.dp)
         SignUpInputField(
             state = uiState.phoneNumber,
             title = "전화번호",
@@ -184,12 +259,12 @@ fun ElderRegisterScreen(
         VerticalSpacer(height = 16.dp)
         VolunteerDateRange(
             modifier = Modifier.padding(top = 16.dp),
-            startDate = uiState.startDate,
-            endDate = uiState.endDate,
+            startDate = uiState.startTime,
+            endDate = uiState.endTime,
             updateSchedule = uiState.schedules,
             onScheduleClick = { updateSchedule(it) },
-            onStartDateChange = onStartDateChange,
-            onEndDateChange = onEndDateChange,
+            onStartDateChange = onStartTimeChange,
+            onEndDateChange = onEndTimeChange,
         )
         VerticalSpacer(height = 16.dp)
         Text(
@@ -436,6 +511,161 @@ fun generateTimeSlots(): List<String> {
     }
     timeSlots.add("24:00")
     return timeSlots
+}
+
+fun isTimeEarlier(time1: String, time2: String): Boolean {
+    try {
+        val parts1 = time1.split(":")
+        val parts2 = time2.split(":")
+        
+        val hour1 = parts1[0].toInt()
+        val minute1 = parts1[1].toInt()
+        val hour2 = parts2[0].toInt()
+        val minute2 = parts2[1].toInt()
+        
+        return when {
+            hour1 < hour2 -> true
+            hour1 > hour2 -> false
+            else -> minute1 < minute2
+        }
+    } catch (e: Exception) {
+        return false
+    }
+}
+
+fun isDateEarlier(date1: String, date2: String): Boolean {
+    try {
+        val formatter = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+        val d1 = formatter.parse(date1)
+        val d2 = formatter.parse(date2)
+        return d1?.before(d2) ?: false
+    } catch (e: Exception) {
+        return false
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DateRangeSelector(
+    modifier: Modifier = Modifier,
+    title: String,
+    startDate: String = "",
+    endDate: String = "",
+    onStartDateChange: (String) -> Unit = {},
+    onEndDateChange: (String) -> Unit = {}
+) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        Text(
+            text = title,
+            style = OnItTheme.typography.R_17.copy(
+                color = Gray_7,
+                fontSize = 17.sp,
+                fontWeight = FontWeight.Normal,
+            )
+        )
+        
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            DateSelector(
+                selectedDate = startDate,
+                onDateChange = onStartDateChange,
+                placeholder = "시작 날짜"
+            )
+            Text(
+                text = "~",
+                style = OnItTheme.typography.SB_18.copy(color = Gray_7),
+                modifier = Modifier.align(Alignment.CenterVertically)
+            )
+            DateSelector(
+                selectedDate = endDate,
+                onDateChange = onEndDateChange,
+                placeholder = "종료 날짜"
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun RowScope.DateSelector(
+    modifier: Modifier = Modifier,
+    selectedDate: String = "",
+    onDateChange: (String) -> Unit = {},
+    placeholder: String = "날짜 선택"
+) {
+    var showDatePicker by remember { mutableStateOf(false) }
+    val datePickerState = rememberDatePickerState()
+    
+    Row(
+        modifier = modifier
+            .weight(1f)
+            .clickable {
+                showDatePicker = true
+            }
+            .border(
+                width = 1.dp,
+                color = Gray_2,
+                shape = RoundedCornerShape(14.dp)
+            )
+            .padding(vertical = 14.dp, horizontal = 16.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = selectedDate.ifEmpty { placeholder },
+            style = OnItTheme.typography.R_15.copy(
+                color = if (selectedDate.isNotEmpty()) Gray_7 else Gray_3
+            )
+        )
+        Icon(
+            imageVector = ImageVector.vectorResource(R.drawable.ic_clock),
+            contentDescription = "달력 아이콘",
+            tint = Gray_4
+        )
+    }
+    
+    if (showDatePicker) {
+        DatePickerDialog(
+            onDismissRequest = { showDatePicker = false },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        datePickerState.selectedDateMillis?.let { millis ->
+                            val date = Date(millis)
+                            val formatter = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+                            onDateChange(formatter.format(date))
+                        }
+                        showDatePicker = false
+                    }
+                ) {
+                    Text("확인")
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { showDatePicker = false }
+                ) {
+                    Text("취소")
+                }
+            },
+            colors = androidx.compose.material3.DatePickerDefaults.colors(
+                containerColor = Main_Primary_Container
+            )
+        ) {
+            DatePicker(
+                state = datePickerState,
+                colors = androidx.compose.material3.DatePickerDefaults.colors(
+                    containerColor = Main_Primary_Container
+                )
+            )
+        }
+    }
 }
 
 @Preview(showBackground = true)

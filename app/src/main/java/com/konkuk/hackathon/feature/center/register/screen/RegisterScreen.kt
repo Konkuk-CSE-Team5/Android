@@ -27,6 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
@@ -57,6 +58,28 @@ fun RegisterScreen(
             .padding(padding)
             .fillMaxSize(),
     ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp)
+                    .padding(horizontal = 10.dp)
+            ) {
+                Text(
+                    modifier = Modifier.align(Alignment.CenterStart),
+                    text = "등록",
+                    style = OnItTheme.typography.SB_24.copy(color = OnItTheme.colors.gray7)
+                )
+            }
+
+            RegisterScreen(
+                uiState = uiState,
+                onManageClick = navigateToElderManagement,
+            )
+        }
         FloatingActionButton(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
@@ -73,31 +96,10 @@ fun RegisterScreen(
                 Icon(
                     imageVector = Icons.Default.Add,
                     contentDescription = "어르신 등록",
+                    tint = Color.White
                 )
             }
         }
-    }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(padding)
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp)
-        ) {
-            Text(
-                modifier = Modifier.align(Alignment.CenterStart),
-                text = "등록",
-                style = OnItTheme.typography.SB_24.copy(color = OnItTheme.colors.gray7)
-            )
-        }
-
-        RegisterScreen(
-            uiState = uiState,
-            onManageClick = navigateToElderManagement,
-        )
     }
 
 }
