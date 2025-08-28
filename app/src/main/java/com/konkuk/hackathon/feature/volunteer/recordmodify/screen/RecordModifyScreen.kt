@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -48,17 +49,26 @@ import com.konkuk.hackathon.feature.volunteer.recordmodify.viewmodel.RecordModif
 
 @Composable
 fun RecordModifyScreen(
+    paddingValues: PaddingValues,
     id: Long,
     popBackStack: () -> Unit,
     viewModel: RecordModifyViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val isCompleted by viewModel.isCompleted.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         viewModel.fetchRecordData(id)
     }
 
+    LaunchedEffect(isCompleted) {
+        if (isCompleted) {
+            popBackStack()
+        }
+    }
+
     RecordModifyScreen(
+        padding = paddingValues,
         uiState = uiState,
         popBackStack = popBackStack,
         onModifyClick = { viewModel.patchRecordData(id) },
@@ -69,6 +79,7 @@ fun RecordModifyScreen(
 
 @Composable
 private fun RecordModifyScreen(
+    padding: PaddingValues = PaddingValues(0.dp),
     uiState: RecordModifyUiState,
     popBackStack: () -> Unit,
     onModifyClick: () -> Unit = {},
@@ -77,7 +88,7 @@ private fun RecordModifyScreen(
 ) {
     Scaffold(
         modifier = Modifier
-//            .padding(padding)
+            .padding(padding)
             .fillMaxSize(),
         topBar = {
             Box(

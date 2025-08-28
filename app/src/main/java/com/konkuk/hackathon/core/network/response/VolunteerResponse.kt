@@ -10,7 +10,7 @@ data class VolunteerRecordsResponse(
 
 @Serializable
 data class SeniorItem(
-    @SerialName("seniorId") val seniorId: Long,
+    @SerialName("matchingId") val matchingId: Long,
     @SerialName("seniorName") val seniorName: String,
     @SerialName("status") val status: String,
     @SerialName("summary") val summary: CallSummary,
@@ -26,14 +26,14 @@ data class CallSummary(
 @Serializable
 data class CallRecordDto(
     @SerialName("recordId") val recordId: Long,
-    @SerialName("dateTime") val dateTime: String,
+    @SerialName("dateTime") val dateTime: String?,
     @SerialName("duration") val duration: String?,
     @SerialName("status") val status: String
 )
 
 @Serializable
 data class VolunteerRecordDetailResponse(
-    @SerialName("seniorId") val seniorId: Long,
+    @SerialName("matchingId") val seniorId: Long,
     @SerialName("seniorName") val seniorName: String,
     @SerialName("records") val records: List<CallRecordDto>
 )

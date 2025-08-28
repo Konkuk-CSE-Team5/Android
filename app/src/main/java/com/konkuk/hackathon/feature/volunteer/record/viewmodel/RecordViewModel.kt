@@ -37,7 +37,10 @@ class RecordViewModel @Inject constructor(
         viewModelScope.launch {
             volunteerRepository.getVolunteerRecords()
                 .onSuccess { response ->
-                    _uiState.update { response.toUiState() }
+                    _uiState.update {
+                        Log.d("RecordViewModel", "fetchRecordList: $response")
+                        response.toUiState()
+                    }
                 }
                 .onFailure {
                     Log.d("RecordViewModel", "fetchRecordList: ${it.message}")
@@ -51,20 +54,23 @@ fun VolunteerRecordsResponse.toUiState() = RecordUiState(
 )
 
 fun SeniorItem.toElder() = Elder(
+    id = this.matchingId,
     name = this.seniorName,
     type = if (this.status == "PENDING") ElderType.ONGOING else ElderType.COMPLETED,
     callCount = this.summary.totalCalls,
     totalTime = this.summary.totalDuration,
-    records = this.records.map { recordDto ->
-        CallRecord(
-            id = recordDto.recordId,
-            time = recordDto.dateTime,
-            duration = recordDto.duration ?: "",
-            recordType = when (recordDto.status) {
-                "COMPLETED" -> RecordType.SUCCESS
-                "ABSENT" -> RecordType.ABSENCE
-                else -> RecordType.CALL_NOT_MADE
-            }
-        )
-    }
+    records = this.records
+        .filter { it.duration != null }
+        .map { recordDto ->
+            CallRecord(
+                id = recordDto.recordId,
+                time = recordDto.dateTime ?: "",
+                duration = recordDto.duration ?: "",
+                recordType = when (recordDto.status) {
+                    "COMPLETED" -> RecordType.SUCCESS
+                    "PENDING" -> RecordType.CALL_NOT_MADE
+                    else -> RecordType.ABSENCE
+                }
+            )
+        }
 )

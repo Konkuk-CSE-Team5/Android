@@ -1,5 +1,6 @@
 package com.konkuk.hackathon.feature.volunteer.recordall
 
+import android.R.attr.duration
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -25,18 +26,20 @@ class RecordAllViewModel @Inject constructor(
                 .onSuccess { response ->
                     _uiState.value = _uiState.value.copy(
                         name = response.seniorName,
-                        records = response.records.map { recordDto ->
-                            CallRecord(
-                                id = recordDto.recordId,
-                                time = recordDto.dateTime,
-                                duration = recordDto.duration ?: "",
-                                recordType = when (recordDto.status) {
-                                    "COMPLETE" -> RecordType.SUCCESS
-                                    "ABSENT" -> RecordType.ABSENCE
-                                    else -> RecordType.CALL_NOT_MADE
-                                }
-                            )
-                        }
+                        records = response.records
+                            .filter { it.duration != null }
+                            .map { recordDto ->
+                                CallRecord(
+                                    id = recordDto.recordId,
+                                    time = recordDto.dateTime ?: "",
+                                    duration = recordDto.duration ?: "",
+                                    recordType = when (recordDto.status) {
+                                        "COMPLETE" -> RecordType.SUCCESS
+                                        "ABSENT" -> RecordType.ABSENCE
+                                        else -> RecordType.CALL_NOT_MADE
+                                    }
+                                )
+                            }
                     )
                     Log.d("RecordViewModel", "fetchRecordDetail success: $response")
                 }

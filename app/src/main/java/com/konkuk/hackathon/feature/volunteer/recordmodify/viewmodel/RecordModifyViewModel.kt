@@ -19,6 +19,7 @@ class RecordModifyViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(RecordModifyUiState())
     val uiState: StateFlow<RecordModifyUiState>
         get() = _uiState.asStateFlow()
+    val isCompleted = MutableStateFlow(false)
 
     fun fetchRecordData(id: Long) {
         viewModelScope.launch {
@@ -30,14 +31,22 @@ class RecordModifyViewModel @Inject constructor(
                             duration = history.callTime
                         )
                     }
-                    
+
                     _uiState.value = _uiState.value.copy(
                         name = response.name,
                         callTimes = callTimes,
                         hasCalled = response.status == "COMPLETE",
                         healthCondition = mapHealthStatus(response.health),
                         mindCondition = mapMentalityStatus(response.mentality),
-                        memo = _uiState.value.memo.apply { edit { replace(0, length, response.opinion) } }
+                        memo = _uiState.value.memo.apply {
+                            edit {
+                                replace(
+                                    0,
+                                    length,
+                                    response.opinion
+                                )
+                            }
+                        }
                     )
                 }
                 .onFailure {
@@ -55,9 +64,10 @@ class RecordModifyViewModel @Inject constructor(
                 mentality = mapToMentalityValue(currentState.mindCondition),
                 opinion = currentState.memo.text.toString()
             )
-            
+
             volunteerRepository.updateVolunteerRecord(id, request)
                 .onSuccess {
+                    isCompleted.value = true
                     Log.d("RecordModifyViewModel", "patchRecordData: 성공")
                 }
                 .onFailure {
@@ -77,7 +87,7 @@ class RecordModifyViewModel @Inject constructor(
     fun updateMindCondition(condition: MindCondition) {
         _uiState.value = _uiState.value.copy(mindCondition = condition)
     }
-    
+
     private fun mapHealthStatus(health: String): HealthCondition {
         return when (health) {
             "GOOD" -> HealthCondition.GOOD
@@ -86,7 +96,7 @@ class RecordModifyViewModel @Inject constructor(
             else -> HealthCondition.GOOD
         }
     }
-    
+
     private fun mapMentalityStatus(mentality: String): MindCondition {
         return when (mentality) {
             "GOOD" -> MindCondition.GOOD
@@ -95,7 +105,7 @@ class RecordModifyViewModel @Inject constructor(
             else -> MindCondition.GOOD
         }
     }
-    
+
     private fun mapToHealthValue(condition: HealthCondition): String {
         return when (condition) {
             HealthCondition.GOOD -> "GOOD"
@@ -103,7 +113,7 @@ class RecordModifyViewModel @Inject constructor(
             HealthCondition.BAD -> "BAD"
         }
     }
-    
+
     private fun mapToMentalityValue(condition: MindCondition): String {
         return when (condition) {
             MindCondition.GOOD -> "GOOD"

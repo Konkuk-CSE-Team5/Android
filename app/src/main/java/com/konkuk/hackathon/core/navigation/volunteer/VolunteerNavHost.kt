@@ -1,5 +1,6 @@
 package com.konkuk.hackathon.core.navigation.volunteer
 
+import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -78,6 +79,7 @@ fun VolunteerNavHost(
             val id = navBackStackEntry.toRoute<VolunteerRoute.RecordModify>().id
             RecordModifyScreen(
                 id = id,
+                paddingValues = padding,
                 popBackStack = { navController.popBackStack() }
             )
         }
@@ -100,6 +102,7 @@ fun VolunteerNavHost(
 
         composable<VolunteerRoute.RecordAll> { navBackStackEntry ->
             val id = navBackStackEntry.toRoute<VolunteerRoute.RecordAll>().id
+            Log.d("VolunteerNavHost", "RecordAll id: $id")
 
             RecordAllScreen(
                 id = id,
