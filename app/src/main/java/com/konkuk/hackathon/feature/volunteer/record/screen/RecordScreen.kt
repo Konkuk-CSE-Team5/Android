@@ -99,6 +99,7 @@ private fun RecordScreen(
                     .padding(horizontal = 16.dp),
                 elder = elder,
                 onRecordClick = onRecordClick,
+                onAllRecordClick = onAllRecordClick,
             )
         }
     }
