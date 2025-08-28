@@ -142,9 +142,10 @@ fun VolunteerInfoScreen(padding : PaddingValues, modifier: Modifier = Modifier, 
             MyInfoTextField(
                 value = birth,
                 category = "생년월일",
-                placeHolder = " YYYY / MM / DD",
+                placeHolder = "YYYY / MM / DD",
                 onValueChange = { birth = it },
                 maxLength = 8,
+                keyboardType = KeyboardType.Number,
                 visualTransformation = BirthTransformation()
             )
             Column(modifier = modifier.fillMaxWidth()) {

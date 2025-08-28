@@ -41,7 +41,7 @@
             android:name=".feature.center.CenterActivity" />
         <service
             android:name=".core.network.service.FcmService"
-            android:exported="true">
+            android:exported="false">
         <intent-filter>
         <action android:name="com.google.firebase.MESSAGING_EVENT" />
         </intent-filter>

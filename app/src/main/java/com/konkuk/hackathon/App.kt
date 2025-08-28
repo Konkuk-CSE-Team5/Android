@@ -6,6 +6,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
 import android.util.Log
+import com.konkuk.hackathon.BuildConfig
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.HiltAndroidApp
 
@@ -19,7 +20,8 @@ class App : Application() {
     }
 
     private fun createNotificationChannel() {
-        val nm = getSystemService(NotificationManager::class.java)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
+        val nm = getSystemService(NotificationManager::class.java) ?: return
 
         val channel = NotificationChannel(
             FCM_CHANNEL_ID,                                        //  새 채널 ID
@@ -33,24 +35,30 @@ class App : Application() {
             lockscreenVisibility = Notification.VISIBILITY_PUBLIC  // 잠금화면에 내용 표시
         }
 
-        nm?.createNotificationChannel(channel)
+        nm.createNotificationChannel(channel)
     }
 
     private fun logFcmToken() {
         FirebaseMessaging.getInstance().token
             .addOnCompleteListener { task ->
                 if (!task.isSuccessful) {
-                    Log.w(TAG, "토큰 가져오기 실패", task.exception)
+                    if (BuildConfig.DEBUG) {
+                        Log.w(TAG, "토큰 가져오기 실패", task.exception)
+                    }
                     return@addOnCompleteListener
                 }
                 val token = task.result
-                Log.d(TAG, "token=$token") // 콘솔 테스트 시 복사해서 사용
+                if (BuildConfig.DEBUG) {
+                    val masked = token.take(8) + "…" + token.takeLast(4)
+                    Log.d(TAG, "FCM token(debug)=$masked")
+                } // 콘솔 테스트 시 복사해서 사용
                 // TODO: 필요 시 서버에 업로드
             }
     }
 
     companion object {
         private const val TAG = "FCM"
+
         /** Manifest meta-data 와 반드시 동일해야 함 */
         const val FCM_CHANNEL_ID = "fcm_alert"
     }
