@@ -94,28 +94,7 @@ fun ElderRegisterScreen(
         popBackStack()
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(padding)
-    ) {
-        OnItButtonPrimaryContent(
-            text = "등록",
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth()
-                .background(Color.White)
-                .padding(horizontal = 16.dp)
-                .padding(bottom = 16.dp),
-            onClick = { viewModel.registerElder() },
-            enabled = buttonEnabled.value
-        )
 
-        SnackbarHost(
-            hostState = snackbarHostState,
-            modifier = Modifier.align(Alignment.BottomCenter)
-        )
-    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -191,6 +170,28 @@ fun ElderRegisterScreen(
                 }
                 viewModel.updateEndDate(date)
             }
+        )
+    }
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(padding)
+    ) {
+        OnItButtonPrimaryContent(
+            text = "등록",
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .background(Color.White)
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 16.dp),
+            onClick = { viewModel.registerElder() },
+            enabled = buttonEnabled.value
+        )
+
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier.align(Alignment.BottomCenter)
         )
     }
 }
