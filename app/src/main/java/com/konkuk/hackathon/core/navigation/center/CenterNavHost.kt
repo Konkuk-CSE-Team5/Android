@@ -6,6 +6,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.konkuk.hackathon.feature.center.setting.screen.CenterInfoScreen
 import com.konkuk.hackathon.feature.center.setting.screen.CenterSettingScreen
+import androidx.navigation.compose.navigation
+import com.konkuk.hackathon.feature.center.home.screen.AttentionRequiredScreen
+import com.konkuk.hackathon.feature.center.home.screen.CenterHomeScreen
+import com.konkuk.hackathon.feature.center.home.screen.ElderStatusScreen
+import com.konkuk.hackathon.feature.center.home.screen.RecordDetailScreen
 
 @Composable
 fun CenterNavHost(
@@ -20,7 +25,37 @@ fun CenterNavHost(
     ) {
         // Home
         composable<CenterTabRoute.Home> {
+            CenterHomeScreen(
+                padding = padding,
+                navigateToElderStatus = { navController.navigate(CenterRoute.ElderStatusNavigation) },
+                navigateToAttentionRequired = { navController.navigate(CenterRoute.AttentionRequiredNavigation) })
+        }
 
+        navigation<CenterRoute.ElderStatusNavigation>(
+            CenterRoute.ElderStatus
+        ) {
+            composable<CenterRoute.ElderStatus> {
+                ElderStatusScreen(
+                    padding = padding,
+                    popBackStack = { navController.popBackStack() },
+                    navigateToRecordDetail = { navController.navigate(CenterRoute.RecordDetail) })
+            }
+            composable<CenterRoute.RecordDetail> {
+                RecordDetailScreen(
+                    padding = padding,
+                    popBackStack = { navController.popBackStack() },
+                )
+            }
+        }
+
+        navigation<CenterRoute.AttentionRequiredNavigation>(
+            CenterRoute.AttentionRequired
+        ) {
+            composable<CenterRoute.AttentionRequired> {
+                AttentionRequiredScreen(
+                    padding = padding,
+                    popBackStack = { navController.popBackStack() })
+            }
         }
 
         // Record

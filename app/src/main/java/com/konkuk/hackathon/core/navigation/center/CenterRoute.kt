@@ -5,6 +5,21 @@ import kotlinx.serialization.Serializable
 sealed interface CenterRoute {
     @Serializable
     data object CenterInfoModify : CenterRoute
+
+    @Serializable
+    data object AttentionRequiredNavigation : CenterRoute
+
+    @Serializable
+    data object AttentionRequired : CenterRoute
+    @Serializable
+    data object ElderStatusNavigation : CenterRoute
+
+    @Serializable
+    data object ElderStatus : CenterRoute
+
+    @Serializable
+    data object RecordDetail : CenterRoute
+
 }
 
 sealed interface CenterTabRoute : CenterRoute {

@@ -31,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.konkuk.hackathon.R
+import com.konkuk.hackathon.core.common.component.OnItTopAppBar
 import com.konkuk.hackathon.core.common.extension.noRippleClickable
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 import com.konkuk.hackathon.core.designsystem.theme.gray1
@@ -60,33 +61,7 @@ fun RecordSubmitScreen(
             .padding(padding)
 
     ) {
-        Box {
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Icon(
-                    painterResource(R.drawable.ic_arrow_back),
-                    contentDescription = "뒤 화살표 아이콘",
-                    tint = OnItTheme.colors.gray7,
-                    modifier = Modifier.noRippleClickable(onClick = popBackStack)
-                )
-                Box(
-                    modifier = Modifier.weight(1f),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "기록 작성",
-                        style = OnItTheme.typography.SB_20,
-                        color = OnItTheme.colors.black
-                    )
-                }
-                Box(modifier = Modifier.size(24.dp))
-
-            }
-        }
+        OnItTopAppBar(title = "기록 작성", popBackStack = popBackStack)
         Column(
             Modifier
                 .verticalScroll(scrollState)
