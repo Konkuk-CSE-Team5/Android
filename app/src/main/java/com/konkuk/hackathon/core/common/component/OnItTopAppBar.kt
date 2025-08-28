@@ -24,7 +24,8 @@ fun OnItTopAppBar(title: String, popBackStack: () -> Unit, modifier: Modifier = 
         Row(
             Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = 16.dp)
+                .align(Alignment.Center),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Icon(
