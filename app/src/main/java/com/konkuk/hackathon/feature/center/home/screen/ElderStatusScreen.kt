@@ -39,7 +39,7 @@ import com.konkuk.hackathon.core.designsystem.theme.gray2
 import com.konkuk.hackathon.core.designsystem.theme.gray5
 import com.konkuk.hackathon.core.designsystem.theme.gray7
 import com.konkuk.hackathon.feature.center.home.components.VolunteerMatchingChip
-import com.konkuk.hackathon.feature.center.home.components.VolunteerMatchingType
+import com.konkuk.hackathon.feature.center.home.components.ElderMatchingType
 import com.konkuk.hackathon.feature.center.home.viewmodel.ElderStatusViewModel
 import java.time.format.DateTimeFormatter
 
@@ -95,7 +95,7 @@ fun ElderStatusScreen(
                                 color = gray7
                             )
                             Spacer(Modifier.width(6.dp))
-                            VolunteerMatchingChip(VolunteerMatchingType.ACTIVE)
+                            VolunteerMatchingChip(ElderMatchingType.ACTIVE)
                         }
                         Spacer(Modifier.height(8.dp))
                         Text(

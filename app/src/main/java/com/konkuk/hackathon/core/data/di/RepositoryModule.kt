@@ -2,6 +2,8 @@ package com.konkuk.hackathon.core.data.di
 
 import com.konkuk.hackathon.core.data.repository.AuthRepository
 import com.konkuk.hackathon.core.data.repository.CenterHomeRepository
+import com.konkuk.hackathon.core.data.repository.VolunteerHomeRepository
+import com.konkuk.hackathon.core.data.repositoryimpl.VolunteerHomeRepositoryImpl
 import com.konkuk.hackathon.core.data.repository.CenterRepository
 import com.konkuk.hackathon.core.data.repository.SeniorRepository
 import com.konkuk.hackathon.core.data.repository.VolunteerRepository
@@ -32,6 +34,12 @@ abstract class RepositoryModule {
     abstract fun bindAuthRepository(
         authRepositoryImpl: AuthRepositoryImpl,
     ): AuthRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindVolunteerHomeRepository(
+        volunteerHomeRepositoryImpl: VolunteerHomeRepositoryImpl
+    ): VolunteerHomeRepository
 
     @Binds
     @Singleton

@@ -17,17 +17,17 @@ import com.konkuk.hackathon.core.designsystem.theme.Positive_container
 
 @Composable
 fun VolunteerMatchingChip(
-    volunteerMatchingType: VolunteerMatchingType,
+    elderMatchingType: ElderMatchingType,
     modifier: Modifier = Modifier
 ) {
-    val textColor = when (volunteerMatchingType) {
-        VolunteerMatchingType.ACTIVE -> Positive
-        VolunteerMatchingType.DONE -> Negative
+    val textColor = when (elderMatchingType) {
+        ElderMatchingType.ACTIVE -> Positive
+        ElderMatchingType.DONE -> Negative
     }
 
-    val containerColor = when (volunteerMatchingType) {
-        VolunteerMatchingType.ACTIVE -> Positive_container
-        VolunteerMatchingType.DONE -> Negative_container
+    val containerColor = when (elderMatchingType) {
+        ElderMatchingType.ACTIVE -> Positive_container
+        ElderMatchingType.DONE -> Negative_container
     }
 
     Box(
@@ -36,7 +36,7 @@ fun VolunteerMatchingChip(
             .background(containerColor)
     ) {
         Text(
-            volunteerMatchingType.label,
+            elderMatchingType.label,
             style = OnItTheme.typography.B_12,
             color = textColor,
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
@@ -44,7 +44,7 @@ fun VolunteerMatchingChip(
     }
 }
 
-enum class VolunteerMatchingType(val label: String) {
+enum class ElderMatchingType(val label: String) {
     ACTIVE("진행중"),
     DONE("진행종료")
 
