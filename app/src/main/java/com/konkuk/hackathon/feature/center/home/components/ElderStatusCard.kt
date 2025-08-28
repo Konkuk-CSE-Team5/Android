@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.konkuk.hackathon.core.common.component.OnItProgressIndicator
+import com.konkuk.hackathon.core.common.component.VerticalSpacer
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 import com.konkuk.hackathon.core.designsystem.theme.gray2
 import com.konkuk.hackathon.core.designsystem.theme.gray3
@@ -33,10 +34,11 @@ fun ElderStatusCard(
     executionCount: Int,
     totalCount: Int,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(
         Modifier
+            .padding(bottom = 12.dp)
             .fillMaxWidth()
             .clip(RoundedCornerShape(14.dp))
             .background(OnItTheme.colors.white)
@@ -63,9 +65,13 @@ fun ElderStatusCard(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text("이번 달 통화", style = OnItTheme.typography.R_15, color = gray7)
-                    Text("$executionCount/$totalCount", style = OnItTheme.typography.B_12, color = gray3)
+                    Text(
+                        "$executionCount/$totalCount",
+                        style = OnItTheme.typography.B_12,
+                        color = gray3
+                    )
                 }
-                OnItProgressIndicator({ 
+                OnItProgressIndicator({
                     if (totalCount > 0) {
                         (executionCount.toFloat() / totalCount.toFloat()).coerceIn(0f, 1f)
                     } else {

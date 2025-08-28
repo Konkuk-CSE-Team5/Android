@@ -1,5 +1,8 @@
 package com.konkuk.hackathon.core.navigation.center
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -34,6 +37,12 @@ fun CenterNavHost(
     NavHost(
         navController = navController,
         startDestination = navigator.startDestination,
+        enterTransition = {
+            fadeIn(animationSpec = tween(300))
+        },
+        exitTransition = {
+            fadeOut(animationSpec = tween(300))
+        },
     ) {
         // Home
         composable<CenterTabRoute.Home> {
@@ -53,8 +62,8 @@ fun CenterNavHost(
             CenterRoute.ElderStatus
         ) {
 
-            composable<CenterRoute.ElderStatus> {
-                val parentEntry = remember(it) {
+            composable<CenterRoute.ElderStatus> { navBackstackEntry ->
+                val parentEntry = remember(navBackstackEntry) {
                     navController.getBackStackEntry<CenterRoute.ElderStatusNavigation>()
                 }
                 val graphRoute = parentEntry.toRoute<CenterRoute.ElderStatusNavigation>()
@@ -62,7 +71,7 @@ fun CenterNavHost(
                     padding = padding,
                     popBackStack = { navController.popBackStack() },
                     elderId = graphRoute.elderId,
-                    navigateToRecordDetail = { navController.navigate(CenterRoute.RecordDetail) },
+                    navigateToRecordDetail = { navController.navigate(CenterRoute.RecordDetail(it.toLong())) },
                     navigateToAllRecord = { navController.navigate(CenterRoute.VolunteerAllRecord) })
             }
             composable<CenterRoute.VolunteerAllRecord> {
@@ -73,8 +82,10 @@ fun CenterNavHost(
                     }
                 )
             }
-            composable<CenterRoute.RecordDetail> {
+            composable<CenterRoute.RecordDetail> { navBackStackEntry ->
+                val id = navBackStackEntry.toRoute<CenterRoute.RecordDetail>().id
                 RecordDetailScreen(
+                    id = id,
                     padding = padding,
                     popBackStack = { navController.popBackStack() },
                 )
@@ -174,12 +185,12 @@ fun CenterNavHost(
                     navController.getBackStackEntry(CenterRoute.CenterSettingsGraph)
                 }
                 val sharedVm: CenterInfoViewModel = hiltViewModel(parentEntry)
-        composable<CenterTabRoute.Settings> {
-            CenterSettingScreen(
-                padding = padding,
-                onClickModify = { navController.navigate(CenterRoute.CenterInfoModify) },
-            )
-        }
+                composable<CenterTabRoute.Settings> {
+                    CenterSettingScreen(
+                        padding = padding,
+                        onClickModify = { navController.navigate(CenterRoute.CenterInfoModify) },
+                    )
+                }
 
                 CenterInfoScreen(
                     padding = padding,
