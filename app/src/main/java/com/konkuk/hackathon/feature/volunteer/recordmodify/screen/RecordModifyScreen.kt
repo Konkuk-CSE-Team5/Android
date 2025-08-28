@@ -52,6 +52,9 @@ fun RecordModifyScreen(
     RecordModifyScreen(
         uiState = uiState,
         popBackStack = popBackStack,
+        onHasCalledChange = { viewModel.updateHasCalled(it) },
+        onHealthConditionChange = { viewModel.updateHealthCondition(it) },
+        onMindConditionChange = { viewModel.updateMindCondition(it) },
     )
 }
 
