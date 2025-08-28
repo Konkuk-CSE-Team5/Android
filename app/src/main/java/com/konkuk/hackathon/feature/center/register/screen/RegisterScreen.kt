@@ -27,7 +27,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -135,6 +137,7 @@ fun ElderComponent(
     modifier: Modifier = Modifier,
     elder: RegisterUiState.Elder,
 ) {
+    val clipboardManager = LocalClipboardManager.current
     Row(
         modifier = modifier
             .border(
@@ -142,7 +145,8 @@ fun ElderComponent(
                 color = OnItTheme.colors.gray2,
                 shape = RoundedCornerShape(16.dp)
             )
-            .padding(16.dp),
+            .padding(horizontal = 16.dp)
+            .padding(top = 16.dp, bottom = 10.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -154,6 +158,11 @@ fun ElderComponent(
             )
             VerticalSpacer(4.dp)
             Row(
+                modifier = Modifier
+                    .clickable(onClick = {
+                        clipboardManager.setText(AnnotatedString(elder.code))
+                    })
+                    .padding(vertical = 9.5.dp),
                 horizontalArrangement = Arrangement.spacedBy(3.dp),
             ) {
                 Text(

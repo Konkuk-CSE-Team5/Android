@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import androidx.navigation.toRoute
 import com.konkuk.hackathon.feature.center.home.screen.AttentionRequiredScreen
 import com.konkuk.hackathon.feature.center.home.screen.CenterHomeScreen
 import com.konkuk.hackathon.feature.center.home.screen.ElderStatusScreen
@@ -72,6 +73,18 @@ fun CenterNavHost(
 
         // Settings
         composable<CenterTabRoute.Settings> {
+
+        }
+
+        // 어르신 관리
+        composable<CenterRoute.RegisterManagement> { navBackStackEntry ->
+            val id = navBackStackEntry.toRoute<CenterRoute.RegisterManagement>().id
+            // ElderManagementScreen(
+            //     padding = padding,
+            //     id = id,
+            //     popBackStack = { navController.popBackStack() },
+            //     navigateToElderEdit = { /* TODO */ }
+            // )
 
         }
     }
