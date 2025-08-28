@@ -1,6 +1,5 @@
 package com.konkuk.hackathon.feature.center.eldermodify
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,11 +23,18 @@ class ElderModifyViewModel @Inject constructor() : ViewModel() {
     }
 
     fun updateStartDate(newDate: String) {
-        Log.d("TAR", "updateStartDate: $newDate")
         _uiState.value = _uiState.value.copy(startDate = newDate)
     }
 
     fun updateEndDate(newDate: String) {
         _uiState.value = _uiState.value.copy(endDate = newDate)
+    }
+
+    fun updateStartTime(newDate: String) {
+        _uiState.value = _uiState.value.copy(startTime = newDate)
+    }
+
+    fun updateEndTime(newDate: String) {
+        _uiState.value = _uiState.value.copy(endTime = newDate)
     }
 }
