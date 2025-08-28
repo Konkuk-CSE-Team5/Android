@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.konkuk.hackathon.core.common.component.CallStatusChip
 import com.konkuk.hackathon.core.common.component.OnItTopAppBar
+import com.konkuk.hackathon.core.common.extension.dayOfWeekKorean
 import com.konkuk.hackathon.core.data.model.CallStatusType
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 import com.konkuk.hackathon.core.designsystem.theme.gray2
@@ -80,18 +81,18 @@ fun AttentionRequiredScreen(
                     ) {
                         Column {
                             Text(
-                                "8/25(화) 홍길동 봉사자",
+                                "${data.date} (${data.date.dayOfWeekKorean()}) ${data.volunteerName} 봉사자",
                                 style = OnItTheme.typography.R_15,
                                 color = gray7
                             ) // 실제 데이터로 변경 필요
                             Spacer(Modifier.height(4.dp))
                             Text(
-                                "통화시간 30분 24초",
+                                "통화시간 없음",
                                 style = OnItTheme.typography.R_14,
                                 color = gray4
                             ) // 실제 데이터로 변경 필요
                         }
-                        CallStatusChip(CallStatusType.COMPLETE) // 실제 데이터로 변경 필요
+                        CallStatusChip(data.status) // 실제 데이터로 변경 필요
                     }
                 }
             }
