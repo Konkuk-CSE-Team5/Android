@@ -13,24 +13,41 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.konkuk.hackathon.core.common.component.CallStatusChip
 import com.konkuk.hackathon.core.common.component.OnItTopAppBar
+import com.konkuk.hackathon.core.common.extension.dayOfWeekKorean
 import com.konkuk.hackathon.core.data.model.CallStatusType
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 import com.konkuk.hackathon.core.designsystem.theme.gray2
 import com.konkuk.hackathon.core.designsystem.theme.gray4
 import com.konkuk.hackathon.core.designsystem.theme.gray7
+import com.konkuk.hackathon.feature.center.home.viewmodel.AttentionRequiredViewModel
 
 @Composable
-fun AttentionRequiredScreen(padding: PaddingValues, popBackStack: () -> Unit, modifier: Modifier = Modifier) {
+fun AttentionRequiredScreen(
+    padding: PaddingValues, popBackStack: () -> Unit,
+    attentionRequiredViewModel: AttentionRequiredViewModel = hiltViewModel(),
+    modifier: Modifier = Modifier
+) {
+    val uiState = attentionRequiredViewModel.uiState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        attentionRequiredViewModel.getAttention()
+    }
+
     Column(
         Modifier
             .fillMaxSize()
@@ -40,10 +57,10 @@ fun AttentionRequiredScreen(padding: PaddingValues, popBackStack: () -> Unit, mo
         OnItTopAppBar("주의가 필요한 봉사", popBackStack)
 
         LazyColumn(Modifier.padding(horizontal = 16.dp)) {
-            items(3) { index -> // 실제 데이터 리스트 넣기
+            itemsIndexed(uiState.value.alerts) { index, data -> // 실제 데이터 리스트 넣기
                 val shape = when (index) {
                     0 -> RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp)
-                    2 -> RoundedCornerShape(
+                    uiState.value.alerts.size - 1 -> RoundedCornerShape(
                         bottomStart = 14.dp,
                         bottomEnd = 14.dp
                     ) // 마지막 index 일때로 수정 필요
@@ -64,18 +81,18 @@ fun AttentionRequiredScreen(padding: PaddingValues, popBackStack: () -> Unit, mo
                     ) {
                         Column {
                             Text(
-                                "8/25(화) 홍길동 봉사자",
+                                "${data.date} (${data.date.dayOfWeekKorean()}) ${data.volunteerName} 봉사자",
                                 style = OnItTheme.typography.R_15,
                                 color = gray7
                             ) // 실제 데이터로 변경 필요
                             Spacer(Modifier.height(4.dp))
                             Text(
-                                "통화시간 30분 24초",
+                                "통화시간 없음",
                                 style = OnItTheme.typography.R_14,
                                 color = gray4
                             ) // 실제 데이터로 변경 필요
                         }
-                        CallStatusChip(CallStatusType.COMPLETE) // 실제 데이터로 변경 필요
+                        CallStatusChip(data.status) // 실제 데이터로 변경 필요
                     }
                 }
             }

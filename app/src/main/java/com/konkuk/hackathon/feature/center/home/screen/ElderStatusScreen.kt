@@ -106,7 +106,7 @@ fun ElderStatusScreen(
                     }
                 }
             }
-            items(uiState.value.records) { record -> // 실제 데이터 리스트 넣기
+            items(uiState.value.records.take(3)) { record -> // 실제 데이터 리스트 넣기
                 Box(
                     Modifier
                         .fillMaxWidth()
@@ -122,11 +122,9 @@ fun ElderStatusScreen(
                     ) {
                         Row {
                             Text(
-                                "${
-                                    record.date.format(
-                                        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
-                                    )
-                                }",
+                                record.date.format(
+                                    DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+                                ),
                                 style = OnItTheme.typography.R_15,
                                 color = gray7
                             )
