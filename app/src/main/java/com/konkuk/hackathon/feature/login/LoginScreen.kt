@@ -1,6 +1,7 @@
 package com.konkuk.hackathon.feature.login
 
 import android.content.Intent
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -32,6 +33,7 @@ import com.konkuk.hackathon.core.common.component.HorizontalSpacer
 import com.konkuk.hackathon.core.common.component.OnItButtonPrimaryContent
 import com.konkuk.hackathon.core.common.component.VerticalSpacer
 import com.konkuk.hackathon.core.common.extension.noRippleClickable
+import com.konkuk.hackathon.core.common.utils.ObserveAsEvents
 import com.konkuk.hackathon.core.designsystem.theme.Main_Primary
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 import com.konkuk.hackathon.feature.center.CenterActivity
@@ -42,31 +44,37 @@ import com.konkuk.hackathon.feature.volunteer.VolunteerActivity
 @Composable
 fun LoginScreen(
     padding: PaddingValues,
-    navigateToHome: () -> Unit,
     navigateToSignUp: () -> Unit,
     viewModel: LoginViewModel = hiltViewModel<LoginViewModel>(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
-    LoginScreen(
-        padding = padding,
-        uiState = uiState,
-        navigateToHome = {
-            if (uiState.loginType == LoginType.VOLUNTEER) {
+    ObserveAsEvents(viewModel.uiEvent) { event ->
+        when (event) {
+            is LoginUiEvent.NavigateToVolunteerMain -> {
+                Log.d("LoginScreen", "Navigating to Volunteer Main")
                 context.startActivity(
                     Intent(context, VolunteerActivity::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     }
                 )
-            } else {
+            }
+
+            is LoginUiEvent.NavigateToCenterMain -> {
                 context.startActivity(
                     Intent(context, CenterActivity::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     }
                 )
             }
-        },
+        }
+    }
+
+    LoginScreen(
+        padding = padding,
+        uiState = uiState,
+        onLoginClick = { viewModel.login() },
         navigateToSignUp = navigateToSignUp,
         updateSignInType = { viewModel.updateLoginType(it) }
 
@@ -78,7 +86,7 @@ private fun LoginScreen(
     padding: PaddingValues,
     uiState: LoginUiState,
     updateSignInType: (LoginType) -> Unit,
-    navigateToHome: () -> Unit = { },
+    onLoginClick: () -> Unit = { },
     navigateToSignUp: () -> Unit = { },
 ) {
     Column(
@@ -110,7 +118,7 @@ private fun LoginScreen(
             modifier = Modifier
                 .fillMaxWidth(),
             text = "로그인",
-            onClick = navigateToHome
+            onClick = onLoginClick
         )
         VerticalSpacer(24.dp)
         Row(
