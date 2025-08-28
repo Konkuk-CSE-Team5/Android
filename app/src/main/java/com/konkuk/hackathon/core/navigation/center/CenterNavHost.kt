@@ -4,11 +4,14 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.konkuk.hackathon.feature.center.setting.screen.CenterInfoScreen
+import com.konkuk.hackathon.feature.center.setting.screen.CenterSettingScreen
 import androidx.navigation.compose.navigation
 import com.konkuk.hackathon.feature.center.home.screen.AttentionRequiredScreen
 import com.konkuk.hackathon.feature.center.home.screen.CenterHomeScreen
 import com.konkuk.hackathon.feature.center.home.screen.ElderStatusScreen
 import com.konkuk.hackathon.feature.center.home.screen.RecordDetailScreen
+import com.konkuk.hackathon.feature.center.register.screen.SuccessRegisterScreen
 
 @Composable
 fun CenterNavHost(
@@ -61,9 +64,29 @@ fun CenterNavHost(
 
         }
 
+        composable<CenterRoute.SuccessRegister> {
+            SuccessRegisterScreen(
+                padding = padding,
+                inviteCode = "ABCD1234", // 값 받아와야함
+                onCheckClick = { navController.navigate(CenterTabRoute.Register) },
+                centerName = "행복 복지센터" // 값 받아와야함
+            )
+        }
+
         // Settings
         composable<CenterTabRoute.Settings> {
+            CenterSettingScreen(
+                padding = padding,
+                onClickModify = {navController.navigate(CenterRoute.CenterInfoModify)},
+            )
+        }
 
+        composable<CenterRoute.CenterInfoModify> {
+            CenterInfoScreen(
+                padding = padding,
+                onBackClick = { navController.popBackStack() },
+                onClickEdit = { navController.navigate(CenterTabRoute.Settings) }
+            )
         }
     }
 }
