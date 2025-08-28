@@ -25,6 +25,9 @@ sealed interface CenterRoute {
     @Serializable
     data object ElderRegister : CenterRoute
 
+    @Serializable
+    data class ElderModify(val id: Long) : CenterRoute
+
 }
 
 sealed interface CenterTabRoute : CenterRoute {

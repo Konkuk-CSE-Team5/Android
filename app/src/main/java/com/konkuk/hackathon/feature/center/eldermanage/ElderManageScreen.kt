@@ -38,6 +38,7 @@ import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 
 @Composable
 fun ElderManageScreen(
+    id: Long,
     padding: PaddingValues,
     popBackStack: () -> Unit,
     navigateToElderModify: (Long) -> Unit,
