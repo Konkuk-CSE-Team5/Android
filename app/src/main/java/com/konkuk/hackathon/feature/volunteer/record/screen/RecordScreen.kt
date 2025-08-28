@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -50,6 +51,7 @@ import com.konkuk.hackathon.feature.volunteer.record.viewmodel.RecordViewModel
 fun RecordScreen(
     padding: PaddingValues,
     navigateToRecordModify: (Long) -> Unit = {},
+    navigateToRecordAll: (Long) -> Unit = {},
     viewModel: RecordViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -74,6 +76,7 @@ fun RecordScreen(
         RecordScreen(
             uiState = uiState,
             onRecordClick = navigateToRecordModify,
+            onAllRecordClick = navigateToRecordAll,
         )
     }
 }
@@ -82,6 +85,7 @@ fun RecordScreen(
 private fun RecordScreen(
     uiState: RecordUiState = RecordUiState(),
     onRecordClick: (Long) -> Unit = {},
+    onAllRecordClick: (Long) -> Unit = { },
 ) {
     LazyColumn(
         modifier = Modifier
@@ -105,6 +109,7 @@ private fun ElderComponent(
     modifier: Modifier = Modifier,
     elder: Elder,
     onRecordClick: (Long) -> Unit = { },
+    onAllRecordClick: (Long) -> Unit = { },
 ) {
     Column(
         modifier = modifier
@@ -114,6 +119,7 @@ private fun ElderComponent(
                 color = Gray_2,
                 shape = RoundedCornerShape(14.dp),
             )
+            .clip(RoundedCornerShape(14.dp))
     ) {
         VerticalSpacer(16.dp)
         Row(
@@ -137,7 +143,7 @@ private fun ElderComponent(
             style = OnItTheme.typography.R_14.copy(color = Gray_5),
         )
         VerticalSpacer(16.dp)
-        elder.records.forEach { record ->
+        elder.records.take(3).forEach { record ->
             HorizontalDivider(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -149,6 +155,25 @@ private fun ElderComponent(
                 onClick = { onRecordClick(record.id) },
             )
         }
+        HorizontalDivider(
+            modifier = Modifier
+                .fillMaxWidth(),
+            color = Gray_2,
+            thickness = 1.dp,
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(60.dp)
+                .clickable { onAllRecordClick(elder.id) },
+            contentAlignment = Alignment.Center,
+        ) {
+            Text(
+                text = "전체 기록 보기",
+                style = OnItTheme.typography.SB_14.copy(color = Main_Primary),
+            )
+        }
+
     }
 }
 

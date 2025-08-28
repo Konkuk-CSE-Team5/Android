@@ -14,6 +14,7 @@ import java.time.LocalDateTime
 import com.konkuk.hackathon.feature.volunteer.setting.screen.VolunteerInfoScreen
 import com.konkuk.hackathon.feature.volunteer.setting.screen.VolunteerSettingsScreen
 import com.konkuk.hackathon.feature.volunteer.record.screen.RecordScreen
+import com.konkuk.hackathon.feature.volunteer.recordall.RecordAllScreen
 import com.konkuk.hackathon.feature.volunteer.recordmodify.screen.RecordModifyScreen
 
 @Composable
@@ -72,16 +73,19 @@ fun VolunteerNavHost(
             )
         }
 
-        composable<VolunteerRoute.RecordModify> {
+        composable<VolunteerRoute.RecordModify> { navBackStackEntry ->
+            val id = navBackStackEntry.toRoute<VolunteerRoute.RecordModify>().id
             RecordModifyScreen(
-                popBackStack = { navController.popBackStack() })
+                id = id,
+                popBackStack = { navController.popBackStack() }
+            )
         }
 
         // Settings
         composable<VolunteerTabRoute.Settings> {
             VolunteerSettingsScreen(
                 padding = padding,
-                onClickModify = {navController.navigate(VolunteerRoute.VolInfoModify)}
+                onClickModify = { navController.navigate(VolunteerRoute.VolInfoModify) }
             )
         }
 
@@ -90,6 +94,17 @@ fun VolunteerNavHost(
                 padding = padding,
                 onBackClick = { navController.popBackStack() },
                 onClickEdit = { navController.navigate(VolunteerTabRoute.Settings) }
+            )
+        }
+
+        composable<VolunteerRoute.RecordAll> { navBackStackEntry ->
+            val id = navBackStackEntry.toRoute<VolunteerRoute.RecordAll>().id
+
+            RecordAllScreen(
+                id = id,
+                padding = padding,
+                popBackStack = { navController.popBackStack() },
+                navigateToRecordModify = { navController.navigate(VolunteerRoute.RecordModify(it)) }
             )
         }
     }

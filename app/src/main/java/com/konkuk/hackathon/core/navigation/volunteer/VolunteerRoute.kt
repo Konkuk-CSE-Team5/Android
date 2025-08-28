@@ -14,11 +14,15 @@ sealed interface VolunteerRoute {
 
     @Serializable
     data object VolInfoModify : VolunteerRoute
+
     @Serializable
     data object RecordSubmit : VolunteerRoute
 
     @Serializable
-    data object RecordModify : VolunteerRoute
+    data class RecordAll(val id: Long) : VolunteerRoute
+
+    @Serializable
+    data class RecordModify(val id: Long) : VolunteerRoute
 }
 
 sealed interface VolunteerTabRoute : VolunteerRoute {
