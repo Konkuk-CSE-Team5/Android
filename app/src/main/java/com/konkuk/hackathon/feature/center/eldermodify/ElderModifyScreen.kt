@@ -78,6 +78,7 @@ import java.util.Locale
 @Composable
 fun ElderModifyScreen(
     padding: PaddingValues,
+    id: Long,
     popBackStack: () -> Unit = {},
     viewModel: ElderModifyViewModel = hiltViewModel(),
 ) {
@@ -104,7 +105,7 @@ fun ElderModifyScreen(
             },
             enabled = buttonEnabled.value
         )
-        
+
         SnackbarHost(
             hostState = snackbarHostState,
             modifier = Modifier.align(Alignment.BottomCenter)
@@ -517,12 +518,12 @@ fun isTimeEarlier(time1: String, time2: String): Boolean {
     try {
         val parts1 = time1.split(":")
         val parts2 = time2.split(":")
-        
+
         val hour1 = parts1[0].toInt()
         val minute1 = parts1[1].toInt()
         val hour2 = parts2[0].toInt()
         val minute2 = parts2[1].toInt()
-        
+
         return when {
             hour1 < hour2 -> true
             hour1 > hour2 -> false
@@ -552,7 +553,7 @@ fun DateRangeSelector(
     startDate: String = "",
     endDate: String = "",
     onStartDateChange: (String) -> Unit = {},
-    onEndDateChange: (String) -> Unit = {}
+    onEndDateChange: (String) -> Unit = {},
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -566,7 +567,7 @@ fun DateRangeSelector(
                 fontWeight = FontWeight.Normal,
             )
         )
-        
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -597,11 +598,11 @@ fun RowScope.DateSelector(
     modifier: Modifier = Modifier,
     selectedDate: String = "",
     onDateChange: (String) -> Unit = {},
-    placeholder: String = "날짜 선택"
+    placeholder: String = "날짜 선택",
 ) {
     var showDatePicker by remember { mutableStateOf(false) }
     val datePickerState = rememberDatePickerState()
-    
+
     Row(
         modifier = modifier
             .weight(1f)
@@ -629,7 +630,7 @@ fun RowScope.DateSelector(
             tint = Gray_4
         )
     }
-    
+
     if (showDatePicker) {
         DatePickerDialog(
             onDismissRequest = { showDatePicker = false },
