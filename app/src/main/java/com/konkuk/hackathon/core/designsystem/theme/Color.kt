@@ -6,7 +6,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.core.graphics.toColorInt
 
 
-
 val BG = Color(0xFFFAFAFA)
 val dim = Color(0xFF000000)
 
@@ -66,7 +65,7 @@ data class OnItColors(
     val gray8: Color,
     val gray9: Color,
     val gray10: Color,
-    val black: Color
+    val black: Color,
 )
 
 val defaultOnItColors = OnItColors(
@@ -99,6 +98,7 @@ val defaultOnItColors = OnItColors(
 val LocalOnItColorsProvider = staticCompositionLocalOf { defaultOnItColors }
 
 val Gray_7 = Color(0xFF3b3b3b)
+val Gray_5 = Color(0xFF666666)
 val Gray_4 = Color(0xFF8A8A8A)
 val Gray_2 = Color(0xFFD2D2D2)
 val Gray_1 = Color(0xFFECECEC)
