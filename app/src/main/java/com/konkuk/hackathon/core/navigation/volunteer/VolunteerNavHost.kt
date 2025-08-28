@@ -11,6 +11,10 @@ import com.konkuk.hackathon.core.navigation.Route
 import com.konkuk.hackathon.feature.volunteer.home.screen.RecordSubmitScreen
 import com.konkuk.hackathon.feature.volunteer.home.screen.VolunteerHomeScreen
 import java.time.LocalDateTime
+import com.konkuk.hackathon.feature.volunteer.setting.screen.VolunteerInfoScreen
+import com.konkuk.hackathon.feature.volunteer.setting.screen.VolunteerSettingsScreen
+import com.konkuk.hackathon.feature.volunteer.record.screen.RecordScreen
+import com.konkuk.hackathon.feature.volunteer.recordmodify.screen.RecordModifyScreen
 
 @Composable
 fun VolunteerNavHost(
@@ -62,12 +66,31 @@ fun VolunteerNavHost(
 
         // Record
         composable<VolunteerTabRoute.Record> {
+            RecordScreen(
+                padding = padding,
+                navigateToRecordModify = { navController.navigate(VolunteerRoute.RecordModify) }
+            )
+        }
 
+        composable<VolunteerRoute.RecordModify> {
+            RecordModifyScreen(
+                popBackStack = { navController.popBackStack() })
         }
 
         // Settings
         composable<VolunteerTabRoute.Settings> {
+            VolunteerSettingsScreen(
+                padding = padding,
+                onClickModify = {navController.navigate(VolunteerRoute.VolInfoModify)}
+            )
+        }
 
+        composable<VolunteerRoute.VolInfoModify> {
+            VolunteerInfoScreen(
+                padding = padding,
+                onBackClick = { navController.popBackStack() },
+                onClickEdit = { navController.navigate(VolunteerTabRoute.Settings) }
+            )
         }
     }
 }
