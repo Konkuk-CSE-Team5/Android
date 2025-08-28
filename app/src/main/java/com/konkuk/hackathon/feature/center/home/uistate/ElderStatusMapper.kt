@@ -27,7 +27,7 @@ fun ElderStatusResponse.Summary.toUiModel(): SummaryUiModel {
 fun ElderStatusResponse.Record.toUiModel(): RecordUiModel {
     return RecordUiModel(
         recordId = this.recordId,
-        date = LocalDate.parse(this.date), // String -> LocalDate
+        date = this.date, // String -> LocalDate
         duration = this.duration,
         status = this.status // String -> Enum
     )

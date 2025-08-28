@@ -143,8 +143,6 @@ fun ElderRegisterScreen(
             )
 
         }
-        VerticalSpacer(100.dp)
-
         ElderRegisterScreen(
             uiState = uiState,
             updateSchedule = { viewModel.updateSchedule(it) },

@@ -11,8 +11,18 @@ data class CenterHomeResponse(
     @SerialName("volunteersNeedingAttention")
     val volunteersNeedingAttention: List<VolunteersNeedingAttention>,
     @SerialName("weeklyVolunteerStatus")
-    val weeklyVolunteerStatus: WeeklyVolunteerStatus
+    val weeklyVolunteerStatus: WeeklyVolunteerStatus,
 ) {
+    @Serializable
+    data class VolunteersNeedingAttention(
+        @SerialName("date")
+        val date: String,
+        @SerialName("seniorName")
+        val seniorName: String,
+        @SerialName("status")
+        val status: String,
+    )
+
     @Serializable
     data class SeniorStatus(
         @SerialName("age")
@@ -22,30 +32,20 @@ data class CenterHomeResponse(
         @SerialName("name")
         val name: String,
         @SerialName("nextSchedule")
-        val nextSchedule: String,
+        val nextSchedule: String?,
         @SerialName("seniorId")
         val seniorId: Int,
         @SerialName("volunteerName")
-        val volunteerName: String
+        val volunteerName: String,
     ) {
         @Serializable
         data class MonthlyCalls(
             @SerialName("completed")
             val completed: Int,
             @SerialName("target")
-            val target: Int
+            val target: Int,
         )
     }
-
-    @Serializable
-    data class VolunteersNeedingAttention(
-        @SerialName("date")
-        val date: String,
-        @SerialName("seniorName")
-        val seniorName: String,
-        @SerialName("status")
-        val status: String
-    )
 
     @Serializable
     data class WeeklyVolunteerStatus(
@@ -60,6 +60,6 @@ data class CenterHomeResponse(
         @SerialName("progressRate")
         val progressRate: Int,
         @SerialName("totalCount")
-        val totalCount: Int
+        val totalCount: Int,
     )
 }

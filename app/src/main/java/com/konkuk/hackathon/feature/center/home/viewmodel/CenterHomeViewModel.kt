@@ -1,5 +1,6 @@
 package com.konkuk.hackathon.feature.center.home.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.konkuk.hackathon.core.data.repository.CenterHomeRepository
@@ -13,10 +14,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.onSuccess
 
 @HiltViewModel
 class CenterHomeViewModel @Inject constructor(
-    private val centerHomeRepository: CenterHomeRepository
+    private val centerHomeRepository: CenterHomeRepository,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(CenterHomeUiState())
     val uiState = _uiState.asStateFlow()
@@ -24,14 +26,16 @@ class CenterHomeViewModel @Inject constructor(
 
     fun getCenterHomeData() {
         viewModelScope.launch {
-            centerHomeRepository.getCenterHome().onSuccess { response ->
-                _uiState.update {
-                    response.toUiState()
+            centerHomeRepository.getCenterHome()
+                .onSuccess { response ->
+                    Log.d("CenterHomeViewModel", "getCenterHomeData: $response")
+                    _uiState.update {
+                        response.toUiState()
+                    }
+
+                }.onFailure {
+                    Log.e("CenterHomeViewModel", "getCenterHomeData: ${it.message}")
                 }
-
-            }.onFailure {
-
-            }
 
         }
     }

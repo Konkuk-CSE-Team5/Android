@@ -16,9 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,21 +25,17 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.konkuk.hackathon.R
 import com.konkuk.hackathon.core.common.component.CallStatusChip
 import com.konkuk.hackathon.core.common.component.OnItTopAppBar
 import com.konkuk.hackathon.core.common.extension.toKoreanDuration
-import com.konkuk.hackathon.core.data.model.CallStatusType
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 import com.konkuk.hackathon.core.designsystem.theme.Primary
 import com.konkuk.hackathon.core.designsystem.theme.gray2
-import com.konkuk.hackathon.core.designsystem.theme.gray4
 import com.konkuk.hackathon.core.designsystem.theme.gray5
 import com.konkuk.hackathon.core.designsystem.theme.gray7
 import com.konkuk.hackathon.feature.center.home.components.VolunteerMatchingChip
@@ -57,7 +51,7 @@ fun ElderStatusScreen(
     navigateToRecordDetail: (Int) -> Unit,
     navigateToAllRecord: (Int) -> Unit,
     elderStatusViewModel: ElderStatusViewModel = hiltViewModel(),
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
 
     val uiState = elderStatusViewModel.uiState.collectAsState()

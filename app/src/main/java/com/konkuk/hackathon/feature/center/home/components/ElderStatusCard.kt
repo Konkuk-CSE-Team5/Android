@@ -65,7 +65,13 @@ fun ElderStatusCard(
                     Text("이번 달 통화", style = OnItTheme.typography.R_15, color = gray7)
                     Text("$executionCount/$totalCount", style = OnItTheme.typography.B_12, color = gray3)
                 }
-                OnItProgressIndicator({ executionCount.toFloat() / totalCount.toFloat() })
+                OnItProgressIndicator({ 
+                    if (totalCount > 0) {
+                        (executionCount.toFloat() / totalCount.toFloat()).coerceIn(0f, 1f)
+                    } else {
+                        0f
+                    }
+                })
             }
         }
     }

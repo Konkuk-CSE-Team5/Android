@@ -50,7 +50,7 @@ fun CenterHomeScreen(
     navigateToElderStatus: (Int) -> Unit,
     navigateToAttentionRequired: () -> Unit,
     centerHomeViewModel: CenterHomeViewModel = hiltViewModel(),
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val scrollState = rememberScrollState()
     val uiState = centerHomeViewModel.uiState.collectAsState()
@@ -120,7 +120,11 @@ fun CenterHomeScreen(
                             color = gray4
                         )
                         Spacer(Modifier.height(8.dp))
-                        OnItProgressIndicator({ uiState.value.weeklyVolunteerStatus.progressRate.toFloat() / 100f })
+                        OnItProgressIndicator({
+                            if (uiState.value.weeklyVolunteerStatus.progressRate.toFloat() == 0f) 0f
+                            else
+                                uiState.value.weeklyVolunteerStatus.progressRate.toFloat() / 100f
+                        })
 
                     }
                     Row(

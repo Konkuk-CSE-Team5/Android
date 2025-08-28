@@ -16,5 +16,8 @@ fun String.toPhoneFormat(): String {
 
 fun String.toKoreanDuration(): String {
     val (hour, minute, second) = this.split(":")
-    return "${hour}시간 ${minute}분 ${second}초"
+    return if (hour == "00") {
+        "${minute}분 ${second}초"
+    } else
+        "${hour}시간 ${minute}분 ${second}초"
 }
