@@ -21,6 +21,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,10 +54,14 @@ fun RecordModifyScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    LaunchedEffect(Unit) {
+        viewModel.fetchRecordData(id)
+    }
+
     RecordModifyScreen(
         uiState = uiState,
         popBackStack = popBackStack,
-        onHasCalledChange = { viewModel.updateHasCalled(it) },
+        onModifyClick = { viewModel.patchRecordData(id) },
         onHealthConditionChange = { viewModel.updateHealthCondition(it) },
         onMindConditionChange = { viewModel.updateMindCondition(it) },
     )
@@ -66,7 +71,7 @@ fun RecordModifyScreen(
 private fun RecordModifyScreen(
     uiState: RecordModifyUiState,
     popBackStack: () -> Unit,
-    onHasCalledChange: (Boolean) -> Unit = {},
+    onModifyClick: () -> Unit = {},
     onHealthConditionChange: (HealthCondition) -> Unit = {},
     onMindConditionChange: (MindCondition) -> Unit = {},
 ) {
@@ -104,7 +109,7 @@ private fun RecordModifyScreen(
                     .padding(all = 16.dp),
                 text = "수정",
                 height = 50.dp,
-                onClick = { /* TODO: 수정 완료 */ },
+                onClick = { onModifyClick() },
             )
         }
     ) { innerPadding ->

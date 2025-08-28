@@ -52,14 +52,14 @@ fun VolunteerRecordsResponse.toUiState() = RecordUiState(
 
 fun SeniorItem.toElder() = Elder(
     name = this.seniorName,
-    type = if (this.status == "ACTIVE") ElderType.ONGOING else ElderType.COMPLETED,
+    type = if (this.status == "PENDING") ElderType.ONGOING else ElderType.COMPLETED,
     callCount = this.summary.totalCalls,
     totalTime = this.summary.totalDuration,
     records = this.records.map { recordDto ->
         CallRecord(
             id = recordDto.recordId,
             time = recordDto.dateTime,
-            duration = recordDto.duration,
+            duration = recordDto.duration ?: "",
             recordType = when (recordDto.status) {
                 "COMPLETED" -> RecordType.SUCCESS
                 "ABSENT" -> RecordType.ABSENCE

@@ -39,3 +39,11 @@ enum class MentalityStatus(val value: String) {
         fun fromValue(value: String): MentalityStatus? = entries.find { it.value == value }
     }
 }
+
+@Serializable
+data class UpdateRecordRequest(
+    @SerialName("status") val status: String,
+    @SerialName("health") val health: String,
+    @SerialName("mentality") val mentality: String,
+    @SerialName("opinion") val opinion: String
+)

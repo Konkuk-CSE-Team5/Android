@@ -27,6 +27,29 @@ data class CallSummary(
 data class CallRecordDto(
     @SerialName("recordId") val recordId: Long,
     @SerialName("dateTime") val dateTime: String,
-    @SerialName("duration") val duration: String,
+    @SerialName("duration") val duration: String?,
     @SerialName("status") val status: String
+)
+
+@Serializable
+data class VolunteerRecordDetailResponse(
+    @SerialName("seniorId") val seniorId: Long,
+    @SerialName("seniorName") val seniorName: String,
+    @SerialName("records") val records: List<CallRecordDto>
+)
+
+@Serializable
+data class VolunteerRecordUpdateFormResponse(
+    @SerialName("name") val name: String,
+    @SerialName("callHistory") val callHistory: List<CallHistoryItem>,
+    @SerialName("status") val status: String,
+    @SerialName("health") val health: String,
+    @SerialName("mentality") val mentality: String,
+    @SerialName("opinion") val opinion: String
+)
+
+@Serializable
+data class CallHistoryItem(
+    @SerialName("dateTime") val dateTime: String,
+    @SerialName("callTime") val callTime: String
 )
