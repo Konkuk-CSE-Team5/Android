@@ -32,7 +32,6 @@ fun MainNavHost(
         composable<Route.Login> {
             LoginScreen(
                 padding = padding,
-                navigateToHome = { navigator.navigate(MainTab.HOME) },
                 navigateToSignUp = { navController.navigate(Route.SignUp) },
             )
         }
