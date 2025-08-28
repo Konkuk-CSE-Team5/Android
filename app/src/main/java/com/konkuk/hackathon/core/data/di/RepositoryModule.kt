@@ -2,7 +2,6 @@ package com.konkuk.hackathon.core.data.di
 
 import com.konkuk.hackathon.core.data.repository.AuthRepository
 import com.konkuk.hackathon.core.data.repository.CenterHomeRepository
-import com.konkuk.hackathon.core.data.repository.DummyRepository
 import com.konkuk.hackathon.core.data.repositoryimpl.AuthRepositoryImpl
 import com.konkuk.hackathon.core.data.repositoryimpl.CenterHomeRepositoryImpl
 import dagger.Binds
