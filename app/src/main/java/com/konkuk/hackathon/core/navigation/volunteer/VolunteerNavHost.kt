@@ -56,7 +56,7 @@ fun VolunteerNavHost(
             VolunteerInfoScreen(
                 padding = padding,
                 onBackClick = { navController.popBackStack() },
-                navigateToModify = { navController.navigate(VolunteerTabRoute.Settings) }
+                onClickEdit = { navController.navigate(VolunteerTabRoute.Settings) }
             )
         }
     }

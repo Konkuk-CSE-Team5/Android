@@ -23,9 +23,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.konkuk.hackathon.R
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
@@ -35,7 +37,7 @@ import com.konkuk.hackathon.feature.volunteer.setting.component.MyInfoTextField
 import com.konkuk.hackathon.feature.volunteer.setting.component.PhoneTransformation
 
 @Composable
-fun VolunteerInfoScreen(padding : PaddingValues, modifier: Modifier = Modifier, onBackClick: () -> Unit, navigateToModify: () -> Unit) {
+fun VolunteerInfoScreen(padding : PaddingValues, modifier: Modifier = Modifier, onBackClick: () -> Unit, onClickEdit: () -> Unit) {
     var id by remember { mutableStateOf("hackathon1") }
     var pw by remember { mutableStateOf("") }
     var name by remember { mutableStateOf("홍길동") }
@@ -96,13 +98,23 @@ fun VolunteerInfoScreen(padding : PaddingValues, modifier: Modifier = Modifier, 
                 Box(
                     modifier = modifier
                         .fillMaxWidth()
-                        .background(color = OnItTheme.colors.gray1, shape = RoundedCornerShape(14.dp))
-                        .border(color = OnItTheme.colors.gray2, width = 1.2.dp, shape = RoundedCornerShape(14.dp))
+                        .background(
+                            color = OnItTheme.colors.gray1,
+                            shape = RoundedCornerShape(14.dp)
+                        )
+                        .border(
+                            color = OnItTheme.colors.gray2,
+                            width = 1.2.dp,
+                            shape = RoundedCornerShape(14.dp)
+                        )
                         .padding(start = 16.dp)
 
                 ) {
-                    Text(id, color = OnItTheme.colors.gray3, style = OnItTheme.typography.M_16, modifier = modifier.align(
-                        Alignment.CenterStart).padding(vertical = 16.dp))
+                    Text(id, color = OnItTheme.colors.gray3, style = OnItTheme.typography.M_16, modifier = modifier
+                        .align(
+                            Alignment.CenterStart
+                        )
+                        .padding(vertical = 16.dp))
                 }
             }
             MyInfoTextField(
@@ -144,9 +156,10 @@ fun VolunteerInfoScreen(padding : PaddingValues, modifier: Modifier = Modifier, 
             )
             Box(
                 modifier = modifier
+                    .clip(RoundedCornerShape(14.dp))
                     .fillMaxWidth()
                     .background(color = OnItTheme.colors.primary, shape = RoundedCornerShape(14.dp))
-                    .clickable(onClick = {navigateToModify()})
+                    .clickable(onClick = { onClickEdit() })
             ) {
                 Text(
                     text = "수정",
@@ -160,4 +173,10 @@ fun VolunteerInfoScreen(padding : PaddingValues, modifier: Modifier = Modifier, 
         }
 
     }
+}
+
+@Preview
+@Composable
+private fun VolunteerInfoPreview() {
+    VolunteerInfoScreen(PaddingValues(), onBackClick = {}) {}
 }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -33,19 +35,18 @@ import com.konkuk.hackathon.feature.volunteer.setting.component.MyInfoTextField
 import com.konkuk.hackathon.feature.volunteer.setting.component.PhoneTransformation
 
 @Composable
-fun CenterInfoScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
+fun CenterInfoScreen(padding : PaddingValues, modifier: Modifier = Modifier, onBackClick: () -> Unit, onClickEdit: () -> Unit) {
     var id by remember { mutableStateOf("hackathon1") }
     var pw by remember { mutableStateOf("") }
     var name by remember { mutableStateOf("홍길동") }
     var centerName by remember { mutableStateOf("행복 복지센터") }
-    var birth by remember { mutableStateOf("19990101") }
     var phoneNum by remember { mutableStateOf("01012345678") }
-    var isMale by remember { mutableStateOf(true) }
 
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(color = OnItTheme.colors.white)
+            .padding(padding)
     ) {
         Box(
             modifier = modifier
@@ -147,8 +148,10 @@ fun CenterInfoScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
             Box(
                 modifier = modifier
                     .fillMaxWidth()
+                    .clip(RoundedCornerShape(14.dp))
                     .background(color = OnItTheme.colors.primary, shape = RoundedCornerShape(14.dp))
-                    .clickable(onClick = {})
+                    .clickable(onClick = {onClickEdit()})
+
             ) {
                 Text(
                     text = "수정",
@@ -167,5 +170,5 @@ fun CenterInfoScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
 @Preview
 @Composable
 private fun CenterInfoPreview() {
-    CenterInfoScreen(onBackClick = {})
+    CenterInfoScreen(PaddingValues(),onBackClick = {}, onClickEdit = {})
 }

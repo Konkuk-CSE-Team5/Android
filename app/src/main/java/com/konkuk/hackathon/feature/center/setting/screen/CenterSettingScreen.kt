@@ -2,8 +2,10 @@ package com.konkuk.hackathon.feature.center.setting.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,11 +22,12 @@ import androidx.compose.ui.unit.dp
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 
 @Composable
-fun CenterSettingScreen(modifier: Modifier = Modifier) {
+fun CenterSettingScreen(padding : PaddingValues, modifier: Modifier = Modifier, onClickModify: () -> Unit) {
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(color = OnItTheme.colors.white)
+            .padding(padding)
     ) {
         Box(modifier = modifier
             .fillMaxWidth()
@@ -45,7 +48,7 @@ fun CenterSettingScreen(modifier: Modifier = Modifier) {
             Text("연락처: 010-1234-5678", style = OnItTheme.typography.R_14, color = OnItTheme.colors.gray7)
             // 추후 값 받아오는 방식으로 수정 필요
             Spacer(modifier = Modifier.height(12.dp))
-            Text("정보 수정", style = OnItTheme.typography.SB_14, color = OnItTheme.colors.primary)
+            Text("정보 수정", style = OnItTheme.typography.SB_14, color = OnItTheme.colors.primary, modifier = Modifier.clickable { onClickModify() } )
         }
     }
 }
@@ -54,5 +57,5 @@ fun CenterSettingScreen(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun CenterSettingPreview() {
-    CenterSettingScreen()
+    CenterSettingScreen(PaddingValues()) {}
 }
