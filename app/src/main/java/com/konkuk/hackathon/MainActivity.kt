@@ -1,13 +1,19 @@
 package com.konkuk.hackathon
 
+import android.Manifest
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 import com.konkuk.hackathon.core.navigation.MainNavHost
 import com.konkuk.hackathon.core.navigation.MainTab
@@ -17,12 +23,23 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalPermissionsApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             OnItTheme {
+
                 val mainNavigator = rememberMainNavigator()
+                val multiplePermissionsState = rememberMultiplePermissionsState(
+                    permissions = listOf(
+                        Manifest.permission.READ_CALL_LOG,
+                        Manifest.permission.CALL_PHONE,
+                    )
+                )
+                LaunchedEffect(Unit) {
+                    multiplePermissionsState.launchMultiplePermissionRequest()
+                }
 
                 Scaffold(
                     containerColor = Color.White,
