@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import com.konkuk.hackathon.feature.volunteer.home.screen.RecordSubmitScreen
 import com.konkuk.hackathon.feature.login.LoginScreen
 import com.konkuk.hackathon.feature.onboarding.OnboardingScreen
 import com.konkuk.hackathon.feature.signup.SignUpScreen
