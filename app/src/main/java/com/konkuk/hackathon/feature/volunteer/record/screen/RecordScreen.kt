@@ -70,6 +70,7 @@ private fun RecordScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(padding),
+        contentPadding = PaddingValues(bottom = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         item {
