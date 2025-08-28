@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.toRoute
 import com.konkuk.hackathon.feature.center.eldermanage.ElderManageScreen
+import com.konkuk.hackathon.feature.center.elderregister.ElderRegisterScreen
 import com.konkuk.hackathon.feature.center.home.screen.AttentionRequiredScreen
 import com.konkuk.hackathon.feature.center.home.screen.CenterHomeScreen
 import com.konkuk.hackathon.feature.center.home.screen.ElderStatusScreen
@@ -86,7 +87,13 @@ fun CenterNavHost(
                 popBackStack = { navController.popBackStack() },
                 navigateToElderModify = { navController.navigate(CenterRoute.ElderModify(id)) }
             )
+        }
 
+        composable<CenterRoute.ElderRegister> {
+            ElderRegisterScreen(
+                padding = padding,
+                popBackStack = { navController.popBackStack() }
+            )
         }
     }
 }
