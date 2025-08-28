@@ -8,13 +8,15 @@ sealed interface CenterRoute {
     data object AttentionRequiredVolunteeringNavigation : CenterRoute
 
     @Serializable
+    data object AttentionRequiredVolunteering : CenterRoute
+    @Serializable
     data object ElderStatusNavigation : CenterRoute
 
     @Serializable
-    data object AttentionRequiredVolunteering : CenterRoute
+    data object ElderStatus : CenterRoute
 
     @Serializable
-    data object ElderStatus
+    data object RecordDetail : CenterRoute
 
 }
 

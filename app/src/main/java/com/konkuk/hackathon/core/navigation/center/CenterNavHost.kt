@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.konkuk.hackathon.feature.center.home.screen.CenterHomeScreen
 import com.konkuk.hackathon.feature.center.home.screen.ElderStatusScreen
+import com.konkuk.hackathon.feature.center.home.screen.RecordDetailScreen
 
 @Composable
 fun CenterNavHost(
@@ -33,7 +34,13 @@ fun CenterNavHost(
                 ElderStatusScreen(
                     padding = padding,
                     popBackStack = { navController.popBackStack() },
-                    navigateToRecordDetail = {})
+                    navigateToRecordDetail = { navController.navigate(CenterRoute.RecordDetail) })
+            }
+            composable<CenterRoute.RecordDetail> {
+                RecordDetailScreen(
+                    padding = padding,
+                    popBackStack = { navController.popBackStack() },
+                )
             }
         }
 
