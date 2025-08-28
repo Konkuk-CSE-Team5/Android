@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.common.math.LinearTransformation.vertical
 import com.konkuk.hackathon.core.common.component.HorizontalSpacer
 import com.konkuk.hackathon.core.common.component.VerticalSpacer
 import com.konkuk.hackathon.core.designsystem.theme.Gray_2
@@ -53,40 +54,41 @@ fun RecordScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    RecordScreen(
-        padding = padding,
-        uiState = uiState,
-        onRecordClick = navigateToRecordModify,
-    )
+    Column(
+        modifier = Modifier
+            .padding(padding)
+            .fillMaxSize(),
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+                .padding(horizontal = 10.dp),
+            contentAlignment = Alignment.CenterStart,
+        ) {
+            Text(
+                text = "기록",
+                style = OnItTheme.typography.SB_24.copy(color = Gray_7),
+            )
+        }
+        RecordScreen(
+            uiState = uiState,
+            onRecordClick = navigateToRecordModify,
+        )
+    }
 }
 
 @Composable
 private fun RecordScreen(
-    padding: PaddingValues,
     uiState: RecordUiState = RecordUiState(),
     onRecordClick: (Long) -> Unit = {},
 ) {
     LazyColumn(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(padding),
-        contentPadding = PaddingValues(bottom = 16.dp),
+            .fillMaxSize(),
+        contentPadding = PaddingValues(vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        item {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp)
-                    .padding(horizontal = 10.dp),
-                contentAlignment = Alignment.CenterStart,
-            ) {
-                Text(
-                    text = "기록",
-                    style = OnItTheme.typography.SB_24.copy(color = Gray_7),
-                )
-            }
-        }
         items(uiState.elders) { elder ->
             ElderComponent(
                 modifier = Modifier
@@ -94,7 +96,6 @@ private fun RecordScreen(
                 elder = elder,
                 onRecordClick = onRecordClick,
             )
-
         }
     }
 }
@@ -251,7 +252,6 @@ private fun ElderTypeChip(
 private fun RecordScreenPreview() {
     OnItTheme {
         RecordScreen(
-            padding = PaddingValues(0.dp),
             uiState = RecordUiState(
                 elders = listOf(
                     Elder(
