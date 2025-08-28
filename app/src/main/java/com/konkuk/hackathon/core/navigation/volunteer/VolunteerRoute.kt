@@ -9,6 +9,9 @@ sealed interface VolunteerRoute {
     data object VolInfoModify : VolunteerRoute
     @Serializable
     data object RecordSubmit : VolunteerRoute
+
+    @Serializable
+    data object RecordModify : VolunteerRoute
 }
 
 sealed interface VolunteerTabRoute : VolunteerRoute {
