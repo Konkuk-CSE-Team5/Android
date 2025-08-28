@@ -15,6 +15,7 @@ class ProfileRepository @Inject constructor(
         Log.d("ProfileRepository", "getVolunteerInfo() 진입")
         val res = settingService.getVolunteerInfo()
         if (res.isSuccessful) {
+            Log.d("ProfileRepository", "getVolunteerInfo: ${res.body()}")
             res.body() ?: throw IllegalStateException("Response body is null")
         } else {
             throw HttpException(res)

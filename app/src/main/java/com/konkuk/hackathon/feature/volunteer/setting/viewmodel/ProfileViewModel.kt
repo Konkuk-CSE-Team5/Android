@@ -1,5 +1,6 @@
 package com.konkuk.hackathon.feature.volunteer.setting.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.konkuk.hackathon.core.data.repository.ProfileRepository
@@ -61,7 +62,9 @@ class ProfileViewModel @Inject constructor(
 
     fun updatePassword(v: String) { _ui.value = _ui.value.copy(password = v) }
     fun updateName(v: String)     { _ui.value = _ui.value.copy(name = v) }
-    fun updateGender(isMale: Boolean) { _ui.value = _ui.value.copy(isMale = isMale) }
+    fun updateGender(isMale: Boolean) { _ui.value = _ui.value.copy(isMale = isMale)
+        Log.d("ProfileViewModel", "updateGender: $isMale")
+    }
     fun updateBirthDigits(digitsRaw: String) {
         val digits = digitsRaw.filter { it.isDigit() }.take(8)
         val iso = digitsToIso(digits) ?: _ui.value.birthday // 8자리 완성 전이면 기존 iso 유지

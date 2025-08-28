@@ -124,7 +124,7 @@ fun VolunteerInfoScreen(padding : PaddingValues, modifier: Modifier = Modifier,v
                             .align(
                                 Alignment.CenterStart
                             )
-                            .padding(vertical = 16.dp)
+                            .padding(vertical = 14.dp)
                     )
                 }
             }
@@ -155,7 +155,7 @@ fun VolunteerInfoScreen(padding : PaddingValues, modifier: Modifier = Modifier,v
             Column(modifier = modifier.fillMaxWidth()) {
                 Text("성별", style = OnItTheme.typography.M_17, color = OnItTheme.colors.gray7)
                 Spacer(modifier = modifier.height(10.dp))
-                GenderButton(isMale = ui.isMale, onClick = { vm::updateGender })
+                GenderButton(isMale = ui.isMale, onClick = vm::updateGender)
             }
             MyInfoTextField(
                 value = ui.phoneDigits,
