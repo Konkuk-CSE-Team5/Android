@@ -7,10 +7,15 @@ import androidx.navigation.compose.composable
 import com.konkuk.hackathon.feature.center.setting.screen.CenterInfoScreen
 import com.konkuk.hackathon.feature.center.setting.screen.CenterSettingScreen
 import androidx.navigation.compose.navigation
+import androidx.navigation.toRoute
+import com.konkuk.hackathon.feature.center.eldermanage.ElderManageScreen
+import com.konkuk.hackathon.feature.center.eldermodify.ElderModifyScreen
+import com.konkuk.hackathon.feature.center.elderregister.ElderRegisterScreen
 import com.konkuk.hackathon.feature.center.home.screen.AttentionRequiredScreen
 import com.konkuk.hackathon.feature.center.home.screen.CenterHomeScreen
 import com.konkuk.hackathon.feature.center.home.screen.ElderStatusScreen
 import com.konkuk.hackathon.feature.center.home.screen.RecordDetailScreen
+import com.konkuk.hackathon.feature.center.register.screen.RegisterScreen
 import com.konkuk.hackathon.feature.center.register.screen.SuccessRegisterScreen
 
 @Composable
@@ -59,9 +64,46 @@ fun CenterNavHost(
             }
         }
 
-        // Record
+        // Register
         composable<CenterTabRoute.Register> {
+            RegisterScreen(
+                padding = padding,
+                navigateToElderManagement = {
+                    navController.navigate(
+                        CenterRoute.RegisterManagement(it)
+                    )
+                },
+                navigateToElderRegister = { navController.navigate(CenterRoute.ElderRegister) }
+            )
+        }
 
+        // 어르신 관리
+        composable<CenterRoute.RegisterManagement> { navBackStackEntry ->
+            val id = navBackStackEntry.toRoute<CenterRoute.RegisterManagement>().id
+            ElderManageScreen(
+                padding = padding,
+                id = id,
+                popBackStack = { navController.popBackStack() },
+                navigateToElderModify = { navController.navigate(CenterRoute.ElderModify(id)) }
+            )
+        }
+
+        // 신규 어르신 등록
+        composable<CenterRoute.ElderRegister> {
+            ElderRegisterScreen(
+                padding = padding,
+                popBackStack = { navController.popBackStack() }
+            )
+        }
+
+        // 어르신 수정
+        composable<CenterRoute.ElderModify> { navBackStackEntry ->
+            val id = navBackStackEntry.toRoute<CenterRoute.ElderModify>().id
+            ElderModifyScreen(
+                padding = padding,
+                id = id,
+                popBackStack = { navController.popBackStack() }
+            )
         }
 
         composable<CenterRoute.SuccessRegister> {
@@ -95,5 +137,6 @@ fun CenterNavHost(
                 onClickEdit = { navController.navigate(CenterTabRoute.Settings) }
             )
         }
+
     }
 }

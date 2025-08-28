@@ -5,6 +5,7 @@ on:
     branches: [ "develop" ]  # "develop" 브랜치에 푸시될 때만 트리거된다.
   pull_request: # 풀 리퀘스트 이벤트에 대한 설정
     branches: [ "develop" ]  # "develop" 브랜치로의 풀 리퀘스트가 생성될 때만 트리거된다.
+    types: [opened, synchronize, reopened]
 
 jobs: # CI에서 수행할 작업을 정의한다.
   ci-build:

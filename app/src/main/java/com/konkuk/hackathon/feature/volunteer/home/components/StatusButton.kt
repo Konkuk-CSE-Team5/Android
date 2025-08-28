@@ -16,11 +16,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.konkuk.hackathon.core.common.extension.noRippleClickable
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
+import com.konkuk.hackathon.core.designsystem.theme.gray1
+import com.konkuk.hackathon.core.designsystem.theme.gray4
+import com.konkuk.hackathon.core.designsystem.theme.gray7
 
 @Composable
 fun StatusButton(
     content: String,
     isSelected: Boolean = false,
+    isDisabled: Boolean = false,
     emoji: String? = null,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -29,17 +33,27 @@ fun StatusButton(
         modifier
             .clip(RoundedCornerShape(14.dp))
             .background(
-                color = if (isSelected)
-                    OnItTheme.colors.primary_container
-                else OnItTheme.colors.white
+                color = when {
+                    isDisabled -> gray1
+                    isSelected -> OnItTheme.colors.primary_container
+                    else -> OnItTheme.colors.white
+                }
             )
             .border(
-                width = 1.dp, color = if (isSelected)
-                    OnItTheme.colors.primary
-                else OnItTheme.colors.gray2,
+                width = 1.dp, color = when {
+                    isSelected -> OnItTheme.colors.primary
+                    else -> OnItTheme.colors.gray2
+                },
                 shape = RoundedCornerShape(14.dp)
             )
-            .noRippleClickable(onClick = onClick)
+            .noRippleClickable(
+                onClick = {
+                    when {
+                        isDisabled -> {}
+                        else -> onClick()
+                    }
+                }
+            )
     ) {
         Column(
             modifier = Modifier
@@ -50,10 +64,17 @@ fun StatusButton(
             if (emoji != null) Text(emoji, style = OnItTheme.typography.B_20)
             Text(
                 content,
-                style = if (isSelected) OnItTheme.typography.SB_14
-                else OnItTheme.typography.R_14,
-                color = if (isSelected) OnItTheme.colors.primary
-                else OnItTheme.colors.gray7
+                style = when {
+                    isDisabled -> OnItTheme.typography.R_14
+                    isSelected -> OnItTheme.typography.SB_14
+                    else -> OnItTheme.typography.R_14
+                },
+
+                color = when {
+                    isDisabled -> gray4
+                    isSelected -> OnItTheme.colors.primary
+                    else -> gray7
+                }
             )
         }
     }

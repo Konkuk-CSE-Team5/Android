@@ -1,17 +1,20 @@
 package com.konkuk.hackathon.feature.volunteer.recordmodify.viewmodel
 
 import androidx.compose.foundation.text.input.TextFieldState
-import com.konkuk.hackathon.feature.volunteer.record.viewmodel.Elder
 
 data class RecordModifyUiState(
     val name: String = "",
-    val callTime: String = "",
-    val duration: String = "",
+    val callTimes: List<CallTime> = emptyList(),
     val hasCalled: Boolean = false, // false = 부재중 , true = 수행
     val healthCondition: HealthCondition = HealthCondition.GOOD,
     val mindCondition: MindCondition = MindCondition.GOOD,
     val memo: TextFieldState = TextFieldState(""),
-)
+) {
+    data class CallTime(
+        val time: String,
+        val duration: String,
+    )
+}
 
 enum class HealthCondition(val label: String) {
     GOOD("좋음"),
