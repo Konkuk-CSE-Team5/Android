@@ -90,7 +90,6 @@ class RecordSubmitViewModel @Inject constructor(
                 )
             }
         }
-        Log.d("getCall", "$callLogList")
         _uiState.update {
             it.copy(
                 callLogList = callLogList,
