@@ -8,10 +8,30 @@ data class ElderModifyUiState(
     val phoneNumber: TextFieldState = TextFieldState(""),
     val startDate: String = (""),
     val endDate: String = (""),
-    val code: TextFieldState = TextFieldState(""),
+    val startTime: String = (""),
+    val endTime: String = (""),
     val schedules: List<Schedule> = emptyList(),
     val memo: TextFieldState = TextFieldState(""),
 ) {
+
+    val birthValid: Boolean
+        get() = birth.text.length == 8
+                && birth.text.all { it.isDigit() }
+                && birth.text.toString().toInt() <= 20240000
+                && birth.text.toString().toInt() >= 19000101
+    val phoneNumberValid: Boolean
+        get() = phoneNumber.text.length == 11 && phoneNumber.text.all { it.isDigit() }
+    val isValid: Boolean
+        get() = name.text.isNotEmpty()
+                && birthValid
+                && phoneNumberValid
+                && startDate.isNotEmpty()
+                && endDate.isNotEmpty()
+                && startTime.isNotEmpty()
+                && endTime.isNotEmpty()
+                && schedules.isNotEmpty()
+                && memo.text.isNotEmpty()
+
     enum class Schedule(val displayName: String) {
         MON("월"),
         TUE("화"),
