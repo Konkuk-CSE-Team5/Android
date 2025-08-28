@@ -16,7 +16,7 @@ sealed interface VolunteerRoute {
     data class RecordAll(val id: Long) : VolunteerRoute
 
     @Serializable
-    data object RecordModify : VolunteerRoute
+    data class RecordModify(val id: Long) : VolunteerRoute
 }
 
 sealed interface VolunteerTabRoute : VolunteerRoute {

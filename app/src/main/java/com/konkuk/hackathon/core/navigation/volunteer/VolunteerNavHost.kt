@@ -51,9 +51,12 @@ fun VolunteerNavHost(
             )
         }
 
-        composable<VolunteerRoute.RecordModify> {
+        composable<VolunteerRoute.RecordModify> { navBackStackEntry ->
+            val id = navBackStackEntry.toRoute<VolunteerRoute.RecordModify>().id
             RecordModifyScreen(
-                popBackStack = { navController.popBackStack() })
+                id = id,
+                popBackStack = { navController.popBackStack() }
+            )
         }
 
         // Settings
@@ -79,7 +82,7 @@ fun VolunteerNavHost(
                 id = id,
                 padding = padding,
                 popBackStack = { navController.popBackStack() },
-                navigateToRecordModify = { navController.navigate(VolunteerRoute.RecordModify) }
+                navigateToRecordModify = { navController.navigate(VolunteerRoute.RecordModify(it)) }
             )
         }
     }

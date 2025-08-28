@@ -51,6 +51,7 @@ import com.konkuk.hackathon.feature.volunteer.record.viewmodel.RecordViewModel
 fun RecordScreen(
     padding: PaddingValues,
     navigateToRecordModify: (Long) -> Unit = {},
+    navigateToRecordAll: (Long) -> Unit = {},
     viewModel: RecordViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -75,6 +76,7 @@ fun RecordScreen(
         RecordScreen(
             uiState = uiState,
             onRecordClick = navigateToRecordModify,
+            onAllRecordClick = navigateToRecordAll,
         )
     }
 }
@@ -83,6 +85,7 @@ fun RecordScreen(
 private fun RecordScreen(
     uiState: RecordUiState = RecordUiState(),
     onRecordClick: (Long) -> Unit = {},
+    onAllRecordClick: (Long) -> Unit = { },
 ) {
     LazyColumn(
         modifier = Modifier
@@ -106,6 +109,7 @@ private fun ElderComponent(
     modifier: Modifier = Modifier,
     elder: Elder,
     onRecordClick: (Long) -> Unit = { },
+    onAllRecordClick: (Long) -> Unit = { },
 ) {
     Column(
         modifier = modifier
@@ -161,7 +165,7 @@ private fun ElderComponent(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp)
-                .clickable { onRecordClick(elder.id) },
+                .clickable { onAllRecordClick(elder.id) },
             contentAlignment = Alignment.Center,
         ) {
             Text(

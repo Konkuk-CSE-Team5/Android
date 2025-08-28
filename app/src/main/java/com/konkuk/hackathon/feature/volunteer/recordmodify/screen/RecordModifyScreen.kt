@@ -44,6 +44,7 @@ import com.konkuk.hackathon.feature.volunteer.recordmodify.viewmodel.RecordModif
 
 @Composable
 fun RecordModifyScreen(
+    id: Long,
     popBackStack: () -> Unit,
     viewModel: RecordModifyViewModel = hiltViewModel(),
 ) {

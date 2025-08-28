@@ -118,7 +118,7 @@ private fun RecordAllScreen(
 
             items(uiState.records) { callRecord ->
                 CallRecordComponent(
-                    modifier = Modifier.clickable {
+                    onClick = {
                         onRecordClick(callRecord.id)
                     },
                     callRecord = callRecord
