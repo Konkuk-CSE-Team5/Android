@@ -6,14 +6,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.compose.runtime.remember
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.konkuk.hackathon.feature.center.setting.screen.CenterInfoScreen
-import com.konkuk.hackathon.feature.center.setting.screen.CenterSettingScreen
 import androidx.navigation.compose.navigation
 import androidx.navigation.toRoute
-import com.konkuk.hackathon.core.navigation.volunteer.VolunteerRoute
 import com.konkuk.hackathon.feature.center.eldermanage.ElderManageScreen
 import com.konkuk.hackathon.feature.center.eldermodify.ElderModifyScreen
 import com.konkuk.hackathon.feature.center.elderregister.ElderRegisterScreen
@@ -24,6 +20,8 @@ import com.konkuk.hackathon.feature.center.home.screen.RecordDetailScreen
 import com.konkuk.hackathon.feature.center.home.screen.VolunteerAllRecordScreen
 import com.konkuk.hackathon.feature.center.register.screen.RegisterScreen
 import com.konkuk.hackathon.feature.center.register.screen.SuccessRegisterScreen
+import com.konkuk.hackathon.feature.center.setting.screen.CenterInfoScreen
+import com.konkuk.hackathon.feature.center.setting.screen.CenterSettingScreen
 import com.konkuk.hackathon.feature.center.setting.viewmodel.CenterInfoViewModel
 
 @Composable
