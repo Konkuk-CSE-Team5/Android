@@ -22,7 +22,7 @@ enum class VolunteerTab(
     RECORD(
         iconResId = R.drawable.ic_record_default,
         selectedIconResId = R.drawable.ic_record_select,
-        label = "등록",
+        label = "기록",
         contentDescription = "Waiting Icon",
         route = VolunteerTabRoute.Record,
     ),

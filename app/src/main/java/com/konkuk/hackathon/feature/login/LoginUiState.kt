@@ -10,5 +10,5 @@ data class LoginUiState(
 
 enum class LoginType(val label: String) {
     VOLUNTEER("봉사자"),
-    ORGANIZATION("기관")
+    CENTER("기관")
 }

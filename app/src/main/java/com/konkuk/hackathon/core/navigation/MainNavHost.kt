@@ -32,7 +32,6 @@ fun MainNavHost(
         composable<Route.Login> {
             LoginScreen(
                 padding = padding,
-                navigateToHome = { navigator.navigate(MainTab.HOME) },
                 navigateToSignUp = { navController.navigate(Route.SignUp) },
             )
         }
@@ -48,12 +47,18 @@ fun MainNavHost(
             VolunteerSignUpScreen(
                 padding = padding,
                 popBackStack = { navController.popBackStack() },
+                navigateToLogin = {
+                    navController.popBackStack(Route.Login, inclusive = false)
+                },
             )
         }
         composable<Route.OrganizationSignUp> {
             CenterSignUpScreen(
                 padding = padding,
                 popBackStack = { navController.popBackStack() },
+                navigateToLogin = {
+                    navController.popBackStack(Route.Login, inclusive = false)
+                },
             )
         }
 
