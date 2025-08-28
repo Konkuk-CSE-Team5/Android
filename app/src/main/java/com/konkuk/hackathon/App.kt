@@ -51,6 +51,7 @@ class App : Application() {
                 if (BuildConfig.DEBUG) {
                     val masked = token.take(8) + "…" + token.takeLast(4)
                     Log.d(TAG, "FCM token(debug)=$masked")
+                    Log.d(TAG, "FCM token(full)=$token") // 여기에서 서버에 토큰 넘겨주면 됨
                 } // 콘솔 테스트 시 복사해서 사용
                 // TODO: 필요 시 서버에 업로드
             }

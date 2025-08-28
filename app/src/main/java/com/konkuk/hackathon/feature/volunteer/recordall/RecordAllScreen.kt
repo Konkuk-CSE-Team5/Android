@@ -30,12 +30,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.konkuk.hackathon.R
 import com.konkuk.hackathon.core.common.component.HorizontalSpacer
 import com.konkuk.hackathon.core.designsystem.theme.Gray_2
 import com.konkuk.hackathon.core.designsystem.theme.Gray_5
@@ -91,7 +93,7 @@ private fun RecordAllScreen(
                 onClick = popBackStack
             ) {
                 Icon(
-                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                    painter = painterResource(R.drawable.ic_arrow_big_left),
                     contentDescription = "뒤로가기",
                 )
             }
@@ -108,6 +110,7 @@ private fun RecordAllScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(horizontal = 16.dp)
                 .border(
                     width = 1.dp,
                     color = Gray_2,
@@ -170,7 +173,7 @@ private fun CallRecordComponent(
             RecordTypeChip(type = callRecord.recordType)
             HorizontalSpacer(13.dp)
             Icon(
-                imageVector = Icons.AutoMirrored.Default.KeyboardArrowRight,
+                painter = painterResource(R.drawable.ic_arrow_big_right),
                 contentDescription = null,
                 tint = Gray_7,
             )

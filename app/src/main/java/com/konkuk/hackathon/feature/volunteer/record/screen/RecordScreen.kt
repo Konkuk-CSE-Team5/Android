@@ -1,5 +1,6 @@
 package com.konkuk.hackathon.feature.volunteer.record.screen
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -23,15 +24,18 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.common.math.LinearTransformation.vertical
+import com.konkuk.hackathon.R
 import com.konkuk.hackathon.core.common.component.HorizontalSpacer
 import com.konkuk.hackathon.core.common.component.VerticalSpacer
 import com.konkuk.hackathon.core.designsystem.theme.Gray_2
@@ -99,7 +103,10 @@ private fun RecordScreen(
                     .padding(horizontal = 16.dp),
                 elder = elder,
                 onRecordClick = onRecordClick,
-                onAllRecordClick = onAllRecordClick,
+                onAllRecordClick = {
+                    onAllRecordClick(it)
+                    Log.d("RecordScreen", "Elder ID: $it")
+                },
             )
         }
     }
@@ -212,7 +219,7 @@ private fun CallRecordComponent(
             RecordTypeChip(type = callRecord.recordType)
             HorizontalSpacer(13.dp)
             Icon(
-                imageVector = Icons.AutoMirrored.Default.KeyboardArrowRight,
+                painter = painterResource(R.drawable.ic_arrow_big_right),
                 contentDescription = null,
                 tint = Gray_7,
             )

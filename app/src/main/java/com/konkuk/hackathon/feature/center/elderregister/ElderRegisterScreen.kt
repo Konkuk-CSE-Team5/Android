@@ -3,12 +3,15 @@ package com.konkuk.hackathon.feature.center.elderregister
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,6 +20,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -24,6 +28,7 @@ import androidx.compose.foundation.text.input.InputTransformation
 import androidx.compose.foundation.text.input.KeyboardActionHandler
 import androidx.compose.foundation.text.input.OutputTransformation
 import androidx.compose.foundation.text.input.insert
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material3.DatePicker
@@ -38,6 +43,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -50,6 +56,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -85,8 +92,13 @@ fun ElderRegisterScreen(
     val buttonEnabled = remember {
         derivedStateOf { uiState.isValid }
     }
+    val isFinished by viewModel.isFinish.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
+
+    if (isFinished) {
+        popBackStack()
+    }
 
     Box(
         modifier = Modifier
@@ -98,13 +110,11 @@ fun ElderRegisterScreen(
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
-                .padding(bottom = 16.dp),
-            onClick = {
-                // TODO: 등록 API
-            },
+                .padding(bottom = 24.dp),
+            onClick = { viewModel.registerElder() },
             enabled = buttonEnabled.value
         )
-        
+
         SnackbarHost(
             hostState = snackbarHostState,
             modifier = Modifier.align(Alignment.BottomCenter)
@@ -125,7 +135,7 @@ fun ElderRegisterScreen(
                 modifier = Modifier.align(Alignment.CenterStart)
             ) {
                 Icon(
-                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                    painter = painterResource(id = R.drawable.ic_arrow_big_left),
                     contentDescription = "뒤로가기 아이콘",
                 )
             }
@@ -136,6 +146,7 @@ fun ElderRegisterScreen(
             )
 
         }
+        VerticalSpacer(100.dp)
 
         ElderRegisterScreen(
             uiState = uiState,
@@ -202,7 +213,9 @@ fun ElderRegisterScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(horizontal = 16.dp)
+            .scrollable(state = rememberScrollState(), Orientation.Vertical),
     ) {
         VerticalSpacer(height = 16.dp)
         SignUpInputField(
@@ -225,7 +238,7 @@ fun ElderRegisterScreen(
             },
             outputTransformation = OutputTransformation {
                 if (length > 4) insert(4, "/")
-                if (length > 6) insert(7, "/")
+                if (length > 7) insert(7, "/")
             },
             keyboardType = KeyboardType.Number
         )
@@ -502,7 +515,7 @@ fun TimePickerDialog(
 
 fun generateTimeSlots(): List<String> {
     val timeSlots = mutableListOf<String>()
-    for (hour in 0..23) {
+    for (hour in 7..22) {
         for (minute in listOf(0, 30)) {
             val formattedHour = String.format("%02d", hour)
             val formattedMinute = String.format("%02d", minute)
@@ -517,12 +530,12 @@ fun isTimeEarlier(time1: String, time2: String): Boolean {
     try {
         val parts1 = time1.split(":")
         val parts2 = time2.split(":")
-        
+
         val hour1 = parts1[0].toInt()
         val minute1 = parts1[1].toInt()
         val hour2 = parts2[0].toInt()
         val minute2 = parts2[1].toInt()
-        
+
         return when {
             hour1 < hour2 -> true
             hour1 > hour2 -> false
@@ -552,7 +565,7 @@ fun DateRangeSelector(
     startDate: String = "",
     endDate: String = "",
     onStartDateChange: (String) -> Unit = {},
-    onEndDateChange: (String) -> Unit = {}
+    onEndDateChange: (String) -> Unit = {},
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -566,7 +579,7 @@ fun DateRangeSelector(
                 fontWeight = FontWeight.Normal,
             )
         )
-        
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -597,11 +610,11 @@ fun RowScope.DateSelector(
     modifier: Modifier = Modifier,
     selectedDate: String = "",
     onDateChange: (String) -> Unit = {},
-    placeholder: String = "날짜 선택"
+    placeholder: String = "날짜 선택",
 ) {
     var showDatePicker by remember { mutableStateOf(false) }
     val datePickerState = rememberDatePickerState()
-    
+
     Row(
         modifier = modifier
             .weight(1f)
@@ -629,7 +642,7 @@ fun RowScope.DateSelector(
             tint = Gray_4
         )
     }
-    
+
     if (showDatePicker) {
         DatePickerDialog(
             onDismissRequest = { showDatePicker = false },
@@ -638,7 +651,7 @@ fun RowScope.DateSelector(
                     onClick = {
                         datePickerState.selectedDateMillis?.let { millis ->
                             val date = Date(millis)
-                            val formatter = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+                            val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                             onDateChange(formatter.format(date))
                         }
                         showDatePicker = false

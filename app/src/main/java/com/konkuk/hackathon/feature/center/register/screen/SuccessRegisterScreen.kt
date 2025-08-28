@@ -67,7 +67,7 @@ fun SuccessRegisterScreen(
                 color = OnItTheme.colors.gray7,
                 modifier = Modifier
                     .align(Alignment.Center),
-                style = OnItTheme.typography.B_20
+                style = OnItTheme.typography.SB_20
             )
         }
         Column(
