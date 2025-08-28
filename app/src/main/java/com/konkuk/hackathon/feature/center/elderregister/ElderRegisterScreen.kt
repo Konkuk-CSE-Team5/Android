@@ -38,6 +38,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -59,6 +60,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import com.konkuk.hackathon.R
 import com.konkuk.hackathon.core.common.component.OnItButtonPrimaryContent
 import com.konkuk.hackathon.core.common.component.VerticalSpacer
@@ -70,6 +72,8 @@ import com.konkuk.hackathon.core.designsystem.theme.Gray_7
 import com.konkuk.hackathon.core.designsystem.theme.Main_Primary_Container
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 import com.konkuk.hackathon.core.designsystem.theme.gray3
+import com.konkuk.hackathon.core.navigation.center.CenterRoute
+import com.konkuk.hackathon.core.navigation.volunteer.VolunteerRoute
 import com.konkuk.hackathon.feature.signup.volunteer.SignUpInputField
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -81,6 +85,7 @@ fun ElderRegisterScreen(
     padding: PaddingValues,
     popBackStack: () -> Unit = {},
     viewModel: ElderRegisterViewModel = hiltViewModel(),
+    navController : NavHostController
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val buttonEnabled = remember {
@@ -92,6 +97,18 @@ fun ElderRegisterScreen(
 
     if (isFinished) {
         popBackStack()
+    }
+
+    val registered = viewModel.registered.collectAsStateWithLifecycle(null)
+    LaunchedEffect(registered.value) {
+        registered.value?.let { resp ->
+            navController.navigate(
+                CenterRoute.SuccessElderRegister(
+                    inviteCode = resp.seniorCode, // 코드 전달
+                    centerName = resp.orgName     // 기관명 전달
+                )
+            )
+        }
     }
 
 
@@ -185,7 +202,8 @@ fun ElderRegisterScreen(
                 .background(Color.White)
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 16.dp),
-            onClick = { viewModel.registerElder() },
+            onClick = { viewModel.registerElder()
+                      },
             enabled = buttonEnabled.value
         )
 
