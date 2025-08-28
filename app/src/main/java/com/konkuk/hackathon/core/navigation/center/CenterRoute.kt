@@ -9,6 +9,7 @@ sealed interface CenterRoute {
 
     @Serializable
     data object AttentionRequired : CenterRoute
+
     @Serializable
     data object ElderStatusNavigation : CenterRoute
 
@@ -17,6 +18,12 @@ sealed interface CenterRoute {
 
     @Serializable
     data object RecordDetail : CenterRoute
+
+    @Serializable
+    data class RegisterManagement(val id: Long) : CenterRoute
+
+    @Serializable
+    data object ElderRegister : CenterRoute
 
 }
 

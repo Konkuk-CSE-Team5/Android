@@ -9,6 +9,7 @@ import com.konkuk.hackathon.feature.center.home.screen.AttentionRequiredScreen
 import com.konkuk.hackathon.feature.center.home.screen.CenterHomeScreen
 import com.konkuk.hackathon.feature.center.home.screen.ElderStatusScreen
 import com.konkuk.hackathon.feature.center.home.screen.RecordDetailScreen
+import com.konkuk.hackathon.feature.center.register.screen.RegisterScreen
 
 @Composable
 fun CenterNavHost(
@@ -56,9 +57,17 @@ fun CenterNavHost(
             }
         }
 
-        // Record
+        // Register
         composable<CenterTabRoute.Register> {
-
+            RegisterScreen(
+                padding = padding,
+                navigateToElderManagement = {
+                    navController.navigate(
+                        CenterRoute.RegisterManagement(it)
+                    )
+                },
+                navigateToElderRegister = { navController.navigate(CenterRoute.ElderRegister) }
+            )
         }
 
         // Settings
