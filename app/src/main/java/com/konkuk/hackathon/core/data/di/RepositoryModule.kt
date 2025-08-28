@@ -21,9 +21,6 @@ abstract class RepositoryModule {
     abstract fun bindVolunteerRepository(
         impl: VolunteerRepositoryImpl,
     ): VolunteerRepository
-    abstract fun bindDummyRepository(
-        dummyRepositoryImpl: DummyRepositoryImpl
-    ): DummyRepository
 
     @Binds
     @Singleton
