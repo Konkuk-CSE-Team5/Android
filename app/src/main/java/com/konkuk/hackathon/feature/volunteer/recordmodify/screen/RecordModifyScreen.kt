@@ -25,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -34,6 +35,8 @@ import com.konkuk.hackathon.core.common.component.VerticalSpacer
 import com.konkuk.hackathon.core.designsystem.theme.Gray_1
 import com.konkuk.hackathon.core.designsystem.theme.Gray_2
 import com.konkuk.hackathon.core.designsystem.theme.Gray_7
+import com.konkuk.hackathon.core.designsystem.theme.Main_Primary
+import com.konkuk.hackathon.core.designsystem.theme.Main_Primary_Container
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 import com.konkuk.hackathon.core.designsystem.theme.gray3
 import com.konkuk.hackathon.feature.volunteer.recordmodify.component.SelectBox
@@ -127,10 +130,12 @@ private fun RecordModifyScreen(
                     style = OnItTheme.typography.SB_16.copy(color = Gray_7)
                 )
                 VerticalSpacer(4.dp)
-                Text(
-                    text = "${uiState.callTime} / 통화 ${uiState.duration}",
-                    style = OnItTheme.typography.R_14.copy(color = Gray_7)
-                )
+                uiState.callTimes.forEach { callTime ->
+                    Text(
+                        text = "${callTime.time} / 통화 ${callTime.duration}",
+                        style = OnItTheme.typography.R_14.copy(color = Gray_7)
+                    )
+                }
             }
             VerticalSpacer(24.dp)
             Text(
@@ -140,8 +145,7 @@ private fun RecordModifyScreen(
             VerticalSpacer(8.dp)
             CalledComponent(
                 modifier = Modifier,
-                hasCalled = uiState.hasCalled,
-                onBoxClick = onHasCalledChange,
+                isAbsent = !uiState.hasCalled,
             )
             VerticalSpacer(24.dp)
             Text(
@@ -151,6 +155,7 @@ private fun RecordModifyScreen(
             VerticalSpacer(8.dp)
             HealthConditionComponent(
                 modifier = Modifier,
+                isAbsent = !uiState.hasCalled,
                 selectedOption = uiState.healthCondition,
                 onOptionSelected = onHealthConditionChange,
             )
@@ -162,6 +167,7 @@ private fun RecordModifyScreen(
             VerticalSpacer(8.dp)
             MindConditionComponent(
                 modifier = Modifier,
+                isAbsent = !uiState.hasCalled,
                 selectedOption = uiState.mindCondition,
                 onOptionSelected = onMindConditionChange,
             )
@@ -210,29 +216,77 @@ private fun RecordModifyScreen(
 @Composable
 private fun CalledComponent(
     modifier: Modifier = Modifier,
-    hasCalled: Boolean, // 수행 했는지 여부
-    onBoxClick: (Boolean) -> Unit = { },
+    isAbsent: Boolean = false,
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        SelectBox(
-            isSelected = hasCalled,
-            text = "부재중",
-            onClick = { onBoxClick(true) },
-        )
-        SelectBox(
-            isSelected = !hasCalled,
-            text = "수행",
-            onClick = { onBoxClick(false) },
-        )
+        Box(
+            modifier = modifier
+                .weight(1f)
+                .background(
+                    color =
+                        if (isAbsent) Main_Primary_Container
+                        else Gray_1,
+                    shape = RoundedCornerShape(14.dp)
+                )
+                .border(
+                    width = 1.dp,
+                    color = if (isAbsent) Main_Primary
+                    else Gray_2,
+                    shape = RoundedCornerShape(14.dp)
+                )
+                .padding(vertical = 13.5.dp)
+        ) {
+            Column(
+                modifier = Modifier.align(Alignment.Center),
+            ) {
+                Text(
+                    text = "부재중",
+                    style = OnItTheme.typography.SB_14.copy(
+                        color = if (isAbsent) Main_Primary else Gray_7
+                    ),
+                    textAlign = TextAlign.Center,
+                )
+            }
+        }
+        Box(
+            modifier = modifier
+                .weight(1f)
+                .background(
+                    color =
+                        if (!isAbsent) Main_Primary_Container
+                        else Gray_1,
+                    shape = RoundedCornerShape(14.dp)
+                )
+                .border(
+                    width = 1.dp,
+                    color = if (!isAbsent) Main_Primary
+                    else Gray_2,
+                    shape = RoundedCornerShape(14.dp)
+                )
+                .padding(vertical = 13.5.dp)
+        ) {
+            Column(
+                modifier = Modifier.align(Alignment.Center),
+            ) {
+                Text(
+                    text = "수행",
+                    style = OnItTheme.typography.SB_14.copy(
+                        color = if (!isAbsent) Main_Primary else Gray_7
+                    ),
+                    textAlign = TextAlign.Center,
+                )
+            }
+        }
     }
 }
 
 @Composable
 private fun HealthConditionComponent(
     modifier: Modifier = Modifier,
+    isAbsent: Boolean = false,
     selectedOption: HealthCondition,
     onOptionSelected: (HealthCondition) -> Unit = {},
 ) {
@@ -242,6 +296,7 @@ private fun HealthConditionComponent(
     ) {
         HealthCondition.entries.forEach { condition ->
             SelectBox(
+                isDisabled = isAbsent,
                 isSelected = selectedOption == condition,
                 text = condition.label,
                 onClick = { onOptionSelected(condition) },
@@ -253,6 +308,7 @@ private fun HealthConditionComponent(
 @Composable
 private fun MindConditionComponent(
     modifier: Modifier = Modifier,
+    isAbsent: Boolean = false,
     selectedOption: MindCondition,
     onOptionSelected: (MindCondition) -> Unit = {},
 ) {
@@ -262,6 +318,7 @@ private fun MindConditionComponent(
     ) {
         MindCondition.entries.forEach { condition ->
             SelectBox(
+                isDisabled = isAbsent,
                 verticalPadding = 9.5.dp,
                 isSelected = selectedOption == condition,
                 text = condition.label,
@@ -280,8 +337,20 @@ private fun RecordScreenPreview() {
             popBackStack = {},
             uiState = RecordModifyUiState(
                 name = "김순자",
-                callTime = "2025-08-26 19:32",
-                duration = "07:12",
+                callTimes = listOf(
+                    RecordModifyUiState.CallTime(
+                        time = "2024-06-15 14:00",
+                        duration = "07:12"
+                    ),
+                    RecordModifyUiState.CallTime(
+                        time = "2024-06-15 14:00",
+                        duration = "07:12"
+                    ),
+                    RecordModifyUiState.CallTime(
+                        time = "2024-06-15 14:00",
+                        duration = "07:12"
+                    )
+                ),
                 hasCalled = false,
                 healthCondition = HealthCondition.GOOD,
                 mindCondition = MindCondition.GOOD,
