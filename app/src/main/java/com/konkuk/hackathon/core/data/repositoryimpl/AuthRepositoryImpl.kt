@@ -15,12 +15,13 @@ class AuthRepositoryImpl @Inject constructor(
     private val appPreferences: AppPreferences,
 ) : AuthRepository {
 
-    override suspend fun login(username: String, password: String): Result<Unit> =
+    override suspend fun login(username: String, password: String, type: String): Result<Unit> =
         runCatching {
             val response = authService.login(
                 LoginRequest(
                     username = username,
-                    password = password
+                    password = password,
+                    role = type
                 )
             ).handleBaseResponse()
             if (response.isSuccess) {

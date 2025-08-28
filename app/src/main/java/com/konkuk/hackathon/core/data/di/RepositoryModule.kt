@@ -5,7 +5,6 @@ import com.konkuk.hackathon.core.data.repository.CenterHomeRepository
 import com.konkuk.hackathon.core.data.repository.DummyRepository
 import com.konkuk.hackathon.core.data.repositoryimpl.AuthRepositoryImpl
 import com.konkuk.hackathon.core.data.repositoryimpl.CenterHomeRepositoryImpl
-import com.konkuk.hackathon.core.data.repositoryimpl.DummyRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,12 +14,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
-
-    @Binds
-    @Singleton
-    abstract fun bindDummyRepository(
-        dummyRepositoryImpl: DummyRepositoryImpl
-    ): DummyRepository
 
     @Binds
     @Singleton

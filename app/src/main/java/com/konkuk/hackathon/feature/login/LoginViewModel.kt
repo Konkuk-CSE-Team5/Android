@@ -33,8 +33,12 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             val userName = _uiState.value.idState.text.toString()
             val password = _uiState.value.passwordState.text.toString()
+            val type = when(_uiState.value.loginType) {
+                LoginType.VOLUNTEER -> "VOL"
+                LoginType.CENTER -> "ORG"
+            }
 
-            authRepository.login(userName, password)
+            authRepository.login(userName, password, type)
                 .onSuccess {
                     when (uiState.value.loginType) {
                         LoginType.VOLUNTEER -> _uiEvent.send(LoginUiEvent.NavigateToVolunteerMain)

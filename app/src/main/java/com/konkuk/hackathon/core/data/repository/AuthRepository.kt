@@ -1,7 +1,7 @@
 package com.konkuk.hackathon.core.data.repository
 
 interface AuthRepository {
-    suspend fun login(username: String, password: String): Result<Unit>
+    suspend fun login(username: String, password: String, type: String): Result<Unit>
     suspend fun signUpVolunteer(
         username: String,
         password: String,

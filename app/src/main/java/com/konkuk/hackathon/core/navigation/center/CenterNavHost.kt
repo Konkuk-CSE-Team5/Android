@@ -15,6 +15,7 @@ import com.konkuk.hackathon.feature.center.home.screen.AttentionRequiredScreen
 import com.konkuk.hackathon.feature.center.home.screen.CenterHomeScreen
 import com.konkuk.hackathon.feature.center.home.screen.ElderStatusScreen
 import com.konkuk.hackathon.feature.center.home.screen.RecordDetailScreen
+import com.konkuk.hackathon.feature.center.home.screen.VolunteerAllRecordScreen
 import com.konkuk.hackathon.feature.center.register.screen.RegisterScreen
 import com.konkuk.hackathon.feature.center.register.screen.SuccessRegisterScreen
 
@@ -50,7 +51,16 @@ fun CenterNavHost(
                 ElderStatusScreen(
                     padding = padding,
                     popBackStack = { navController.popBackStack() },
-                    navigateToRecordDetail = { navController.navigate(CenterRoute.RecordDetail) })
+                    navigateToRecordDetail = { navController.navigate(CenterRoute.RecordDetail) },
+                    navigateToAllRecord = { navController.navigate(CenterRoute.VolunteerAllRecord) })
+            }
+            composable<CenterRoute.VolunteerAllRecord> {
+                VolunteerAllRecordScreen(
+                    padding = padding, popBackStack = { navController.popBackStack() },
+                    navigateToRecordDetail = {
+                        navController.navigate(CenterRoute.RecordDetail)
+                    }
+                )
             }
             composable<CenterRoute.RecordDetail> {
                 RecordDetailScreen(
