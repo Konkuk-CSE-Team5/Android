@@ -74,11 +74,13 @@ fun CenterNavHost(
                     popBackStack = { navController.popBackStack() },
                     elderId = graphRoute.elderId,
                     navigateToRecordDetail = { navController.navigate(CenterRoute.RecordDetail(it.toLong())) },
-                    navigateToAllRecord = { navController.navigate(CenterRoute.VolunteerAllRecord) })
+                    navigateToAllRecord = { navController.navigate(CenterRoute.VolunteerAllRecord(it)) })
             }
             composable<CenterRoute.VolunteerAllRecord> {
+                val newRoute = it.toRoute<CenterRoute.VolunteerAllRecord>()
                 VolunteerAllRecordScreen(
                     padding = padding, popBackStack = { navController.popBackStack() },
+                    elderId = newRoute.id,
                     navigateToRecordDetail = {
                         navController.navigate(CenterRoute.RecordDetail)
                     }
