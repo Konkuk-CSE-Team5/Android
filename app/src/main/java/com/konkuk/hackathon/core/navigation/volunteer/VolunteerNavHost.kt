@@ -32,13 +32,13 @@ fun VolunteerNavHost(
         composable<VolunteerTabRoute.Home> {
             VolunteerHomeScreen(
                 padding = padding,
-                navigateToRecordSubmit = {
+                navigateToRecordSubmit = { p1, p2, p3, p4 ->
                     navController.navigate(
                         VolunteerRoute.HomeGraph(
-                            id = 1,
-                            elderName = "김재훈",
-                            phone = "010-9460-1439",
-                            startTime = LocalDateTime.now().toString()
+                            id = p1,
+                            elderName = p2,
+                            phone = p3,
+                            startTime = p4
                         ) // 수정 필요
                     )
                 })
