@@ -20,6 +20,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,23 +30,34 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.konkuk.hackathon.R
+import com.konkuk.hackathon.core.common.component.CallStatusChip
 import com.konkuk.hackathon.core.common.component.OnItProgressIndicator
+import com.konkuk.hackathon.core.common.extension.dayOfWeekKorean
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 import com.konkuk.hackathon.core.designsystem.theme.gray1
 import com.konkuk.hackathon.core.designsystem.theme.gray2
 import com.konkuk.hackathon.core.designsystem.theme.gray4
 import com.konkuk.hackathon.core.designsystem.theme.gray7
 import com.konkuk.hackathon.feature.center.home.components.ElderStatusCard
+import com.konkuk.hackathon.feature.center.home.viewmodel.CenterHomeViewModel
+import java.util.Locale
 
 @Composable
 fun CenterHomeScreen(
     padding: PaddingValues,
-    navigateToElderStatus: () -> Unit,
+    navigateToElderStatus: (Int) -> Unit,
     navigateToAttentionRequired: () -> Unit,
+    centerHomeViewModel: CenterHomeViewModel = hiltViewModel(),
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberScrollState()
+    val uiState = centerHomeViewModel.uiState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        centerHomeViewModel.getCenterHomeData()
+    }
 
     Column(
         Modifier
@@ -93,7 +106,7 @@ fun CenterHomeScreen(
                         verticalAlignment = Alignment.Bottom
                     ) {
                         Text(
-                            "75",
+                            "${uiState.value.weeklyVolunteerStatus.progressRate}",
                             style = OnItTheme.typography.B_28,
                             color = OnItTheme.colors.primary
                         )
@@ -101,13 +114,13 @@ fun CenterHomeScreen(
                     }
                     Column(Modifier.fillMaxWidth()) {
                         Text(
-                            "총 20회 중 15회 완료",
+                            "총 ${uiState.value.weeklyVolunteerStatus.totalCount}회 중 ${uiState.value.weeklyVolunteerStatus.completedCount}회 완료",
                             Modifier.align(Alignment.CenterHorizontally),
                             style = OnItTheme.typography.R_15,
                             color = gray4
                         )
                         Spacer(Modifier.height(8.dp))
-                        OnItProgressIndicator({ 15f / 20f })
+                        OnItProgressIndicator({ uiState.value.weeklyVolunteerStatus.progressRate.toFloat() / 100f })
 
                     }
                     Row(
@@ -120,7 +133,7 @@ fun CenterHomeScreen(
                         ) {
                             Text("●", style = OnItTheme.typography.B_12, color = gray2)
                             Text(
-                                "예정 15",
+                                "예정 ${uiState.value.weeklyVolunteerStatus.pendingCount}",
                                 style = OnItTheme.typography.R_14, color = gray4
                             )
                         }
@@ -134,7 +147,7 @@ fun CenterHomeScreen(
                                 color = OnItTheme.colors.positive
                             )
                             Text(
-                                "완료 15",
+                                "완료 ${uiState.value.weeklyVolunteerStatus.completedCount}",
                                 style = OnItTheme.typography.R_14, color = gray4
                             )
                         }
@@ -148,7 +161,7 @@ fun CenterHomeScreen(
                                 color = OnItTheme.colors.negative
                             )
                             Text(
-                                "부재중 3",
+                                "부재중 ${uiState.value.weeklyVolunteerStatus.absentCount}",
                                 style = OnItTheme.typography.R_14, color = gray4
                             )
                         }
@@ -162,7 +175,7 @@ fun CenterHomeScreen(
                                 color = OnItTheme.colors.primary
                             )
                             Text(
-                                "미실시 3",
+                                "미실시 ${uiState.value.weeklyVolunteerStatus.missedCount}",
                                 style = OnItTheme.typography.R_14, color = gray4
                             )
                         }
@@ -200,49 +213,19 @@ fun CenterHomeScreen(
                             modifier = Modifier.clickable(onClick = navigateToAttentionRequired)
                         )
                     }
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Box(
-                            Modifier
-                                .clip(RoundedCornerShape(10.dp))
-                                .background(OnItTheme.colors.primary_container)
+                    uiState.value.attentionRequiredList.forEach {
+
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
+                            CallStatusChip(it.status)
                             Text(
-                                "미실시",
-                                Modifier.padding(horizontal = 9.dp, vertical = 4.dp),
-                                style = OnItTheme.typography.B_12,
-                                color = OnItTheme.colors.primary
+                                "${it.date} (${it.date.dayOfWeekKorean()}) ${it.seniorName} 어르신",
+                                style = OnItTheme.typography.R_15,
+                                color = gray7
                             )
                         }
-                        Text(
-                            "8/25(화) 김순자 어르신",
-                            style = OnItTheme.typography.R_15,
-                            color = gray7
-                        )
-                    }
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Box(
-                            Modifier
-                                .clip(RoundedCornerShape(10.dp))
-                                .background(OnItTheme.colors.negative_container)
-                        ) {
-                            Text(
-                                "부재중",
-                                Modifier.padding(horizontal = 9.dp, vertical = 2.dp),
-                                style = OnItTheme.typography.B_12,
-                                color = OnItTheme.colors.negative
-                            )
-                        }
-                        Text(
-                            "8/25(화) 김순자 어르신",
-                            style = OnItTheme.typography.R_15,
-                            color = gray7
-                        )
                     }
 
 
@@ -251,15 +234,17 @@ fun CenterHomeScreen(
             Spacer(Modifier.height(24.dp))
             Text("어르신별 현황", style = OnItTheme.typography.SB_18, color = gray7)
             Spacer(Modifier.height(16.dp))
+            uiState.value.seniorStatusList.forEach {
+                ElderStatusCard(
+                    it.name,
+                    it.age,
+                    it.volunteerName,
+                    executionCount = it.monthlyCalls["completed"]!!,
+                    totalCount = it.monthlyCalls["target"]!!,
+                    onClick = { navigateToElderStatus(it.seniorId) }
+                ) // 이후 실제 값으로 수정
 
-            ElderStatusCard(
-                "김순자",
-                77,
-                "홍길동",
-                executionCount = 4,
-                totalCount = 6,
-                onClick = navigateToElderStatus
-            ) // 이후 실제 값으로 수정
+            }
         }
     }
 }
@@ -267,6 +252,9 @@ fun CenterHomeScreen(
 @Preview
 @Composable
 private fun CenterHomePrev() {
-    CenterHomeScreen(padding = PaddingValues(), navigateToElderStatus = {}, navigateToAttentionRequired = {})
+    CenterHomeScreen(
+        padding = PaddingValues(),
+        navigateToElderStatus = {},
+        navigateToAttentionRequired = {})
 
 }
