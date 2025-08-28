@@ -8,6 +8,7 @@ import androidx.navigation.compose.navigation
 import com.konkuk.hackathon.core.navigation.Route
 import com.konkuk.hackathon.feature.volunteer.home.screen.RecordSubmitScreen
 import com.konkuk.hackathon.feature.volunteer.home.screen.VolunteerHomeScreen
+import com.konkuk.hackathon.feature.volunteer.record.screen.RecordScreen
 
 @Composable
 fun VolunteerNavHost(
@@ -40,7 +41,10 @@ fun VolunteerNavHost(
 
         // Record
         composable<VolunteerTabRoute.Record> {
-
+            RecordScreen(
+                padding = padding,
+                navigateToRecordModify = { navController.navigate(VolunteerRoute.RecordModify) }
+            )
         }
 
         // Settings
