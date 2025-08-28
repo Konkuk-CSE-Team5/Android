@@ -6,7 +6,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class LoginRequest(
     @SerialName("username") val username: String,
-    @SerialName("password") val password: String
+    @SerialName("password") val password: String,
+    @SerialName("role") val role: String,
 )
 
 @Serializable
@@ -16,7 +17,7 @@ data class VolunteerSignUpRequest(
     @SerialName("name") val name: String,
     @SerialName("birthday") val birthday: String,
     @SerialName("gender") val gender: String,
-    @SerialName("contact") val contact: String
+    @SerialName("contact") val contact: String,
 )
 
 @Serializable
@@ -25,5 +26,5 @@ data class OrganizationSignUpRequest(
     @SerialName("password") val password: String,
     @SerialName("name") val name: String,
     @SerialName("manager") val manager: String,
-    @SerialName("managerContact") val managerContact: String
+    @SerialName("managerContact") val managerContact: String,
 )
