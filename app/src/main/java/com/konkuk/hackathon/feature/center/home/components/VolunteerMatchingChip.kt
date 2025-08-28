@@ -30,11 +30,13 @@ fun VolunteerMatchingChip(
         VolunteerMatchingType.DONE -> Negative_container
     }
 
-    Box(Modifier
-        .clip(RoundedCornerShape(10.dp))
-        .background(containerColor)) {
+    Box(
+        Modifier
+            .clip(RoundedCornerShape(10.dp))
+            .background(containerColor)
+    ) {
         Text(
-            "진행중",
+            volunteerMatchingType.label,
             style = OnItTheme.typography.B_12,
             color = textColor,
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
