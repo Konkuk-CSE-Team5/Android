@@ -69,7 +69,8 @@ fun VolunteerNavHost(
         composable<VolunteerTabRoute.Record> {
             RecordScreen(
                 padding = padding,
-                navigateToRecordModify = { navController.navigate(VolunteerRoute.RecordModify) }
+                navigateToRecordModify = { navController.navigate(VolunteerRoute.RecordModify(it)) },
+                navigateToRecordAll = { navController.navigate(VolunteerRoute.RecordAll(it)) }
             )
         }
 
