@@ -15,6 +15,7 @@ class CenterNavigator(
     private val currentDestination: NavDestination?
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
+//    val startDestination = CenterTabRoute.Home
     val startDestination = CenterTabRoute.Home
 
     val currentTab: CenterTab?

@@ -1,5 +1,7 @@
 package com.konkuk.hackathon.feature.volunteer.home.components
 
+import android.content.Intent
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -17,21 +19,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.net.toUri
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 
+
+/**
+ * * @param phone 010-1234-5678 형식
+ */
 @Composable
 fun ElderCard(
     elderName: String,
     age: Int,
-    phone: String,
+    phone: String, // 010-1234-5678 형식
     onCallClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
+
     Box(
         Modifier
             .fillMaxWidth()
@@ -100,7 +110,18 @@ fun ElderCard(
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(14.dp))
                     .background(OnItTheme.colors.primary)
-                    .clickable(onClick = { onCallClick() })
+                    .clickable(onClick = {
+
+                        val intent = Intent(Intent.ACTION_CALL, "tel:$phone".toUri())
+
+                        try {
+                            context.startActivity(intent)
+                        } catch (e: SecurityException) {
+                            Toast.makeText(context, "통화 오류입니다. 다시 시도해주세요.", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                        onCallClick()
+                    })
             ) {
                 Text(
                     "전화걸기",
