@@ -13,31 +13,41 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.konkuk.hackathon.R
 import com.konkuk.hackathon.core.common.component.CallStatusChip
 import com.konkuk.hackathon.core.common.component.OnItTopAppBar
 import com.konkuk.hackathon.core.data.model.CallStatusType
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
+import com.konkuk.hackathon.core.designsystem.theme.Primary
 import com.konkuk.hackathon.core.designsystem.theme.gray2
 import com.konkuk.hackathon.core.designsystem.theme.gray4
+import com.konkuk.hackathon.core.designsystem.theme.gray5
 import com.konkuk.hackathon.core.designsystem.theme.gray7
+import com.konkuk.hackathon.feature.center.home.components.VolunteerMatchingChip
+import com.konkuk.hackathon.feature.center.home.components.VolunteerMatchingType
 
 @Composable
 fun ElderStatusScreen(
     padding: PaddingValues,
     popBackStack: () -> Unit,
     navigateToRecordDetail: () -> Unit,
+    navigateToAllRecord: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -54,21 +64,40 @@ fun ElderStatusScreen(
                 Text("활동 기록", style = OnItTheme.typography.SB_18, color = gray7)
                 Spacer(Modifier.height(24.dp))
             }
-            items(3) { index -> // 실제 데이터 리스트 넣기
-                val shape = when (index) {
-                    0 -> RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp)
-                    2 -> RoundedCornerShape(
-                        bottomStart = 14.dp,
-                        bottomEnd = 14.dp
-                    ) // 마지막 index 일때로 수정 필요
-                    else -> RectangleShape
-                }
+            item {
                 Box(
                     Modifier
                         .fillMaxWidth()
-                        .clip(shape)
-                        .border(1.dp, gray2, shape)
-                        .clickable(onClick = navigateToRecordDetail )
+                        .clip(
+                            RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp)
+                        )
+                        .border(
+                            width = 1.dp,
+                            color = gray2,
+                            shape = RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp)
+                        )
+                ) {
+                    Column(Modifier.padding(16.dp)) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text("홍길동 봉사자", style = OnItTheme.typography.SB_16, color = gray7)
+                            Spacer(Modifier.width(6.dp))
+                            VolunteerMatchingChip(VolunteerMatchingType.ACTIVE)
+                        }
+                        Spacer(Modifier.height(8.dp))
+                        Text(
+                            "총 통화 x회 · 총 시간 x시간 x분 x초",
+                            style = OnItTheme.typography.R_14,
+                            color = gray5
+                        )
+                    }
+                }
+            }
+            items(3) { index -> // 실제 데이터 리스트 넣기
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .border(1.dp, gray2)
+                        .clickable(onClick = navigateToRecordDetail)
                 ) {
                     Row(
                         Modifier
@@ -77,21 +106,51 @@ fun ElderStatusScreen(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Column {
+                        Row {
                             Text(
-                                "8/25(화) 홍길동 봉사자",
+                                "2025-08-26 19:32",
                                 style = OnItTheme.typography.R_15,
                                 color = gray7
                             ) // 실제 데이터로 변경 필요
-                            Spacer(Modifier.height(4.dp))
+                            Spacer(Modifier.width(8.dp))
                             Text(
-                                "통화시간 30분 24초",
+                                "00:33:22",
                                 style = OnItTheme.typography.R_14,
-                                color = gray4
+                                color = gray5
                             ) // 실제 데이터로 변경 필요
                         }
-                        CallStatusChip(CallStatusType.COMPLETE) // 실제 데이터로 변경 필요
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            CallStatusChip(CallStatusType.COMPLETE) // 실제 데이터로 변경 필요
+                            Icon(
+                                painter = painterResource(R.drawable.ic_arrow_back),
+                                contentDescription = "기록 상세 보기",
+                                Modifier.graphicsLayer(scaleX = -1f)
+                            )
+                        }
+
                     }
+                }
+            }
+            item {
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(bottomStart = 14.dp, bottomEnd = 14.dp))
+                        .border(
+                            1.dp,
+                            gray2,
+                            RoundedCornerShape(bottomStart = 14.dp, bottomEnd = 14.dp)
+                        )
+                        .clickable(onClick = {})
+                ) {
+                    Text(
+                        "전체 기록 보기",
+                        Modifier
+                            .padding(vertical = 20.dp)
+                            .align(Alignment.Center),
+                        style = OnItTheme.typography.SB_14,
+                        color = Primary
+                    )
                 }
             }
         }
