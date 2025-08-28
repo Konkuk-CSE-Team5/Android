@@ -1,7 +1,7 @@
 package com.konkuk.hackathon.core.data.di
 
-import com.konkuk.hackathon.core.data.repository.DummyRepository
-import com.konkuk.hackathon.core.data.repositoryimpl.DummyRepositoryImpl
+import com.konkuk.hackathon.core.data.repository.VolunteerRepository
+import com.konkuk.hackathon.core.data.repositoryimpl.VolunteerRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,8 +14,8 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindDummyRepository(
-        dummyRepositoryImpl: DummyRepositoryImpl
-    ): DummyRepository
+    abstract fun bindVolunteerRepository(
+        impl: VolunteerRepositoryImpl,
+    ): VolunteerRepository
 
 }

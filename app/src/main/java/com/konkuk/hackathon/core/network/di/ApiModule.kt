@@ -1,6 +1,7 @@
 package com.konkuk.hackathon.core.network.di
 
 import com.konkuk.hackathon.core.network.service.ApiService
+import com.konkuk.hackathon.core.network.service.VolunteerService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,5 +17,10 @@ object ApiModule {
     @Provides
     @Singleton
     fun provideApiService(retrofit: Retrofit): ApiService = retrofit.create()
+
+
+    @Provides
+    @Singleton
+    fun provideVolunteerService(retrofit: Retrofit): VolunteerService = retrofit.create()
 
 }

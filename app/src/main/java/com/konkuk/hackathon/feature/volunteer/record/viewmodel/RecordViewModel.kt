@@ -1,18 +1,27 @@
 package com.konkuk.hackathon.feature.volunteer.record.viewmodel
 
+import android.R.attr.name
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.konkuk.hackathon.core.data.repository.VolunteerRepository
+import com.konkuk.hackathon.core.network.response.SeniorItem
+import com.konkuk.hackathon.core.network.response.VolunteerRecordsResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.NonCancellable.isCompleted
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RecordViewModel @Inject constructor() : ViewModel() {
+class RecordViewModel @Inject constructor(
+    private val volunteerRepository: VolunteerRepository,
+) : ViewModel() {
     private val _uiState = MutableStateFlow(RecordUiState())
     val uiState: StateFlow<RecordUiState> = _uiState
         .onStart {
@@ -25,103 +34,37 @@ class RecordViewModel @Inject constructor() : ViewModel() {
 
     private fun fetchRecordList() {
         // TODO: 초기 데이터 로드
-        _uiState.update {
-            RecordUiState(
-                elders = listOf(
-                    Elder(
-                        name = "홍길동",
-                        type = ElderType.COMPLETED,
-                        callCount = 3,
-                        totalTime = "0시간 10분 30초",
-                        records = listOf(
-                            CallRecord(
-                                time = "2024-06-01 14:00",
-                                duration = "10분 30초",
-                                recordType = RecordType.SUCCESS
-                            ),
-                            CallRecord(
-                                time = "2024-06-02 14:00",
-                                duration = "",
-                                recordType = RecordType.CALL_NOT_MADE
-                            ),
-                            CallRecord(
-                                time = "2024-06-03 14:00",
-                                duration = "00:00",
-                                recordType = RecordType.ABSENCE
-                            ),
-                        ),
-                    ),
-                    Elder(
-                        name = "홍길동",
-                        type = ElderType.COMPLETED,
-                        callCount = 3,
-                        totalTime = "0시간 10분 30초",
-                        records = listOf(
-                            CallRecord(
-                                time = "2024-06-01 14:00",
-                                duration = "10분 30초",
-                                recordType = RecordType.SUCCESS
-                            ),
-                            CallRecord(
-                                time = "2024-06-02 14:00",
-                                duration = "",
-                                recordType = RecordType.CALL_NOT_MADE
-                            ),
-                            CallRecord(
-                                time = "2024-06-03 14:00",
-                                duration = "00:00",
-                                recordType = RecordType.ABSENCE
-                            ),
-                        ),
-                    ),
-                    Elder(
-                        name = "홍길동",
-                        type = ElderType.COMPLETED,
-                        callCount = 3,
-                        totalTime = "0시간 10분 30초",
-                        records = listOf(
-                            CallRecord(
-                                time = "2024-06-01 14:00",
-                                duration = "10분 30초",
-                                recordType = RecordType.SUCCESS
-                            ),
-                            CallRecord(
-                                time = "2024-06-02 14:00",
-                                duration = "",
-                                recordType = RecordType.CALL_NOT_MADE
-                            ),
-                            CallRecord(
-                                time = "2024-06-03 14:00",
-                                duration = "00:00",
-                                recordType = RecordType.ABSENCE
-                            ),
-                        ),
-                    ),
-                    Elder(
-                        name = "홍길동",
-                        type = ElderType.COMPLETED,
-                        callCount = 3,
-                        totalTime = "0시간 10분 30초",
-                        records = listOf(
-                            CallRecord(
-                                time = "2024-06-01 14:00",
-                                duration = "10분 30초",
-                                recordType = RecordType.SUCCESS
-                            ),
-                            CallRecord(
-                                time = "2024-06-02 14:00",
-                                duration = "",
-                                recordType = RecordType.CALL_NOT_MADE
-                            ),
-                            CallRecord(
-                                time = "2024-06-03 14:00",
-                                duration = "00:00",
-                                recordType = RecordType.ABSENCE
-                            ),
-                        ),
-                    ),
-                )
-            )
+        viewModelScope.launch {
+            volunteerRepository.getVolunteerRecords()
+                .onSuccess { response ->
+                    _uiState.update { response.toUiState() }
+                }
+                .onFailure {
+                    Log.d("RecordViewModel", "fetchRecordList: ${it.message}")
+                }
         }
     }
 }
+
+fun VolunteerRecordsResponse.toUiState() = RecordUiState(
+    elders = seniors.map { it.toElder() }
+)
+
+fun SeniorItem.toElder() = Elder(
+    name = this.seniorName,
+    type = if (this.status == "ACTIVE") ElderType.ONGOING else ElderType.COMPLETED,
+    callCount = this.summary.totalCalls,
+    totalTime = this.summary.totalDuration,
+    records = this.records.map { recordDto ->
+        CallRecord(
+            id = recordDto.recordId,
+            time = recordDto.dateTime,
+            duration = recordDto.duration,
+            recordType = when (recordDto.status) {
+                "COMPLETED" -> RecordType.SUCCESS
+                "ABSENT" -> RecordType.ABSENCE
+                else -> RecordType.CALL_NOT_MADE
+            }
+        )
+    }
+)
