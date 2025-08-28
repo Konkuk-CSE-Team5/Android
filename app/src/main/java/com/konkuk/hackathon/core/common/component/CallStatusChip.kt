@@ -16,14 +16,14 @@ import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 fun CallStatusChip(callStatusType: CallStatusType, modifier: Modifier = Modifier) {
     val textColor = when (callStatusType) {
         CallStatusType.COMPLETE -> OnItTheme.colors.positive
-        CallStatusType.PENDING -> OnItTheme.colors.primary
+        CallStatusType.NOT_CONDUCTED -> OnItTheme.colors.primary
         CallStatusType.ABSENT -> OnItTheme.colors.negative
         else -> OnItTheme.colors.gray4
     }
 
     val containerColor = when (callStatusType) {
         CallStatusType.COMPLETE -> OnItTheme.colors.positive_container
-        CallStatusType.PENDING -> OnItTheme.colors.primary_container
+        CallStatusType.NOT_CONDUCTED -> OnItTheme.colors.primary_container
         CallStatusType.ABSENT -> OnItTheme.colors.negative_container
         else -> OnItTheme.colors.gray2
     }

@@ -4,7 +4,7 @@ enum class CallStatusType(
     val label: String,
 ) {
     COMPLETE("완료"),
-    PENDING("미실시"),
+    PENDING("실시 전"),
     ABSENT("부재중"),
-    NON_CONDUCTED("실시 전"),
+    NOT_CONDUCTED("미실시"),
 }
