@@ -1,10 +1,12 @@
 package com.konkuk.hackathon.feature.volunteer.recordmodify.screen
 
+import android.R.attr.padding
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,15 +23,18 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.konkuk.hackathon.R
 import com.konkuk.hackathon.core.common.component.OnItButtonPrimaryContent
 import com.konkuk.hackathon.core.common.component.VerticalSpacer
 import com.konkuk.hackathon.core.designsystem.theme.Gray_1
@@ -47,16 +52,29 @@ import com.konkuk.hackathon.feature.volunteer.recordmodify.viewmodel.RecordModif
 
 @Composable
 fun RecordModifyScreen(
+    paddingValues: PaddingValues,
     id: Long,
     popBackStack: () -> Unit,
     viewModel: RecordModifyViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val isCompleted by viewModel.isCompleted.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        viewModel.fetchRecordData(id)
+    }
+
+    LaunchedEffect(isCompleted) {
+        if (isCompleted) {
+            popBackStack()
+        }
+    }
 
     RecordModifyScreen(
+        padding = paddingValues,
         uiState = uiState,
         popBackStack = popBackStack,
-        onHasCalledChange = { viewModel.updateHasCalled(it) },
+        onModifyClick = { viewModel.patchRecordData(id) },
         onHealthConditionChange = { viewModel.updateHealthCondition(it) },
         onMindConditionChange = { viewModel.updateMindCondition(it) },
     )
@@ -64,16 +82,18 @@ fun RecordModifyScreen(
 
 @Composable
 private fun RecordModifyScreen(
+    padding: PaddingValues = PaddingValues(0.dp),
     uiState: RecordModifyUiState,
     popBackStack: () -> Unit,
-    onHasCalledChange: (Boolean) -> Unit = {},
+    onModifyClick: () -> Unit = {},
     onHealthConditionChange: (HealthCondition) -> Unit = {},
     onMindConditionChange: (MindCondition) -> Unit = {},
 ) {
     Scaffold(
         modifier = Modifier
-//            .padding(padding)
+            .padding(padding)
             .fillMaxSize(),
+
         topBar = {
             Box(
                 modifier = Modifier
@@ -85,7 +105,7 @@ private fun RecordModifyScreen(
                     modifier = Modifier.align(Alignment.CenterStart)
                 ) {
                     Icon(
-                        imageVector = Icons.AutoMirrored.Default.KeyboardArrowLeft,
+                        painter = painterResource(R.drawable.ic_arrow_big_left),
                         contentDescription = null,
                     )
                 }
@@ -104,7 +124,7 @@ private fun RecordModifyScreen(
                     .padding(all = 16.dp),
                 text = "수정",
                 height = 50.dp,
-                onClick = { /* TODO: 수정 완료 */ },
+                onClick = { onModifyClick() },
             )
         }
     ) { innerPadding ->
