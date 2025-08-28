@@ -63,7 +63,7 @@ fun ElderStatusCard(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text("이번 달 통화", style = OnItTheme.typography.R_15, color = gray7)
-                    Text("4/6회", style = OnItTheme.typography.B_12, color = gray3)
+                    Text("$executionCount/$totalCount", style = OnItTheme.typography.B_12, color = gray3)
                 }
                 OnItProgressIndicator({ executionCount.toFloat() / totalCount.toFloat() })
             }
