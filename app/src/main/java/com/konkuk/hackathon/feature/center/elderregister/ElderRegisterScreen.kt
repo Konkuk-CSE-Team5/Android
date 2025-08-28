@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -106,7 +107,7 @@ fun ElderRegisterScreen(
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
-                .padding(bottom = 16.dp),
+                .padding(bottom = 24.dp),
             onClick = { viewModel.registerElder() },
             enabled = buttonEnabled.value
         )
@@ -124,7 +125,6 @@ fun ElderRegisterScreen(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .verticalScroll(rememberScrollState())
                 .height(56.dp)
         ) {
             IconButton(
@@ -143,6 +143,7 @@ fun ElderRegisterScreen(
             )
 
         }
+        VerticalSpacer(100.dp)
 
         ElderRegisterScreen(
             uiState = uiState,
@@ -209,6 +210,7 @@ fun ElderRegisterScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(horizontal = 16.dp)
     ) {
         VerticalSpacer(height = 16.dp)
