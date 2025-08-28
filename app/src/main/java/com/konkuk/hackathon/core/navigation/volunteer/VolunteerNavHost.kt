@@ -54,7 +54,8 @@ fun VolunteerNavHost(
                             startTime = p4
                         ) // 수정 필요
                     )
-                })
+                },
+            )
         }
 
         // Home Nested Graph

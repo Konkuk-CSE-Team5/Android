@@ -67,6 +67,7 @@ import com.konkuk.hackathon.core.designsystem.theme.Gray_2
 import com.konkuk.hackathon.core.designsystem.theme.Gray_3
 import com.konkuk.hackathon.core.designsystem.theme.Gray_4
 import com.konkuk.hackathon.core.designsystem.theme.Gray_7
+import com.konkuk.hackathon.core.designsystem.theme.Main_Primary
 import com.konkuk.hackathon.core.designsystem.theme.Main_Primary_Container
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 import com.konkuk.hackathon.core.designsystem.theme.gray3
@@ -664,13 +665,21 @@ fun RowScope.DateSelector(
                 }
             },
             colors = androidx.compose.material3.DatePickerDefaults.colors(
-                containerColor = Main_Primary_Container
+                containerColor = Main_Primary_Container,
+                selectedDayContainerColor = Main_Primary,
+                todayDateBorderColor = Main_Primary,
+                todayContentColor = Main_Primary,
+
             )
         ) {
             DatePicker(
                 state = datePickerState,
                 colors = androidx.compose.material3.DatePickerDefaults.colors(
-                    containerColor = Main_Primary_Container
+                    containerColor = Main_Primary_Container,
+                    selectedDayContainerColor = Main_Primary,
+                    todayDateBorderColor = Main_Primary,
+                    todayContentColor = Main_Primary,
+
                 )
             )
         }
