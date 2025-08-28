@@ -131,6 +131,9 @@ private fun RegisterScreen(
                 elder = elder,
             )
         }
+        item {
+            VerticalSpacer(60.dp)
+        }
     }
 }
 

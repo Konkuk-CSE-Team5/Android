@@ -53,8 +53,8 @@ fun CenterNavHost(
             CenterRoute.ElderStatus
         ) {
 
-            composable<CenterRoute.ElderStatus> {
-                val parentEntry = remember(it) {
+            composable<CenterRoute.ElderStatus> { navBackstackEntry ->
+                val parentEntry = remember(navBackstackEntry) {
                     navController.getBackStackEntry<CenterRoute.ElderStatusNavigation>()
                 }
                 val graphRoute = parentEntry.toRoute<CenterRoute.ElderStatusNavigation>()
@@ -62,7 +62,7 @@ fun CenterNavHost(
                     padding = padding,
                     popBackStack = { navController.popBackStack() },
                     elderId = graphRoute.elderId,
-                    navigateToRecordDetail = { navController.navigate(CenterRoute.RecordDetail) },
+                    navigateToRecordDetail = { navController.navigate(CenterRoute.RecordDetail(it.toLong())) },
                     navigateToAllRecord = { navController.navigate(CenterRoute.VolunteerAllRecord) })
             }
             composable<CenterRoute.VolunteerAllRecord> {
@@ -73,8 +73,10 @@ fun CenterNavHost(
                     }
                 )
             }
-            composable<CenterRoute.RecordDetail> {
+            composable<CenterRoute.RecordDetail> { navBackStackEntry ->
+                val id = navBackStackEntry.toRoute<CenterRoute.RecordDetail>().id
                 RecordDetailScreen(
+                    id = id,
                     padding = padding,
                     popBackStack = { navController.popBackStack() },
                 )

@@ -204,7 +204,7 @@ private fun CallRecordComponent(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = callRecord.time,
+                text = callRecord.time.substring(0, 10),
                 style = OnItTheme.typography.R_14.copy(color = Gray_7),
             )
             HorizontalSpacer(8.dp)

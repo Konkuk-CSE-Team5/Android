@@ -2,6 +2,7 @@ package com.konkuk.hackathon.core.data.di
 
 import com.konkuk.hackathon.core.data.repository.AuthRepository
 import com.konkuk.hackathon.core.data.repository.CenterHomeRepository
+import com.konkuk.hackathon.core.data.repository.RecordRepository
 import com.konkuk.hackathon.core.data.repository.VolunteerHomeRepository
 import com.konkuk.hackathon.core.data.repositoryimpl.VolunteerHomeRepositoryImpl
 import com.konkuk.hackathon.core.data.repository.CenterRepository
@@ -10,6 +11,7 @@ import com.konkuk.hackathon.core.data.repository.VolunteerRepository
 import com.konkuk.hackathon.core.data.repositoryimpl.AuthRepositoryImpl
 import com.konkuk.hackathon.core.data.repositoryimpl.CenterHomeRepositoryImpl
 import com.konkuk.hackathon.core.data.repositoryimpl.CenterRepositoryImpl
+import com.konkuk.hackathon.core.data.repositoryimpl.RecordRepositoryImpl
 import com.konkuk.hackathon.core.data.repositoryimpl.SeniorRepositoryImpl
 import com.konkuk.hackathon.core.data.repositoryimpl.VolunteerRepositoryImpl
 import dagger.Binds
@@ -58,5 +60,11 @@ abstract class RepositoryModule {
     abstract fun bindCenterHomeRepository(
         centerHomeRepositoryImpl: CenterHomeRepositoryImpl
     ): CenterHomeRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindRecordRepository(
+        recordRepositoryImpl: RecordRepositoryImpl
+    ): RecordRepository
 
 }

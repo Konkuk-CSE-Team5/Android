@@ -71,3 +71,16 @@ data class ScheduleItem(
     @SerialName("startTime") val startTime: String,
     @SerialName("endTime") val endTime: String
 )
+
+@Serializable
+data class RecordDetailResponse(
+    @SerialName("recordId") val recordId: Long,
+    @SerialName("status") val status: String,
+    @SerialName("seniorName") val seniorName: String,
+    @SerialName("volunteerName") val volunteerName: String,
+    @SerialName("callDateTime") val callDateTime: String,
+    @SerialName("totalCallTime") val totalCallTime: String,
+    @SerialName("health") val health: String,
+    @SerialName("metality") val metality: String,
+    @SerialName("opinion") val opinion: String
+)
