@@ -1,6 +1,7 @@
 package com.konkuk.hackathon.core.data.repository
 
 import com.konkuk.hackathon.core.data.model.CallStatusType
+import com.konkuk.hackathon.core.network.response.AttentionRequiredResponse
 import com.konkuk.hackathon.core.network.response.PostCodeResponse
 import com.konkuk.hackathon.core.network.response.VolunteerHomeResponse
 import com.konkuk.hackathon.feature.volunteer.home.uistate.CallLogData
@@ -18,4 +19,6 @@ interface VolunteerHomeRepository {
         status: CallStatusType,
         callList: List<CallLogData>
     ): Result<Unit>
+
+    suspend fun getAttentionRequired(): Result<AttentionRequiredResponse>
 }

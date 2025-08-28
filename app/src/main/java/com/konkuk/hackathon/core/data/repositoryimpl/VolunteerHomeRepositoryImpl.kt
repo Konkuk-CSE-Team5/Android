@@ -4,6 +4,7 @@ import com.konkuk.hackathon.core.data.model.CallStatusType
 import com.konkuk.hackathon.core.data.repository.VolunteerHomeRepository
 import com.konkuk.hackathon.core.network.request.CodeRequest
 import com.konkuk.hackathon.core.network.request.PostRecordRequest
+import com.konkuk.hackathon.core.network.response.AttentionRequiredResponse
 import com.konkuk.hackathon.core.network.response.PostCodeResponse
 import com.konkuk.hackathon.core.network.response.VolunteerHomeResponse
 import com.konkuk.hackathon.core.network.response.base.NullableResponse
@@ -49,5 +50,11 @@ class VolunteerHomeRepositoryImpl @Inject constructor(
                 })
         ).handleNullableResponse()
     }
+
+    override suspend fun getAttentionRequired(): Result<AttentionRequiredResponse> = runCatching {
+
+        return volunteerHomeService.getAttentionRequired().handleBaseResponse()
+    }
+
 
 }
