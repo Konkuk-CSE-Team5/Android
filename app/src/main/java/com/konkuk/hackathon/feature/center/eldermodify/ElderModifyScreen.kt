@@ -51,6 +51,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -131,7 +132,7 @@ fun ElderModifyScreen(
                 modifier = Modifier.align(Alignment.CenterStart)
             ) {
                 Icon(
-                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                    painter = painterResource(R.drawable.ic_arrow_big_left),
                     contentDescription = "뒤로가기 아이콘",
                 )
             }

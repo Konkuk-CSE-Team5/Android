@@ -13,10 +13,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.konkuk.hackathon.R
 import com.konkuk.hackathon.core.designsystem.theme.Gray_7
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 
@@ -37,7 +39,7 @@ fun SignUpTopBar(
             onClick = onBackClick
         ) {
             Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                painter = painterResource(R.drawable.ic_arrow_big_left),
                 contentDescription = "뒤로가기",
             )
         }

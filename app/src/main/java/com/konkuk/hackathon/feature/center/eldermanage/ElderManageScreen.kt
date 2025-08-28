@@ -66,7 +66,7 @@ fun ElderManageScreen(
                 modifier = Modifier.align(Alignment.CenterStart)
             ) {
                 Icon(
-                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                    painter = painterResource(id = R.drawable.ic_arrow_big_left),
                     contentDescription = "뒤로가기 아이콘",
                 )
             }
