@@ -13,5 +13,5 @@ data class VolunteerProfileUiState(
     val isMale: Boolean = true,
 ) {
     val isSavable: Boolean =
-        name.isNotEmpty() && birthdayDigits.length == 8 && phoneDigits.length in 8..11
+        name.isNotEmpty() && birthdayDigits.length == 8 && phoneDigits.length in 9..11
 }

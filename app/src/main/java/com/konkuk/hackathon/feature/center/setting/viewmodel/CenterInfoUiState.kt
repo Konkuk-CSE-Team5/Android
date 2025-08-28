@@ -12,5 +12,5 @@ data class CenterInfoUiState(
 ) {
 
     val isSavable : Boolean =
-        managerName.isNotEmpty() && phoneDigits.length in 8..11 && centerName.isNotEmpty()
+        managerName.isNotEmpty() && phoneDigits.length in 9..11 && centerName.isNotEmpty()
 }
