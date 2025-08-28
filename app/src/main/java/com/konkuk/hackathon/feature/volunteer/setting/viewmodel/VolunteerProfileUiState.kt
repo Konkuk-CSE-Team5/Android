@@ -3,7 +3,7 @@ package com.konkuk.hackathon.feature.volunteer.setting.viewmodel
 data class VolunteerProfileUiState(
     val isLoading: Boolean = false,
     val error: String? = null,
-    val id: String = "", // 서버에서 받아와야하는 값(임시값)
+    val id: String = "",
     val password: String = "",
     val name: String = "",
     val birthday: String = "",

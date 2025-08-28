@@ -16,6 +16,9 @@ sealed interface VolunteerRoute {
     data object VolInfoModify : VolunteerRoute
 
     @Serializable
+    data object SettingsGraph : VolunteerRoute
+
+    @Serializable
     data object RecordSubmit : VolunteerRoute
 
     @Serializable

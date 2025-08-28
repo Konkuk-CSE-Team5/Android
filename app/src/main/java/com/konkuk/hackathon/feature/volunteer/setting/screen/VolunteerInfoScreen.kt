@@ -184,7 +184,6 @@ fun VolunteerInfoScreen(padding : PaddingValues, modifier: Modifier = Modifier,v
             ) {
                 Text(
                     text = "수정",
-//                    color = OnItTheme.colors.white,
                     style = OnItTheme.typography.B_17,
                     modifier = Modifier
                         .padding(vertical = 13.dp)

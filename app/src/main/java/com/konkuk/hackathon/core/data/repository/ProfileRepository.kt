@@ -12,6 +12,7 @@ class ProfileRepository @Inject constructor(
     private val settingService: SettingService
 ) {
     suspend fun getVolunteerInfo(): Result<VolunteerInfoResponseDto> = runCatching {
+        Log.d("ProfileRepository", "getVolunteerInfo() 진입")
         val res = settingService.getVolunteerInfo()
         if (res.isSuccessful) {
             res.body() ?: throw IllegalStateException("Response body is null")

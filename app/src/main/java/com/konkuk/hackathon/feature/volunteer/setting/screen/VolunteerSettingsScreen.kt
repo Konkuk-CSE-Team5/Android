@@ -67,9 +67,7 @@ fun VolunteerSettingsScreen(padding: PaddingValues, modifier: Modifier = Modifie
             Text("전화번호: ${ui.phone}", style = OnItTheme.typography.R_14, color = OnItTheme.colors.gray7)
             // 추후 값 받아오는 방식으로 수정 필요
             Spacer(modifier = Modifier.height(12.dp))
-            Text("정보 수정", style = OnItTheme.typography.SB_14, color = OnItTheme.colors.primary, modifier = Modifier
-                .align(Alignment.End)
-                .clickable { onClickModify() })
+            Text("정보 수정", style = OnItTheme.typography.SB_14, color = OnItTheme.colors.primary, modifier = Modifier.clickable { onClickModify() })
         }
     }
 }

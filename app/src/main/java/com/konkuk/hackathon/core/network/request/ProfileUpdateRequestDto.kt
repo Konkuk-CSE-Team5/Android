@@ -1,5 +1,8 @@
 package com.konkuk.hackathon.core.network.request
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class ProfileUpdateRequestDto(
     val password : String? = null,
     val name: String? = null,

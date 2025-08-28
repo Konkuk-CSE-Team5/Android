@@ -1,6 +1,8 @@
 package com.konkuk.hackathon.core.network.service
 
+import com.konkuk.hackathon.core.network.request.CenterInfoUpdateRequestDto
 import com.konkuk.hackathon.core.network.request.ProfileUpdateRequestDto
+import com.konkuk.hackathon.core.network.response.CenterInfoResponseDto
 import com.konkuk.hackathon.core.network.response.VolunteerInfoResponseDto
 import retrofit2.Response
 import retrofit2.http.Body
@@ -19,8 +21,11 @@ interface SettingService {
 
     // 설정 화면 조회(보호자)
     @GET("organizations/me")
-    suspend fun getOrganizationInfo(
+    suspend fun getOrganizationInfo(): Response<CenterInfoResponseDto>
 
-    ): Response<VolunteerInfoResponseDto>
+    @PATCH("organizations/me")
+    suspend fun updateOrganizationInfo(
+        @Body request: CenterInfoUpdateRequestDto
+    ): Response<Unit>
 
 }
