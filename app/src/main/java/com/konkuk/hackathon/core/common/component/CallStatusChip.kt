@@ -18,12 +18,14 @@ fun CallStatusChip(callStatusType: CallStatusType, modifier: Modifier = Modifier
         CallStatusType.COMPLETE -> OnItTheme.colors.positive
         CallStatusType.PENDING -> OnItTheme.colors.primary
         CallStatusType.ABSENT -> OnItTheme.colors.negative
+        else -> OnItTheme.colors.gray4
     }
 
     val containerColor = when (callStatusType) {
         CallStatusType.COMPLETE -> OnItTheme.colors.positive_container
         CallStatusType.PENDING -> OnItTheme.colors.primary_container
         CallStatusType.ABSENT -> OnItTheme.colors.negative_container
+        else -> OnItTheme.colors.gray2
     }
     Box(
         Modifier

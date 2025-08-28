@@ -33,7 +33,13 @@ fun CenterNavHost(
         composable<CenterTabRoute.Home> {
             CenterHomeScreen(
                 padding = padding,
-                navigateToElderStatus = { navController.navigate(CenterRoute.ElderStatusNavigation) },
+                navigateToElderStatus = {
+                    navController.navigate(
+                        CenterRoute.ElderStatusNavigation(
+                            it
+                        )
+                    )
+                },
                 navigateToAttentionRequired = { navController.navigate(CenterRoute.AttentionRequiredNavigation) })
         }
 
@@ -119,7 +125,7 @@ fun CenterNavHost(
         composable<CenterTabRoute.Settings> {
             CenterSettingScreen(
                 padding = padding,
-                onClickModify = {navController.navigate(CenterRoute.CenterInfoModify)},
+                onClickModify = { navController.navigate(CenterRoute.CenterInfoModify) },
             )
         }
 

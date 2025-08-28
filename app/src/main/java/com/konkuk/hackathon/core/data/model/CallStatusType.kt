@@ -5,5 +5,6 @@ enum class CallStatusType(
 ) {
     COMPLETE("완료"),
     PENDING("미실시"),
-    ABSENT("부재중")
+    ABSENT("부재중"),
+    NON_CONDUCTED("실시 전"),
 }

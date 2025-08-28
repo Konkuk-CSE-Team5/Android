@@ -13,7 +13,7 @@ sealed interface CenterRoute {
     data object AttentionRequired : CenterRoute
 
     @Serializable
-    data object ElderStatusNavigation : CenterRoute
+    data class ElderStatusNavigation(val id: Int) : CenterRoute
 
     @Serializable
     data object ElderStatus : CenterRoute
