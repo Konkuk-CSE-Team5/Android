@@ -21,12 +21,15 @@ import androidx.compose.foundation.text.input.InputTransformation
 import androidx.compose.foundation.text.input.OutputTransformation
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.insert
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -48,12 +51,15 @@ import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 import com.konkuk.hackathon.feature.center.CenterActivity
 import com.konkuk.hackathon.feature.signup.component.SignUpTopBar
 import com.konkuk.hackathon.feature.signup.volunteer.SignUpInputField
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import kotlin.jvm.java
 
 @Composable
 fun CenterSignUpScreen(
     padding: PaddingValues,
     popBackStack: () -> Unit,
+    navigateToLogin: () -> Unit = {},
     viewModel: CenterSignUpViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -62,22 +68,37 @@ fun CenterSignUpScreen(
             uiState.idValid && uiState.passwordValid && uiState.nameValid && uiState.representativeValid && uiState.phoneNumberValid && uiState.isAllTermsAccepted && uiState.isPrivacyTermsAccepted
         }
     }
-    val context = LocalContext.current
+    val signUpState by viewModel.signUpState.collectAsStateWithLifecycle()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+
+    LaunchedEffect(signUpState) {
+        when (signUpState) {
+            SignUpState.SUCCESS -> {
+                navigateToLogin()
+            }
+
+            SignUpState.ERROR -> {
+                scope.launch {
+                    snackbarHostState.showSnackbar(viewModel.errorMessage ?: "회원가입 오류")
+                }
+            }
+
+            else -> {}
+        }
+    }
 
     CenterSignUpScreen(
         padding = padding,
         uiState = uiState,
         enabled = buttonEnabled,
-        navigateToCenter = {
-            context.startActivity(
-                Intent(context, CenterActivity::class.java).apply {
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                }
-            )
-        },
+        onSignUpClick = { viewModel.signUp() },
         popBackStack = popBackStack,
         updateAllTermsAccepted = viewModel::updateAllTermsAccepted,
         updatePrivacyTermsAccepted = viewModel::updatePrivacyTermsAccepted,
+    )
+    SnackbarHost(
+        hostState = snackbarHostState,
     )
 }
 
@@ -88,7 +109,7 @@ private fun CenterSignUpScreen(
     enabled: Boolean,
     updateAllTermsAccepted: (Boolean) -> Unit = {},
     updatePrivacyTermsAccepted: (Boolean) -> Unit = {},
-    navigateToCenter: () -> Unit,
+    onSignUpClick: () -> Unit,
     popBackStack: () -> Unit,
 ) {
     Box(
@@ -115,7 +136,7 @@ private fun CenterSignUpScreen(
                 .padding(20.dp),
             text = "회원가입",
             enabled = enabled,
-            onClick = navigateToCenter
+            onClick = onSignUpClick
         )
     }
 }
@@ -281,7 +302,7 @@ private fun CenterSignUpScreenPreview() {
             padding = PaddingValues(),
             enabled = true,
             uiState = CenterSignUpUiState(),
-            navigateToCenter = {},
+            onSignUpClick = {},
             popBackStack = {}
         )
     }

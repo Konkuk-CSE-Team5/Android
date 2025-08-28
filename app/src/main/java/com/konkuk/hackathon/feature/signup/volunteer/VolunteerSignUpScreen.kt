@@ -1,6 +1,7 @@
 package com.konkuk.hackathon.feature.signup.volunteer
 
 import android.content.Intent
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -24,13 +25,16 @@ import androidx.compose.foundation.text.input.InputTransformation
 import androidx.compose.foundation.text.input.OutputTransformation
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.insert
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -53,13 +57,16 @@ import com.konkuk.hackathon.core.designsystem.theme.Main_Primary
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 import com.konkuk.hackathon.feature.center.CenterActivity
 import com.konkuk.hackathon.feature.signup.Gender
+import com.konkuk.hackathon.feature.signup.center.SignUpState
 import com.konkuk.hackathon.feature.signup.component.SignUpTopBar
 import com.konkuk.hackathon.feature.volunteer.VolunteerActivity
+import kotlinx.coroutines.launch
 
 @Composable
 fun VolunteerSignUpScreen(
     padding: PaddingValues,
     popBackStack: () -> Unit,
+    navigateToLogin: () -> Unit,
     viewModel: VolunteerSignUpViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -69,23 +76,37 @@ fun VolunteerSignUpScreen(
                     && uiState.phoneNumberValid && uiState.isPrivacyTermsAccepted && uiState.isAllTermsAccepted
         }
     }
-    val context = LocalContext.current
+    val signUpState by viewModel.signUpState.collectAsStateWithLifecycle()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+
+    LaunchedEffect(signUpState) {
+        when (signUpState) {
+            SignUpState.SUCCESS -> { navigateToLogin() }
+
+            SignUpState.ERROR -> {
+                scope.launch {
+                    snackbarHostState.showSnackbar(viewModel.errorMessage ?: "회원가입 오류")
+                }
+            }
+
+            else -> {}
+        }
+    }
+
 
     VolunteerSignUpScreen(
         padding = padding,
         uiState = uiState,
         enabled = buttonEnabled,
-        navigateToVolunteer = {
-            context.startActivity(
-                Intent(context, VolunteerActivity::class.java).apply {
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                }
-            )
-        },
+        onSignUpClick = { viewModel.signUp() },
         popBackStack = popBackStack,
         updateAllTermsAccepted = viewModel::updateAllTermsAccepted,
         updatePrivacyTermsAccepted = viewModel::updatePrivacyTermsAccepted,
         updateGender = viewModel::updateGender,
+    )
+    SnackbarHost(
+        hostState = snackbarHostState,
     )
 }
 
@@ -94,7 +115,7 @@ private fun VolunteerSignUpScreen(
     padding: PaddingValues,
     uiState: VolunteerSignUpUiState,
     enabled: Boolean,
-    navigateToVolunteer: () -> Unit,
+    onSignUpClick: () -> Unit,
     popBackStack: () -> Unit,
     updateAllTermsAccepted: (Boolean) -> Unit = {},
     updatePrivacyTermsAccepted: (Boolean) -> Unit = {},
@@ -125,7 +146,7 @@ private fun VolunteerSignUpScreen(
                 .padding(20.dp),
             text = "회원가입",
             enabled = enabled,
-            onClick = navigateToVolunteer
+            onClick = onSignUpClick
         )
     }
 }
@@ -175,7 +196,7 @@ fun VolunteerSignUpContent(
             },
             outputTransformation = OutputTransformation {
                 if (length > 4) insert(4, "/")
-                if (length > 6) insert(7, "/")
+                if (length > 7) insert(7, "/")
             },
             keyboardType = KeyboardType.Number
         )
@@ -366,7 +387,7 @@ private fun VolunteerSignUpScreenPreview() {
             padding = PaddingValues(),
             enabled = true,
             uiState = VolunteerSignUpUiState(),
-            navigateToVolunteer = {},
+            onSignUpClick = {},
             popBackStack = {}
         )
     }
