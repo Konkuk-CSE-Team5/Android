@@ -32,16 +32,16 @@ class CenterInfoViewModel @Inject constructor(
             _ui.value = _ui.value.copy(isLoading = true, error = null)
             centerInfoRepository.getOrganizationInfo()
                 .onSuccess { dto ->
-                    val phoneServer =  dto.phone
+                    val phoneServer =  dto.data.profile.managerContact
                     val phoneDigits = phoneOnlyDigits(phoneServer)
                     val next = CenterInfoUiState(
                         isLoading = false,
-                        id = dto.centerId,
-                        centerName = dto.centerName,
+                        id = dto.data.profile.userId,
+                        centerName = dto.data.profile.name,
                         password = "",
                         phone = hyphenatePhone(phoneDigits),
                         phoneDigits = phoneDigits,
-                        managerName = dto.managerName
+                        managerName = dto.data.profile.manager
                     )
                     _ui.value = next
                     base = next

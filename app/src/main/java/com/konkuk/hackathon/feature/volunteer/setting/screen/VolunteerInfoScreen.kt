@@ -175,8 +175,8 @@ fun VolunteerInfoScreen(padding : PaddingValues, modifier: Modifier = Modifier,v
                         shape = RoundedCornerShape(14.dp)
                     )
                     .clickable(onClick = {
+                        if (!ui.isSavable) return@clickable
                         vm.updateProfile() {
-                            Toast.makeText(ctx, "수정되었습니다.", Toast.LENGTH_SHORT).show()
                             onClickEdit()
                         }
                     }

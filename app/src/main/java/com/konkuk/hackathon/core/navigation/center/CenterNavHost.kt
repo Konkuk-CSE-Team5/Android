@@ -121,7 +121,7 @@ fun CenterNavHost(
             )
         }
 
-        composable<CenterRoute.SuccessRegister> {
+        composable<CenterRoute.SuccessElderRegister> {
             SuccessRegisterScreen(
                 padding = padding,
                 inviteCode = "ABCD1234", // 값 받아와야함

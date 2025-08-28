@@ -10,6 +10,7 @@ data class CenterInfoUiState(
     val phone : String = "",
     val phoneDigits : String = "",
 ) {
+
     val isSavable : Boolean =
-        managerName.isNotEmpty() && phone.length in 8..11
+        managerName.isNotEmpty() && phoneDigits.length in 8..11 && centerName.isNotEmpty()
 }

@@ -142,7 +142,7 @@ fun CenterInfoScreen(padding : PaddingValues, modifier: Modifier = Modifier,vm: 
             )
 
             MyInfoTextField(
-                value = ui.phone,
+                value = ui.phoneDigits,
                 category = "담당자 전화번호",
                 placeHolder = "담당자 전화번호",
                 onValueChange = vm::updatePhoneDigits,
@@ -159,8 +159,8 @@ fun CenterInfoScreen(padding : PaddingValues, modifier: Modifier = Modifier,vm: 
                         shape = RoundedCornerShape(14.dp)
                     )
                     .clickable(onClick = {
+                        if (!ui.isSavable) return@clickable
                         vm.updateCenterInfo() {
-                            Toast.makeText(ctx, "수정되었습니다.", Toast.LENGTH_SHORT).show()
                             onClickEdit()
                         }
                     }
