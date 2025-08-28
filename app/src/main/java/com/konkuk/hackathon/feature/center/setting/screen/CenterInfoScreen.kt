@@ -44,7 +44,7 @@ fun CenterInfoScreen(padding : PaddingValues, modifier: Modifier = Modifier, onB
     var centerName by remember { mutableStateOf("행복 복지센터") }
     var phoneNum by remember { mutableStateOf("01012345678") }
     val scrollState = rememberScrollState()
-    val buttonColor = if (pw.isNotEmpty() && name.isNotEmpty() && centerName.isNotEmpty() && phoneNum.length >= 10) OnItTheme.colors.primary else OnItTheme.colors.gray2
+    val buttonColor = if (name.isNotEmpty() && centerName.isNotEmpty() && phoneNum.length >= 10) OnItTheme.colors.primary else OnItTheme.colors.gray2
 
     Column(
         modifier = modifier
@@ -78,7 +78,7 @@ fun CenterInfoScreen(padding : PaddingValues, modifier: Modifier = Modifier, onB
                 color = OnItTheme.colors.gray7,
                 modifier = Modifier
                     .align(Alignment.Center),
-                style = OnItTheme.typography.B_20
+                style = OnItTheme.typography.SB_20
             )
         }
         Column(

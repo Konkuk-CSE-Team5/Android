@@ -68,7 +68,14 @@ fun CenterNavHost(
             SuccessRegisterScreen(
                 padding = padding,
                 inviteCode = "ABCD1234", // 값 받아와야함
-                onCheckClick = { navController.navigate(CenterTabRoute.Register) },
+                onCheckClick = { navController.navigate(CenterTabRoute.Register) {
+                    // 앱의 최상위 시작 목적지까지 모두 제거
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        inclusive = true
+                    }
+                    launchSingleTop = true
+                    restoreState = false
+                } },
                 centerName = "행복 복지센터" // 값 받아와야함
             )
         }
