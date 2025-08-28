@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,6 +43,8 @@ fun CenterInfoScreen(padding : PaddingValues, modifier: Modifier = Modifier, onB
     var name by remember { mutableStateOf("홍길동") }
     var centerName by remember { mutableStateOf("행복 복지센터") }
     var phoneNum by remember { mutableStateOf("01012345678") }
+    val scrollState = rememberScrollState()
+    val buttonColor = if (pw.isNotEmpty() && name.isNotEmpty() && centerName.isNotEmpty() && phoneNum.length >= 10) OnItTheme.colors.primary else OnItTheme.colors.gray2
 
     Column(
         modifier = modifier
@@ -80,7 +84,8 @@ fun CenterInfoScreen(padding : PaddingValues, modifier: Modifier = Modifier, onB
         Column(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(16.dp, 24.dp),
+                .padding(16.dp, 24.dp)
+                .verticalScroll(scrollState),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Column(
@@ -127,7 +132,7 @@ fun CenterInfoScreen(padding : PaddingValues, modifier: Modifier = Modifier, onB
                 value = centerName,
                 category = "기관명",
                 placeHolder = "기관명 입력",
-                onValueChange = { name = it },
+                onValueChange = { centerName = it },
             )
             MyInfoTextField(
                 value = name,
@@ -149,13 +154,13 @@ fun CenterInfoScreen(padding : PaddingValues, modifier: Modifier = Modifier, onB
                 modifier = modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(14.dp))
-                    .background(color = OnItTheme.colors.primary, shape = RoundedCornerShape(14.dp))
-                    .clickable(onClick = {onClickEdit()})
+                    .background(color = buttonColor, shape = RoundedCornerShape(14.dp))
+                    .clickable(onClick = {if (pw.isNotEmpty() && name.isNotEmpty() && centerName.isNotEmpty() && phoneNum.length >= 10) onClickEdit()})
 
             ) {
                 Text(
                     text = "수정",
-                    color = OnItTheme.colors.white,
+                    color = if (buttonColor == OnItTheme.colors.primary) OnItTheme.colors.white else OnItTheme.colors.gray7,
                     style = OnItTheme.typography.B_17,
                     modifier = Modifier
                         .padding(vertical = 13.dp)

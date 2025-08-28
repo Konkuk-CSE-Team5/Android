@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -44,6 +46,9 @@ fun VolunteerInfoScreen(padding : PaddingValues, modifier: Modifier = Modifier, 
     var birth by remember { mutableStateOf("19990101") }
     var phoneNum by remember { mutableStateOf("01012345678") }
     var isMale by remember { mutableStateOf(true) }
+    val scrollState = rememberScrollState()
+    val buttonColor = if (pw.isNotEmpty() && name.isNotEmpty() && birth.length == 8 && phoneNum.length >= 10) OnItTheme.colors.primary else OnItTheme.colors.gray2
+
 
     Column(
         modifier = modifier
@@ -83,7 +88,8 @@ fun VolunteerInfoScreen(padding : PaddingValues, modifier: Modifier = Modifier, 
         Column(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(16.dp, 24.dp),
+                .padding(16.dp, 24.dp)
+                .verticalScroll(scrollState),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Column(
@@ -158,16 +164,17 @@ fun VolunteerInfoScreen(padding : PaddingValues, modifier: Modifier = Modifier, 
                 modifier = modifier
                     .clip(RoundedCornerShape(14.dp))
                     .fillMaxWidth()
-                    .background(color = OnItTheme.colors.primary, shape = RoundedCornerShape(14.dp))
-                    .clickable(onClick = { onClickEdit() })
+                    .background(color = buttonColor, shape = RoundedCornerShape(14.dp))
+                    .clickable(onClick = {  if (pw.isNotEmpty() && name.isNotEmpty() && birth.length == 8 && phoneNum.length >= 10)  onClickEdit() })
             ) {
                 Text(
                     text = "수정",
-                    color = OnItTheme.colors.white,
+//                    color = OnItTheme.colors.white,
                     style = OnItTheme.typography.B_17,
                     modifier = Modifier
                         .padding(vertical = 13.dp)
-                        .align(Alignment.Center)
+                        .align(Alignment.Center),
+                    color = if (pw.isNotEmpty() && name.isNotEmpty() && birth.length == 8 && phoneNum.length >= 10) OnItTheme.colors.white else OnItTheme.colors.gray7
                 )
             }
         }

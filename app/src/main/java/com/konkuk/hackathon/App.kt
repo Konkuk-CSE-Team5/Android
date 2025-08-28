@@ -19,23 +19,21 @@ class App : Application() {
     }
 
     private fun createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val nm = getSystemService(NotificationManager::class.java)
+        val nm = getSystemService(NotificationManager::class.java)
 
-            val channel = NotificationChannel(
-                FCM_CHANNEL_ID,                                        //  새 채널 ID
-                getString(R.string.default_notification_channel_name), // 예: "FCM 알림"
-                NotificationManager.IMPORTANCE_HIGH                    // Heads-up 가능
-            ).apply {
-                description = getString(R.string.default_notification_channel_desc)
-                enableVibration(true)
-                vibrationPattern = longArrayOf(0, 250, 150, 250)
-                setShowBadge(true)
-                lockscreenVisibility = Notification.VISIBILITY_PUBLIC  // 잠금화면에 내용 표시
-            }
-
-            nm?.createNotificationChannel(channel)
+        val channel = NotificationChannel(
+            FCM_CHANNEL_ID,                                        //  새 채널 ID
+            getString(R.string.default_notification_channel_name), // 예: "FCM 알림"
+            NotificationManager.IMPORTANCE_HIGH                    // Heads-up 가능
+        ).apply {
+            description = getString(R.string.default_notification_channel_desc)
+            enableVibration(true)
+            vibrationPattern = longArrayOf(0, 250, 150, 250)
+            setShowBadge(true)
+            lockscreenVisibility = Notification.VISIBILITY_PUBLIC  // 잠금화면에 내용 표시
         }
+
+        nm?.createNotificationChannel(channel)
     }
 
     private fun logFcmToken() {
