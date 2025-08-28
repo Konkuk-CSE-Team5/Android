@@ -28,7 +28,10 @@ sealed interface CenterRoute {
     data class RecordDetail(val id: Long) : CenterRoute
 
     @Serializable
-    data object SuccessElderRegister : CenterRoute
+    data class SuccessElderRegister(
+        val inviteCode: String,
+        val centerName: String
+    ) : CenterRoute
 
     @Serializable
     data class RegisterManagement(val id: Long) : CenterRoute

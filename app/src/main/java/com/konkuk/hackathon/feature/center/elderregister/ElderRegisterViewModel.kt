@@ -7,8 +7,11 @@ import com.konkuk.hackathon.core.common.extension.toDateFormat
 import com.konkuk.hackathon.core.common.extension.toPhoneFormat
 import com.konkuk.hackathon.core.data.repository.SeniorRepository
 import com.konkuk.hackathon.core.network.request.SeniorRequest
+import com.konkuk.hackathon.core.network.response.SeniorResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,8 +24,12 @@ class ElderRegisterViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(ElderRegisterUiState())
     val uiState = _uiState.asStateFlow()
 
+    private val _registered = MutableSharedFlow<SeniorResponse>(extraBufferCapacity = 1)
+    val registered = _registered.asSharedFlow()
+
     private val _isFinish = MutableStateFlow(false)
     val isFinish = _isFinish.asStateFlow()
+
 
     fun updateSchedule(newSchedule: ElderRegisterUiState.Schedule) {
         val currentSchedules = _uiState.value.schedules.toMutableList()
@@ -65,9 +72,10 @@ class ElderRegisterViewModel @Inject constructor(
 
         viewModelScope.launch {
             seniorRepository.registerSenior(request)
-                .onSuccess {
-                    Log.d("ElderRegisterViewModel", "registerElder: 성공")
-                    _isFinish.value = true
+                .onSuccess { resp ->
+                    Log.d("ElderRegisterViewModel", "registerElder: 성공 ${resp.seniorCode}")
+                    _registered.tryEmit(resp)        // 성공 응답 방출
+                    _isFinish.value = true           // (기존 플래그 필요하면 유지)
                 }.onFailure {
                     Log.d("ElderRegisterViewModel", "registerElder: 실패 ${it.message}")
                 }

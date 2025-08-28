@@ -1,6 +1,5 @@
 package com.konkuk.hackathon.core.navigation.center
 
-import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -9,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -132,7 +130,8 @@ fun CenterNavHost(
         composable<CenterRoute.ElderRegister> {
             ElderRegisterScreen(
                 padding = padding,
-                popBackStack = { navController.popBackStack() }
+                popBackStack = { navController.popBackStack() },
+                navController = navController
             )
         }
 
@@ -146,23 +145,19 @@ fun CenterNavHost(
             )
         }
 
-        composable<CenterRoute.SuccessElderRegister> {
+        composable<CenterRoute.SuccessElderRegister> { backStackEntry ->
+            val args = backStackEntry.toRoute<CenterRoute.SuccessElderRegister>()
             SuccessRegisterScreen(
                 padding = padding,
-                inviteCode = "ABCD1234", // 값 받아와야함
+                inviteCode = args.inviteCode,
+                centerName = args.centerName,
                 onCheckClick = {
                     navController.navigate(CenterTabRoute.Register) {
-                        // 앱의 최상위 시작 목적지까지 모두 제거
-                        popUpTo(
-                            navController.graph.findStartDestination().id
-                        ) {
-                            inclusive = true
-                        }
+                        popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
                         launchSingleTop = true
                         restoreState = false
                     }
-                },
-                centerName = "행복 복지센터" // 값 받아와야함
+                }
             )
         }
 
