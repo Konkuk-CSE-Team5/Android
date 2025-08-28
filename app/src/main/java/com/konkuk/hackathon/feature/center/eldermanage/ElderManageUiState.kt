@@ -11,7 +11,6 @@ data class ElderManageUiState(
     val volunteer: Volunteer = Volunteer(),
 ) {
     data class Volunteer(
-        val id: Long = 0L,
         val name: String = "",
         val recentActivityDate: String = "",
     )
