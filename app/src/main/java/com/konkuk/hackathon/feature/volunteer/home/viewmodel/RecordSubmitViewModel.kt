@@ -5,6 +5,8 @@ import android.provider.CallLog
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.konkuk.hackathon.core.data.model.CallStatusType
+import com.konkuk.hackathon.core.data.repository.VolunteerHomeRepository
 import com.konkuk.hackathon.feature.volunteer.home.uistate.CallLogData
 import com.konkuk.hackathon.feature.volunteer.home.uistate.HealthState
 import com.konkuk.hackathon.feature.volunteer.home.uistate.CallPerformanceState
@@ -23,7 +25,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RecordSubmitViewModel @Inject constructor(
-    private val application: Application
+    private val application: Application,
+    private val volunteerHomeRepository: VolunteerHomeRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(RecordSubmitUiState())
@@ -107,6 +110,7 @@ class RecordSubmitViewModel @Inject constructor(
 
         }
     }
+
     // 건강 상태 버튼 클릭 이벤트
     fun onHealthStateSelected(state: HealthState) {
         _uiState.update { it.copy(selectedHealthState = state) }
@@ -122,5 +126,16 @@ class RecordSubmitViewModel @Inject constructor(
         _uiState.update { it.copy(opinionText = text.take(300)) }
     }
 
-
+    fun postRecord(seniorId: Int, isAny: Boolean) {
+        viewModelScope.launch {
+            volunteerHomeRepository.postRecord(
+                uiState.value.selectedHealthState?.name,
+                uiState.value.selectedPsychologicalState?.name,
+                uiState.value.opinionText,
+                seniorId,
+                status = if (isAny) CallStatusType.COMPLETE else CallStatusType.ABSENT,
+                callList = uiState.value.callLogList
+            )
+        }
+    }
 }

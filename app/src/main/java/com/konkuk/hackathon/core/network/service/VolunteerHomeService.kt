@@ -1,6 +1,7 @@
 package com.konkuk.hackathon.core.network.service
 
 import com.konkuk.hackathon.core.network.request.CodeRequest
+import com.konkuk.hackathon.core.network.request.PostRecordRequest
 import com.konkuk.hackathon.core.network.response.PostCodeResponse
 import com.konkuk.hackathon.core.network.response.VolunteerHomeResponse
 import com.konkuk.hackathon.core.network.response.base.BaseResponse
@@ -17,4 +18,9 @@ interface VolunteerHomeService {
     suspend fun postCode(
         @Body request: CodeRequest
     ): BaseResponse<PostCodeResponse>
+
+    @POST("/volunteers/records")
+    suspend fun postRecord(
+        @Body request: PostRecordRequest
+    ): NullableResponse
 }
