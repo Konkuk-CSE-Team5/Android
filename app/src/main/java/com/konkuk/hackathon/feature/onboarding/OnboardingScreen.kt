@@ -41,7 +41,7 @@ fun OnboardingScreen(
         )
         VerticalSpacer(9f)
         Text(
-            text = "소개소개소개소개소개소개소개\n소개소개소개소개소개",
+            text = "독거노인 안부전화\n봉사관리 서비스",
             style = OnItTheme.typography.M_16.copy(color = Gray_7, fontSize = 18.sp),
             textAlign = TextAlign.Center,
         )

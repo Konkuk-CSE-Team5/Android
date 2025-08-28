@@ -23,6 +23,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,16 +52,29 @@ import com.konkuk.hackathon.feature.volunteer.recordmodify.viewmodel.RecordModif
 
 @Composable
 fun RecordModifyScreen(
+    paddingValues: PaddingValues,
     id: Long,
     popBackStack: () -> Unit,
     viewModel: RecordModifyViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val isCompleted by viewModel.isCompleted.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        viewModel.fetchRecordData(id)
+    }
+
+    LaunchedEffect(isCompleted) {
+        if (isCompleted) {
+            popBackStack()
+        }
+    }
 
     RecordModifyScreen(
+        padding = paddingValues,
         uiState = uiState,
         popBackStack = popBackStack,
-        onHasCalledChange = { viewModel.updateHasCalled(it) },
+        onModifyClick = { viewModel.patchRecordData(id) },
         onHealthConditionChange = { viewModel.updateHealthCondition(it) },
         onMindConditionChange = { viewModel.updateMindCondition(it) },
     )
@@ -68,17 +82,18 @@ fun RecordModifyScreen(
 
 @Composable
 private fun RecordModifyScreen(
+    padding: PaddingValues = PaddingValues(0.dp),
     uiState: RecordModifyUiState,
     popBackStack: () -> Unit,
-    onHasCalledChange: (Boolean) -> Unit = {},
+    onModifyClick: () -> Unit = {},
     onHealthConditionChange: (HealthCondition) -> Unit = {},
     onMindConditionChange: (MindCondition) -> Unit = {},
 ) {
     Scaffold(
         modifier = Modifier
-            .fillMaxSize()
-//            .padding(padding)
-        ,
+            .padding(padding)
+            .fillMaxSize(),
+
         topBar = {
             Box(
                 modifier = Modifier
@@ -109,7 +124,7 @@ private fun RecordModifyScreen(
                     .padding(all = 16.dp),
                 text = "수정",
                 height = 50.dp,
-                onClick = { /* TODO: 수정 완료 */ },
+                onClick = { onModifyClick() },
             )
         }
     ) { innerPadding ->

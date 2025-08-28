@@ -110,6 +110,7 @@ private fun RecordAllScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(horizontal = 16.dp)
                 .border(
                     width = 1.dp,
                     color = Gray_2,
