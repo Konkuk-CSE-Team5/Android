@@ -20,6 +20,9 @@ sealed interface CenterRoute {
     @Serializable
     data object RecordDetail : CenterRoute
 
+    @Serializable
+    data object SuccessRegister : CenterRoute
+
 }
 
 sealed interface CenterTabRoute : CenterRoute {

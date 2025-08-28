@@ -82,7 +82,7 @@ fun VolunteerInfoScreen(padding : PaddingValues, modifier: Modifier = Modifier, 
                 color = OnItTheme.colors.gray7,
                 modifier = Modifier
                     .align(Alignment.Center),
-                style = OnItTheme.typography.B_17
+                style = OnItTheme.typography.B_20
             )
         }
         Column(

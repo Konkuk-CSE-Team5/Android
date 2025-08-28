@@ -11,6 +11,7 @@ import com.konkuk.hackathon.feature.center.home.screen.AttentionRequiredScreen
 import com.konkuk.hackathon.feature.center.home.screen.CenterHomeScreen
 import com.konkuk.hackathon.feature.center.home.screen.ElderStatusScreen
 import com.konkuk.hackathon.feature.center.home.screen.RecordDetailScreen
+import com.konkuk.hackathon.feature.center.register.screen.SuccessRegisterScreen
 
 @Composable
 fun CenterNavHost(
@@ -61,6 +62,15 @@ fun CenterNavHost(
         // Record
         composable<CenterTabRoute.Register> {
 
+        }
+
+        composable<CenterRoute.SuccessRegister> {
+            SuccessRegisterScreen(
+                padding = padding,
+                inviteCode = "ABCD1234", // 값 받아와야함
+                onCheckClick = { navController.navigate(CenterTabRoute.Register) },
+                centerName = "행복 복지센터" // 값 받아와야함
+            )
         }
 
         // Settings

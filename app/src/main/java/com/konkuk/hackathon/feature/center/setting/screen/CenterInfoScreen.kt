@@ -78,7 +78,7 @@ fun CenterInfoScreen(padding : PaddingValues, modifier: Modifier = Modifier, onB
                 color = OnItTheme.colors.gray7,
                 modifier = Modifier
                     .align(Alignment.Center),
-                style = OnItTheme.typography.B_17
+                style = OnItTheme.typography.B_20
             )
         }
         Column(

@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
-
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -26,18 +25,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.ClipEntry
 import androidx.compose.ui.platform.LocalClipboard
-import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.konkuk.hackathon.core.common.component.OnItTopAppBar
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 import kotlinx.coroutines.launch
 
 @Composable
-fun SuccessRegisterScreen(padding: PaddingValues, modifier: Modifier = Modifier, inviteCode : String, onBackClick: () -> Unit = {}, onCheckClick: () -> Unit = {}) {
-    Column(modifier = modifier.fillMaxSize().background(OnItTheme.colors.white).padding(padding)) {
+fun SuccessRegisterScreen(
+    padding: PaddingValues,
+    modifier: Modifier = Modifier,
+    inviteCode: String = "코드명",
+    onCheckClick: () -> Unit = {},
+    centerName : String = "센터 이름"
+) {
+    Column(modifier = modifier
+        .fillMaxSize()
+        .background(OnItTheme.colors.white)
+        .padding(padding)) {
         val clipboard = LocalClipboard.current
         val context = LocalContext.current
         val scope = rememberCoroutineScope()
@@ -50,16 +55,33 @@ fun SuccessRegisterScreen(padding: PaddingValues, modifier: Modifier = Modifier,
             }
         }
 
-        OnItTopAppBar(title = "센터 등록", popBackStack = onBackClick)
-        Column(modifier = modifier
-            .fillMaxWidth()
-            .padding(16.dp)) {
-            Box(modifier = modifier
+        Box(
+            modifier = modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(8.dp))
                 .background(OnItTheme.colors.white)
-                .border(1.dp, OnItTheme.colors.gray2, RoundedCornerShape(8.dp))
-                .padding(vertical = 43.dp),
+                .padding(vertical = 12.dp)
+                .padding(start = 16.dp)
+        ) {
+            Text(
+                text = "어르신 등록 완료",
+                color = OnItTheme.colors.gray7,
+                modifier = Modifier
+                    .align(Alignment.Center),
+                style = OnItTheme.typography.B_20
+            )
+        }
+        Column(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            Box(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(OnItTheme.colors.white)
+                    .border(1.dp, OnItTheme.colors.gray2, RoundedCornerShape(8.dp))
+                    .padding(vertical = 43.dp),
                 contentAlignment = Alignment.Center
             )
             {
@@ -84,18 +106,15 @@ fun SuccessRegisterScreen(padding: PaddingValues, modifier: Modifier = Modifier,
                     ) // 추후 값 받아오는 방식으로 수정 필요
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         Box(
-                            modifier = modifier.clip(RoundedCornerShape(6.dp))
-                                .background(OnItTheme.colors.gray1).border(
-                                1.dp,
-                                OnItTheme.colors.gray1, RoundedCornerShape(6.dp)
-                            ).clickable{
-                                    scope.launch {
-                                        val clip = ClipData.newPlainText("invite_code", inviteCode)
-                                        clipboard.setClipEntry(ClipEntry(clip))
-                                        Toast.makeText(context, "코드가 복사되었습니다.", Toast.LENGTH_SHORT).show()
-                                    }
-                                }.padding(horizontal = 36.5.dp, vertical = 6.5.dp)
-                            ,
+                            modifier = modifier
+                                .clip(RoundedCornerShape(6.dp))
+                                .background(OnItTheme.colors.gray1)
+                                .border(
+                                    1.dp,
+                                    OnItTheme.colors.gray1, RoundedCornerShape(6.dp)
+                                )
+                                .clickable { onCopyClick() }
+                                .padding(horizontal = 36.5.dp, vertical = 6.5.dp),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
@@ -105,12 +124,15 @@ fun SuccessRegisterScreen(padding: PaddingValues, modifier: Modifier = Modifier,
                             )
                         }
                         Box(
-                            modifier = modifier.clip(RoundedCornerShape(6.dp))
-                                .background(OnItTheme.colors.gray1).border(
-                                1.dp,
-                                OnItTheme.colors.gray1, RoundedCornerShape(6.dp)
-                            ).clickable {
-                                    val shareText = "참여코드: $inviteCode"
+                            modifier = modifier
+                                .clip(RoundedCornerShape(6.dp))
+                                .background(OnItTheme.colors.gray1)
+                                .border(
+                                    1.dp,
+                                    OnItTheme.colors.gray1, RoundedCornerShape(6.dp)
+                                )
+                                .clickable {
+                                    val shareText = "[${centerName}]\n참여코드 전달해 드립니다.\n참여코드: $inviteCode"
                                     val sendIntent = Intent(Intent.ACTION_SEND).apply {
                                         type = "text/plain"
                                         putExtra(Intent.EXTRA_TEXT, shareText)
@@ -136,7 +158,7 @@ fun SuccessRegisterScreen(padding: PaddingValues, modifier: Modifier = Modifier,
                     .clip(RoundedCornerShape(14.dp))
                     .fillMaxWidth()
                     .background(color = OnItTheme.colors.primary, shape = RoundedCornerShape(14.dp))
-                    .clickable(onClick = {onCheckClick()})
+                    .clickable(onClick = { onCheckClick() })
             ) {
                 Text(
                     text = "확인",
@@ -155,5 +177,11 @@ fun SuccessRegisterScreen(padding: PaddingValues, modifier: Modifier = Modifier,
 @Preview
 @Composable
 private fun SuccessRegisterPreview() {
-    SuccessRegisterScreen(modifier = Modifier, onBackClick = {}, onCheckClick = {}, padding = PaddingValues(), inviteCode = "123456" )
+    SuccessRegisterScreen(
+        modifier = Modifier,
+        onCheckClick = {},
+        padding = PaddingValues(),
+        inviteCode = "123456",
+        centerName = "광진노인복지관"
+    )
 }
