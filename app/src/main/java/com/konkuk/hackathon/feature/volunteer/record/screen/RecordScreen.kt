@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -114,6 +115,7 @@ private fun ElderComponent(
                 color = Gray_2,
                 shape = RoundedCornerShape(14.dp),
             )
+            .clip(RoundedCornerShape(14.dp))
     ) {
         VerticalSpacer(16.dp)
         Row(
@@ -137,7 +139,7 @@ private fun ElderComponent(
             style = OnItTheme.typography.R_14.copy(color = Gray_5),
         )
         VerticalSpacer(16.dp)
-        elder.records.forEach { record ->
+        elder.records.take(3).forEach { record ->
             HorizontalDivider(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -149,6 +151,25 @@ private fun ElderComponent(
                 onClick = { onRecordClick(record.id) },
             )
         }
+        HorizontalDivider(
+            modifier = Modifier
+                .fillMaxWidth(),
+            color = Gray_2,
+            thickness = 1.dp,
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(60.dp)
+                .clickable { onRecordClick(elder.id) },
+            contentAlignment = Alignment.Center,
+        ) {
+            Text(
+                text = "전체 기록 보기",
+                style = OnItTheme.typography.SB_14.copy(color = Main_Primary),
+            )
+        }
+
     }
 }
 
