@@ -53,3 +53,21 @@ data class CallHistoryItem(
     @SerialName("dateTime") val dateTime: String,
     @SerialName("callTime") val callTime: String
 )
+
+@Serializable
+data class SeniorUpdateFormResponse(
+    @SerialName("name") val name: String,
+    @SerialName("birthday") val birthday: String,
+    @SerialName("contact") val contact: String,
+    @SerialName("startDate") val startDate: String,
+    @SerialName("endDate") val endDate: String,
+    @SerialName("schedule") val schedule: List<ScheduleItem>,
+    @SerialName("notes") val notes: String
+)
+
+@Serializable
+data class ScheduleItem(
+    @SerialName("day") val day: String,
+    @SerialName("startTime") val startTime: String,
+    @SerialName("endTime") val endTime: String
+)

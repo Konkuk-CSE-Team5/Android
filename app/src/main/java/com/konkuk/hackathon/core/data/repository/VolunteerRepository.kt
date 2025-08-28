@@ -1,6 +1,7 @@
 package com.konkuk.hackathon.core.data.repository
 
 import com.konkuk.hackathon.core.network.request.UpdateRecordRequest
+import com.konkuk.hackathon.core.network.response.SeniorUpdateFormResponse
 import com.konkuk.hackathon.core.network.response.VolunteerRecordDetailResponse
 import com.konkuk.hackathon.core.network.response.VolunteerRecordUpdateFormResponse
 import com.konkuk.hackathon.core.network.response.VolunteerRecordsResponse
