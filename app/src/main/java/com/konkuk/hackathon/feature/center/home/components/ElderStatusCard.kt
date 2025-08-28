@@ -2,6 +2,7 @@ package com.konkuk.hackathon.feature.center.home.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,6 +32,7 @@ fun ElderStatusCard(
     volunteerName: String,
     executionCount: Int,
     totalCount: Int,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -39,6 +41,7 @@ fun ElderStatusCard(
             .clip(RoundedCornerShape(14.dp))
             .background(OnItTheme.colors.white)
             .border(1.dp, gray2, RoundedCornerShape(14.dp))
+            .clickable(onClick = onClick)
     ) {
         Column(
             Modifier.padding(16.dp),
@@ -76,6 +79,7 @@ private fun ElderStatusCardPrev() {
         age = 77,
         volunteerName = "홍길동",
         executionCount = 4,
-        totalCount = 6
+        totalCount = 6,
+        onClick = {}
     )
 }

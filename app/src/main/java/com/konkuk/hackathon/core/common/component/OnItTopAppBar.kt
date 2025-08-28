@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
@@ -19,11 +20,11 @@ import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 
 @Composable
 fun OnItTopAppBar(title: String, popBackStack: () -> Unit, modifier: Modifier = Modifier) {
-    Box {
+    Box(Modifier.height(56.dp)) {
         Row(
             Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Icon(

@@ -37,7 +37,11 @@ import com.konkuk.hackathon.core.designsystem.theme.gray7
 import com.konkuk.hackathon.feature.center.home.components.ElderStatusCard
 
 @Composable
-fun CenterHomeScreen(padding: PaddingValues, modifier: Modifier = Modifier) {
+fun CenterHomeScreen(
+    padding: PaddingValues,
+    navigateToElderStatus: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     val scrollState = rememberScrollState()
 
     Column(
@@ -46,11 +50,11 @@ fun CenterHomeScreen(padding: PaddingValues, modifier: Modifier = Modifier) {
             .background(OnItTheme.colors.white)
             .padding(padding)
     ) {
-        Box {
+        Box(Modifier.height(56.dp)) {
             Row(
                 Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
+                    .padding(horizontal = 10.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text("홈", style = OnItTheme.typography.SB_24, color = OnItTheme.colors.gray7)
@@ -250,7 +254,8 @@ fun CenterHomeScreen(padding: PaddingValues, modifier: Modifier = Modifier) {
                 77,
                 "홍길동",
                 executionCount = 4,
-                totalCount = 6
+                totalCount = 6,
+                onClick = navigateToElderStatus
             ) // 이후 실제 값으로 수정
         }
     }
@@ -259,6 +264,6 @@ fun CenterHomeScreen(padding: PaddingValues, modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun CenterHomePrev() {
-    CenterHomeScreen(padding = PaddingValues())
+    CenterHomeScreen(padding = PaddingValues(), navigateToElderStatus = {})
 
 }
