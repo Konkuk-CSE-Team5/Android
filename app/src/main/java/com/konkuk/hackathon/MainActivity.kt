@@ -1,6 +1,7 @@
 package com.konkuk.hackathon
 
 import android.Manifest
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -32,10 +33,17 @@ class MainActivity : ComponentActivity() {
 
                 val mainNavigator = rememberMainNavigator()
                 val multiplePermissionsState = rememberMultiplePermissionsState(
-                    permissions = listOf(
-                        Manifest.permission.READ_CALL_LOG,
-                        Manifest.permission.CALL_PHONE,
-                    )
+                    permissions =
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                            listOf(
+                                Manifest.permission.CALL_PHONE,
+                                Manifest.permission.READ_CALL_LOG,
+                                Manifest.permission.POST_NOTIFICATIONS
+                            )
+                        else listOf(
+                            Manifest.permission.CALL_PHONE,
+                            Manifest.permission.READ_CALL_LOG,
+                        )
                 )
                 LaunchedEffect(Unit) {
                     multiplePermissionsState.launchMultiplePermissionRequest()
