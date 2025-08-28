@@ -244,7 +244,10 @@ fun RecordSubmitScreen(
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(14.dp))
                     .background(OnItTheme.colors.primary)
-                    .noRippleClickable(onClick = popBackStack)
+                    .noRippleClickable(onClick = {
+                        recordSubmitViewModel.postRecord(seniorId = id, isAny = isAnyCallPerformed)
+                        popBackStack()
+                    })
             ) {
                 Text(
                     "저장",
