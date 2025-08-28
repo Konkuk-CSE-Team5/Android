@@ -80,7 +80,6 @@ fun VolunteerNavHost(
         composable<VolunteerRoute.RecordModify> { navBackStackEntry ->
             val id = navBackStackEntry.toRoute<VolunteerRoute.RecordModify>().id
             RecordModifyScreen(
-                padding = padding,
                 id = id,
                 popBackStack = { navController.popBackStack() }
             )

@@ -1,5 +1,6 @@
 package com.konkuk.hackathon.feature.volunteer.recordmodify.screen
 
+import android.R.attr.padding
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -53,7 +54,6 @@ fun RecordModifyScreen(
     id: Long,
     popBackStack: () -> Unit,
     viewModel: RecordModifyViewModel = hiltViewModel(),
-    padding : PaddingValues
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -76,8 +76,9 @@ private fun RecordModifyScreen(
 ) {
     Scaffold(
         modifier = Modifier
+            .fillMaxSize()
 //            .padding(padding)
-            .fillMaxSize(),
+        ,
         topBar = {
             Box(
                 modifier = Modifier
