@@ -6,12 +6,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.compose.runtime.remember
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.konkuk.hackathon.feature.center.setting.screen.CenterInfoScreen
 import com.konkuk.hackathon.feature.center.setting.screen.CenterSettingScreen
 import androidx.navigation.compose.navigation
 import androidx.navigation.toRoute
+import com.konkuk.hackathon.core.navigation.volunteer.VolunteerRoute
 import com.konkuk.hackathon.feature.center.eldermanage.ElderManageScreen
 import com.konkuk.hackathon.feature.center.eldermodify.ElderModifyScreen
 import com.konkuk.hackathon.feature.center.elderregister.ElderRegisterScreen
@@ -39,17 +41,29 @@ fun CenterNavHost(
         composable<CenterTabRoute.Home> {
             CenterHomeScreen(
                 padding = padding,
-                navigateToElderStatus = { navController.navigate(CenterRoute.ElderStatusNavigation) },
+                navigateToElderStatus = {
+                    navController.navigate(
+                        CenterRoute.ElderStatusNavigation(
+                            it
+                        )
+                    )
+                },
                 navigateToAttentionRequired = { navController.navigate(CenterRoute.AttentionRequiredNavigation) })
         }
 
         navigation<CenterRoute.ElderStatusNavigation>(
             CenterRoute.ElderStatus
         ) {
+
             composable<CenterRoute.ElderStatus> {
+                val parentEntry = remember(it) {
+                    navController.getBackStackEntry<CenterRoute.ElderStatusNavigation>()
+                }
+                val graphRoute = parentEntry.toRoute<CenterRoute.ElderStatusNavigation>()
                 ElderStatusScreen(
                     padding = padding,
                     popBackStack = { navController.popBackStack() },
+                    elderId = graphRoute.elderId,
                     navigateToRecordDetail = { navController.navigate(CenterRoute.RecordDetail) },
                     navigateToAllRecord = { navController.navigate(CenterRoute.VolunteerAllRecord) })
             }
