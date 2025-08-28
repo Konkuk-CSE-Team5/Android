@@ -27,6 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
+import java.time.LocalDate
+import java.time.LocalTime
 
 
 /**
@@ -36,6 +38,12 @@ import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 fun ElderCard(
     elderName: String,
     age: Int,
+    nextSchedule: LocalDate,
+    length: Int,
+    dayOfWeek: List<String>,
+    startTime: LocalTime,
+    endTime: LocalTime,
+    notes: String,
     phone: String, // 010-1234-5678 형식
     onCallClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -82,7 +90,7 @@ fun ElderCard(
                         .background(OnItTheme.colors.primary_container)
                 ) {
                     Text(
-                        "다음 봉사: 8/28(목)",
+                        "다음 봉사: $nextSchedule",
                         style = OnItTheme.typography.B_17.copy(
                             fontSize = 12.sp
                         ),
@@ -94,13 +102,15 @@ fun ElderCard(
             }
             Column {
                 Text(
-                    "스케줄: 주 2회 · 화/목 · 19:00",
+                    "스케줄: 주 $length 회 · ${
+                        dayOfWeek.joinToString("/")
+                    } · $startTime ~ $endTime",
                     style = OnItTheme.typography.R_14,
                     color = OnItTheme.colors.gray7
                 )
                 Spacer(Modifier.height(4.dp))
                 Text(
-                    "특이사항: 당뇨, 주행보조기 사용",
+                    "특이사항: $notes",
                     style = OnItTheme.typography.R_14,
                     color = OnItTheme.colors.gray7
                 )

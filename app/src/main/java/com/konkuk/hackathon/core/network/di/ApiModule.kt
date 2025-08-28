@@ -6,6 +6,7 @@ import com.konkuk.hackathon.core.network.service.AuthService
 import com.konkuk.hackathon.core.network.service.CenterService
 import com.konkuk.hackathon.core.network.service.SeniorService
 import com.konkuk.hackathon.core.network.service.CenterHomeService
+import com.konkuk.hackathon.core.network.service.VolunteerHomeService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,6 +36,10 @@ object ApiModule {
     @Singleton
     fun provideSeniorService(retrofit: Retrofit): SeniorService = retrofit.create()
 
+    @Provides
+    @Singleton
+    fun provideVolunteerHomeService(retrofit: Retrofit): VolunteerHomeService = retrofit.create()
+    
     @Provides
     @Singleton
     fun provideCenterService(retrofit: Retrofit): CenterService = retrofit.create()
