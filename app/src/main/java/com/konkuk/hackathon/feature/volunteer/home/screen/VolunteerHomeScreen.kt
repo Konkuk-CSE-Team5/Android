@@ -3,6 +3,7 @@ package com.konkuk.hackathon.feature.volunteer.home.screen
 import android.Manifest
 import android.content.Intent
 import android.net.Uri
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -25,6 +26,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,12 +47,22 @@ import com.konkuk.hackathon.R
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 import com.konkuk.hackathon.feature.volunteer.home.components.ElderCard
 import androidx.core.net.toUri
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.konkuk.hackathon.feature.volunteer.home.viewmodel.VolunteerHomeViewModel
 
 @Composable
-fun VolunteerHomeScreen(padding: PaddingValues, navigateToRecordSubmit: () -> Unit) {
+fun VolunteerHomeScreen(
+    padding: PaddingValues,
+    navigateToRecordSubmit: () -> Unit,
+    volunteerHomeViewModel: VolunteerHomeViewModel = hiltViewModel()
+) {
     var pin by remember { mutableStateOf("") }
     val scrollState = rememberScrollState()
+    val uiState = volunteerHomeViewModel.uiState.collectAsState()
 
+    LaunchedEffect(Unit) {
+        volunteerHomeViewModel.getVolunteerHome()
+    }
 
     Column(
         Modifier
@@ -136,7 +149,10 @@ fun VolunteerHomeScreen(padding: PaddingValues, navigateToRecordSubmit: () -> Un
                             Modifier
                                 .clip(RoundedCornerShape(14.dp))
                                 .background(OnItTheme.colors.primary)
-                                .clickable(onClick = {}) // 서버 연동 이후 구현
+                                .clickable(onClick = {
+                                    volunteerHomeViewModel.postCode(pin.toInt())
+                                    pin = ""
+                                }) // 서버 연동 이후 구현
                         ) {
                             Text(
                                 "등록",
@@ -155,12 +171,30 @@ fun VolunteerHomeScreen(padding: PaddingValues, navigateToRecordSubmit: () -> Un
                     Spacer(Modifier.height(12.dp))
                 }
             }
-            ElderCard("김순자", 65, "010-9460-1439", onCallClick = {
-                navigateToRecordSubmit()
-            })
-            ElderCard("김순자", 65, "010-1234-5678", onCallClick = { navigateToRecordSubmit() })
-            ElderCard("김순자", 65, "010-1234-5678", onCallClick = { navigateToRecordSubmit() })
-            ElderCard("김순자", 65, "010-1234-5678", onCallClick = { navigateToRecordSubmit() })
+            uiState.value.seniors.forEach {
+                ElderCard(
+                    it.name,
+                    66,
+                    it.nextSchedule,
+                    it.schedule.size,
+                    it.schedule.map { scheduleUiModel ->
+                    when (scheduleUiModel.day) {
+                        "Monday" -> "월"
+                        "Tuesday" -> "화"
+                        "Wednesday" -> "수"
+                        "Thursday" -> "목"
+                        "Friday" -> "금"
+                        "Saturday" -> "토"
+                        "Sunday" -> "일"
+                        else -> "" // 예외 처리
+                    }
+                },
+                    it.schedule.first().startTime,
+                    it.schedule.first().endTime,
+                    it.notes,
+                    it.phone,
+                    onCallClick = { navigateToRecordSubmit() })
+            }
         }
     }
 }
