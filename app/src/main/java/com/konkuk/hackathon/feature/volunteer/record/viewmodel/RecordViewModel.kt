@@ -67,8 +67,9 @@ fun SeniorItem.toElder() = Elder(
                 time = recordDto.dateTime ?: "",
                 duration = recordDto.duration ?: "",
                 recordType = when (recordDto.status) {
-                    "COMPLETED" -> RecordType.SUCCESS
+                    "COMPLETE" -> RecordType.SUCCESS
                     "PENDING" -> RecordType.CALL_NOT_MADE
+                    "NOT_CONDUCTED" -> RecordType.CALL_NOT_MADE
                     else -> RecordType.ABSENCE
                 }
             )

@@ -60,6 +60,7 @@ class ElderRegisterViewModel @Inject constructor(
             workDays = _uiState.value.schedules.map { it.displayName },
             workEndTime = "${_uiState.value.endTime}:00",
             workStartTime = "${_uiState.value.startTime}:00",
+            note = _uiState.value.memo.text.toString(),
         )
 
         viewModelScope.launch {

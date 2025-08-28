@@ -1,9 +1,5 @@
 package com.konkuk.hackathon.feature.volunteer.home.screen
 
-import android.Manifest
-import android.content.Intent
-import android.net.Uri
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -35,19 +31,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.konkuk.hackathon.R
 import com.konkuk.hackathon.core.designsystem.theme.OnItTheme
 import com.konkuk.hackathon.feature.volunteer.home.components.ElderCard
-import androidx.core.net.toUri
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.konkuk.hackathon.feature.volunteer.home.viewmodel.VolunteerHomeViewModel
 import java.time.LocalDateTime
 
@@ -55,7 +47,7 @@ import java.time.LocalDateTime
 fun VolunteerHomeScreen(
     padding: PaddingValues,
     navigateToRecordSubmit: (Int, String, String, String) -> Unit,
-    volunteerHomeViewModel: VolunteerHomeViewModel = hiltViewModel()
+    volunteerHomeViewModel: VolunteerHomeViewModel = hiltViewModel(),
 ) {
     var pin by remember { mutableStateOf("") }
     val scrollState = rememberScrollState()

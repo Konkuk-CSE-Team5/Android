@@ -25,7 +25,7 @@ sealed interface CenterRoute {
     data object VolunteerAllRecord : CenterRoute
 
     @Serializable
-    data object RecordDetail : CenterRoute
+    data class RecordDetail(val id: Long) : CenterRoute
 
     @Serializable
     data object SuccessElderRegister : CenterRoute

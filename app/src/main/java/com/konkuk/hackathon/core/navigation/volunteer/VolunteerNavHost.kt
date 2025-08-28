@@ -1,6 +1,9 @@
 package com.konkuk.hackathon.core.navigation.volunteer
 
 import android.util.Log
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,6 +34,12 @@ fun VolunteerNavHost(
     NavHost(
         navController = navController,
         startDestination = navigator.startDestination,
+        enterTransition = {
+            fadeIn(animationSpec = tween(300))
+        },
+        exitTransition = {
+            fadeOut(animationSpec = tween(300))
+        },
     ) {
         // Home
         composable<VolunteerTabRoute.Home> {
@@ -45,7 +54,8 @@ fun VolunteerNavHost(
                             startTime = p4
                         ) // 수정 필요
                     )
-                })
+                },
+            )
         }
 
         // Home Nested Graph

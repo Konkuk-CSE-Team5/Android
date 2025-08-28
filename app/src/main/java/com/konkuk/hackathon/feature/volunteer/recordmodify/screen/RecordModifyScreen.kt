@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.input.KeyboardActionHandler
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material3.Icon
@@ -128,10 +129,13 @@ private fun RecordModifyScreen(
             )
         }
     ) { innerPadding ->
+        val scrollState = androidx.compose.foundation.rememberScrollState()
+
         Column(
             modifier = Modifier
                 .padding(16.dp)
                 .padding(innerPadding)
+                .verticalScroll(scrollState)
                 .fillMaxSize()
         ) {
 
@@ -207,7 +211,7 @@ private fun RecordModifyScreen(
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .heightIn(min = 128.dp)
+                            .heightIn(min = 160.dp)
                             .border(
                                 width = 1.dp,
                                 color = Gray_2,

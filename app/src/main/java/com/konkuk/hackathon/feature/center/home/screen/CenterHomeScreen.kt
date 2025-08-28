@@ -50,7 +50,6 @@ fun CenterHomeScreen(
     navigateToElderStatus: (Int) -> Unit,
     navigateToAttentionRequired: () -> Unit,
     centerHomeViewModel: CenterHomeViewModel = hiltViewModel(),
-    modifier: Modifier = Modifier
 ) {
     val scrollState = rememberScrollState()
     val uiState = centerHomeViewModel.uiState.collectAsState()
@@ -65,20 +64,14 @@ fun CenterHomeScreen(
             .background(OnItTheme.colors.white)
             .padding(padding)
     ) {
-        Box(Modifier.height(56.dp)) {
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 10.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text("홈", style = OnItTheme.typography.SB_24, color = OnItTheme.colors.gray7)
-                Icon(
-                    painterResource(R.drawable.ic_bell),
-                    contentDescription = "알림 아이콘",
-                    tint = OnItTheme.colors.gray7
-                )
-            }
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+                .padding(horizontal = 10.dp),
+            contentAlignment = Alignment.CenterStart
+        ) {
+            Text("홈", style = OnItTheme.typography.SB_24, color = OnItTheme.colors.gray7)
         }
         Column(
             Modifier
@@ -120,7 +113,11 @@ fun CenterHomeScreen(
                             color = gray4
                         )
                         Spacer(Modifier.height(8.dp))
-                        OnItProgressIndicator({ uiState.value.weeklyVolunteerStatus.progressRate.toFloat() / 100f })
+                        OnItProgressIndicator({
+                            if (uiState.value.weeklyVolunteerStatus.progressRate.toFloat() == 0f) 0f
+                            else
+                                uiState.value.weeklyVolunteerStatus.progressRate.toFloat() / 100f
+                        })
 
                     }
                     Row(

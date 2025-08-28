@@ -8,13 +8,13 @@ import java.time.LocalDateTime
 // 최상위 DTO를 UI State로 변환하는 메인 함수
 fun CenterHomeResponse.toUiState(): CenterHomeUiState {
     return CenterHomeUiState(
-        weeklyVolunteerStatus = this.weeklyVolunteerStatus.toUiModel(),
-        attentionRequiredList = this.volunteersNeedingAttention.map { it.toUiModel() },
+        weeklyVolunteerStatus = this.weeklyVolunteerStatus.toUiModel2(),
+        attentionRequiredList = this.volunteersNeedingAttention.map { it.toUiModel2() },
         seniorStatusList = this.seniorStatuses.map { it.toUiModel() }
     )
 }
 
-fun CenterHomeResponse.WeeklyVolunteerStatus.toUiModel(): WeeklyVolunteerStatus {
+fun CenterHomeResponse.WeeklyVolunteerStatus.toUiModel2(): WeeklyVolunteerStatus {
     return WeeklyVolunteerStatus(
         progressRate = this.progressRate,
         totalCount = this.totalCount,
@@ -25,7 +25,7 @@ fun CenterHomeResponse.WeeklyVolunteerStatus.toUiModel(): WeeklyVolunteerStatus 
     )
 }
 
-fun CenterHomeResponse.VolunteersNeedingAttention.toUiModel(): VolunteersNeedingAttention {
+fun CenterHomeResponse.VolunteersNeedingAttention.toUiModel2(): VolunteersNeedingAttention {
     return VolunteersNeedingAttention(
         date = LocalDate.parse(this.date), // String -> LocalDate 변환
         seniorName = this.seniorName,
@@ -39,7 +39,8 @@ fun CenterHomeResponse.SeniorStatus.toUiModel(): SeniorStatus {
         name = this.name,
         age = this.age,
         volunteerName = this.volunteerName,
-        nextSchedule = LocalDateTime.parse(this.nextSchedule), // String -> LocalDateTime 변환
+        nextSchedule = this.nextSchedule?.let { LocalDateTime.parse(it) }
+            ?: LocalDateTime.now(), // String -> LocalDateTime 변환
         // MonthlyCalls 객체를 Map으로 변환
         monthlyCalls = mapOf(
             "completed" to this.monthlyCalls.completed,

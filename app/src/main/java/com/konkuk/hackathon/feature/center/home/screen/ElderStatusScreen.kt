@@ -51,7 +51,7 @@ fun ElderStatusScreen(
     navigateToRecordDetail: (Int) -> Unit,
     navigateToAllRecord: (Int) -> Unit,
     elderStatusViewModel: ElderStatusViewModel = hiltViewModel(),
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
 
     val uiState = elderStatusViewModel.uiState.collectAsState()

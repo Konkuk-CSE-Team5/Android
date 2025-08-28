@@ -21,5 +21,7 @@ data class SeniorRequest(
     @SerialName("workEndTime")
     val workEndTime: String,
     @SerialName("workStartTime")
-    val workStartTime: String
+    val workStartTime: String,
+    @SerialName("note")
+    val note: String? = null
 )

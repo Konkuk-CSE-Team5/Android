@@ -21,7 +21,7 @@ data class SummaryUiModel(
 // 개별 통화 기록 UI 모델
 data class RecordUiModel(
     val recordId: Int,
-    val date: LocalDate,
+    val date: String,
     val duration: String,
     val status: CallStatusType
 )
