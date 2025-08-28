@@ -54,7 +54,7 @@ import com.konkuk.hackathon.feature.volunteer.home.viewmodel.VolunteerHomeViewMo
 fun VolunteerHomeScreen(
     padding: PaddingValues,
     navigateToRecordSubmit: () -> Unit,
-    volunteerHomeViewModel: VolunteerHomeViewModel = hiltViewModel()
+    volunteerHomeViewModel: VolunteerHomeViewModel = hiltViewModel(),
 ) {
     var pin by remember { mutableStateOf("") }
     val scrollState = rememberScrollState()
@@ -71,20 +71,13 @@ fun VolunteerHomeScreen(
             .padding(padding)
 
     ) {
-        Box {
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text("홈", style = OnItTheme.typography.SB_24, color = OnItTheme.colors.gray7)
-                Icon(
-                    painterResource(R.drawable.ic_bell),
-                    contentDescription = "알림 아이콘",
-                    tint = OnItTheme.colors.gray7
-                )
-            }
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            contentAlignment = Alignment.CenterStart
+        ) {
+            Text("홈", style = OnItTheme.typography.SB_24, color = OnItTheme.colors.gray7)
         }
         Column(
             Modifier
@@ -178,17 +171,17 @@ fun VolunteerHomeScreen(
                     it.nextSchedule,
                     it.schedule.size,
                     it.schedule.map { scheduleUiModel ->
-                    when (scheduleUiModel.day) {
-                        "Monday" -> "월"
-                        "Tuesday" -> "화"
-                        "Wednesday" -> "수"
-                        "Thursday" -> "목"
-                        "Friday" -> "금"
-                        "Saturday" -> "토"
-                        "Sunday" -> "일"
-                        else -> "" // 예외 처리
-                    }
-                },
+                        when (scheduleUiModel.day) {
+                            "Monday" -> "월"
+                            "Tuesday" -> "화"
+                            "Wednesday" -> "수"
+                            "Thursday" -> "목"
+                            "Friday" -> "금"
+                            "Saturday" -> "토"
+                            "Sunday" -> "일"
+                            else -> "" // 예외 처리
+                        }
+                    },
                     it.schedule.first().startTime,
                     it.schedule.first().endTime,
                     it.notes,

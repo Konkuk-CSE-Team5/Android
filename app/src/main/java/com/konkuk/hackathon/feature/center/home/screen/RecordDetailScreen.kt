@@ -104,7 +104,7 @@ fun RecordDetailScreen(
                     ) {
                         Text("통화일시", style = OnItTheme.typography.R_15, color = gray7)
                         Text(
-                            uiState.callTime.substring(0, 10),
+                            if (uiState.callTime.isNotEmpty()) uiState.callTime.substring(0, 10) else "",
                             style = OnItTheme.typography.R_15,
                             color = gray7
                         ) // 수정 필요
