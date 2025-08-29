@@ -230,7 +230,7 @@ fun ElderRegisterScreen(
             .fillMaxSize()
             .verticalScroll(scrollState)
             .padding(horizontal = 16.dp)
-            .padding(bottom = 70.dp),
+            .padding(bottom = 80.dp),
     ) {
         VerticalSpacer(height = 16.dp)
         SignUpInputField(
