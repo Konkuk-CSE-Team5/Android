@@ -27,12 +27,11 @@ class RecordAllViewModel @Inject constructor(
                     _uiState.value = _uiState.value.copy(
                         name = response.seniorName,
                         records = response.records
-                            .filter { it.duration != null }
                             .map { recordDto ->
                                 CallRecord(
                                     id = recordDto.recordId,
                                     time = recordDto.dateTime ?: "",
-                                    duration = recordDto.duration ?: "",
+                                    duration = recordDto.duration ?: "0:00:00",
                                     recordType = when (recordDto.status) {
                                         "COMPLETE" -> RecordType.SUCCESS
                                         "ABSENT" -> RecordType.ABSENCE
