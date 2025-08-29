@@ -19,6 +19,8 @@ data class VolunteerHomeResponse(
         val notes: String?,
         @SerialName("phone")
         val phone: String,
+        @SerialName("age")
+        val age: Int,
         @SerialName("schedule")
         val schedule: List<Schedule>,
         @SerialName("seniorId")

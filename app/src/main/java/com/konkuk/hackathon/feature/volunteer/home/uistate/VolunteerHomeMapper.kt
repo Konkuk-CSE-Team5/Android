@@ -17,6 +17,7 @@ fun VolunteerHomeResponse.Senior.toUiModel(): SeniorUiModel {
         seniorId = this.seniorId,
         name = this.name,
         phone = this.phone,
+        age = this.age,
         notes = this.notes ?: "없음",
         nextSchedule = LocalDate.parse(this.nextSchedule), // String -> LocalDate
         schedule = this.schedule.map { it.toUiModel() }

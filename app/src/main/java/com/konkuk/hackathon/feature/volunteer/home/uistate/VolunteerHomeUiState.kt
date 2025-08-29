@@ -13,6 +13,7 @@ data class SeniorUiModel(
     val seniorId: Int,
     val name: String,
     val phone: String,
+    val age: Int,
     val notes: String,
     val nextSchedule: LocalDate, // String -> LocalDate
     val schedule: List<ScheduleUiModel>

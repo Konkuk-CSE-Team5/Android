@@ -167,7 +167,7 @@ fun VolunteerHomeScreen(
             uiState.value.seniors.forEach {
                 ElderCard(
                     it.name,
-                    66,
+                    it.age,
                     it.nextSchedule,
                     it.schedule.size,
                     it.schedule.map { scheduleUiModel ->
